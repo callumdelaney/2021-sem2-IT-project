@@ -1,4 +1,5 @@
 const path = require("path");
+require("./models/db.js");
 const express = require("express");
 
 // by default the client-side runs on port 3000,
@@ -9,7 +10,12 @@ const app = express();
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
-require("./models/db.js");
+
+
+const router = require('./routes/route.js')
+app.use('/', router)
+
+
 // testing /api for client to communicate with server
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
@@ -23,3 +29,5 @@ app.get("*", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
+
+module.exports = app;

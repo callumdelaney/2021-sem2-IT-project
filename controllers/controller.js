@@ -1,9 +1,9 @@
 const mongoose = require('mongoose') 
 
-const Contact = mongoose.model("CONTACT")
+const Contact = mongoose.model("Contact")
 
 const getLogin = (req, res) => {
-    
+    res.send("Hello");
 }
 
 const getContacts = (req, res) => {

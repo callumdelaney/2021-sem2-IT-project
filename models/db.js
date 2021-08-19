@@ -18,3 +18,5 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
     console.log('connection to MongoDB')
 })
+
+require("./contact")
