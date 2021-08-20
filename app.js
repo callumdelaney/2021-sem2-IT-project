@@ -10,11 +10,8 @@ const app = express();
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
-
-
-const router = require('./routes/route.js')
-app.use('/', router)
-
+const router = require("./routes/route.js");
+app.use("/", router);
 
 // testing /api for client to communicate with server
 app.get("/api", (req, res) => {
