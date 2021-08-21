@@ -18,6 +18,12 @@ app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
+// currently, this code should receive data sent over by client-side
+app.post("/api", function (request, response) {
+  response.json({ message: "Received your post!" });
+});
+/////////////////////////////////////////////// added by Callum
+
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));

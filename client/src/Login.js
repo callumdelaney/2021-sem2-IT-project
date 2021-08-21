@@ -9,21 +9,27 @@ function Login() {
   // handleSubmit is executed when the submit button is clicked
   const handleSubmit = (e) => {
     e.preventDefault();
-    let formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
 
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
+    var userData = {
+      email: email,
+      password: password,
     };
-    // needs to be fixed
-    axios
-      .post("http://localhost:3001/api", formData, config)
-      .then((response) => {
-        console.log(response);
+    // send email and password to server via POST method
+    fetch("/api", {
+      method: "POST",
+      body: JSON.stringify(userData),
+      // headers: {
+      //   Accept: "application/json",
+      // },
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        console.log(data);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("Error");
       });
   };
 

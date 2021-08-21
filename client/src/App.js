@@ -8,7 +8,8 @@ function App() {
     fetch("/api")
       .then((res) => res.json())
       .then((data) => setData(data.message));
-  }, []);
+    console.log(data);
+  }, [data]);
 
   return (
     <div className="container">
