@@ -28,7 +28,7 @@ const addNewContact = (req, res) => {
         new Contact(newContact).save()
 
         window.alert("Contact created")
-        
+
         res.redirect("/contacts")
     
     } catch (err) {
@@ -41,5 +41,6 @@ const addNewContact = (req, res) => {
 module.exports = {
     getLogin,
     getContacts,
-    getOneContact
+    getOneContact,
+    addNewContact
 }
