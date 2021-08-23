@@ -13,14 +13,24 @@ app.use(express.static(path.resolve(__dirname, "./client/build")));
 const router = require("./routes/route.js");
 app.use("/", router);
 
+// this code allows retrieval of json files from client-side
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+app.use(express.json());
+///////////////////////////////
+
 // testing /api for client to communicate with server
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
-// currently, this code should receive data sent over by client-side
+// .post method receives data 'posted' by client-side
 app.post("/api", function (request, response) {
   response.json({ message: "Received your post!" });
+  console.log(request.body);
 });
 /////////////////////////////////////////////// added by Callum
 

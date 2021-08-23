@@ -14,22 +14,15 @@ function Login() {
       email: email,
       password: password,
     };
-    // send email and password to server via POST method
-    fetch("/api", {
-      method: "POST",
-      body: JSON.stringify(userData),
-      // headers: {
-      //   Accept: "application/json",
-      // },
-    })
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        console.log(data);
+    // use axios to post user data to back end for processing, use
+    // response to test for validity
+    axios
+      .post("/api", JSON.stringify(userData))
+      .then((response) => {
+        console.log(response);
       })
       .catch((error) => {
-        console.log("Error");
+        console.log(error);
       });
   };
 
