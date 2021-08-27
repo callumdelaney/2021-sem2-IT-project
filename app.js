@@ -11,7 +11,7 @@ const app = express();
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 const router = require("./routes/route.js");
-app.use("/", router);
+const controller = require("../controllers/controller.js");
 
 // this code allows retrieval of json files from client-side
 app.use(
@@ -28,10 +28,8 @@ app.get("/api", (req, res) => {
 });
 
 // .post method receives data 'posted' by client-side
-app.post("/api", function (request, response) {
-  response.json({ message: "Received your post!" });
-  console.log(request.body);
-});
+app.post("/api", controller.Login);
+
 /////////////////////////////////////////////// added by Callum
 
 // All other GET requests not handled before will return our React app
