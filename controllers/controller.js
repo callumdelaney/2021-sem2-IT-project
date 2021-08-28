@@ -92,11 +92,44 @@ const deleteContact = (res, req) => {
     }
 }
 
+//Add note to contact
+const addNote = (req, res) => {
+    var newNote = req.body.note
+    try {
+        var contact = await Contact.findOne({"contactId" : req.body.contactId})
+
+        contact.notes.push(req.body.note)
+
+        contact.save
+    } catch (err) {
+        return res.send(err)
+    }
+}
+
+//Change contact category
+const changeCategory = (req, res) => {
+    try {
+        await Contact.findOneAndUpdate({
+            "contactId" : req.body.contactId
+        }, {
+            "category" : req.body.category
+        })
+
+        window.alert("Category updated")
+
+        res.send({message : "Category updated"})
+    } catch (err) {
+        return res.send(err)
+    }
+}
+
 module.exports = {
     getLogin,
     getContacts,
     getOneContact,
     addNewContact,
     editContact,
-    deleteContact
+    deleteContact,
+    addNote,
+    changeCategory
 }
