@@ -2,11 +2,13 @@ const mongoose = require('mongoose')
 
 const Contact = mongoose.model("Contact")
 
+const bcrypt = require('bcrypt')
+
 const Login = (req, res) => {
   
     var userData = {
         email : req.body.email,
-        pass : req.body.password
+        pass : await bcrypt.hash(req.body.password, 10)
     }
     //Placeholder until user schema finished
     res.send(JSON.stringify(userData));
