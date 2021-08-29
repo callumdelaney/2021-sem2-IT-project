@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
-const Contact = mongoose.model("Contact");
+const contact = mongoose.model("Contact")
+const user = mongoose.model("User")
 
 const bcrypt = require("bcrypt");
 
@@ -16,6 +17,7 @@ const getLogin = async (req, res) => {
 const getContacts = (req, res) => {};
 
 const getOneContact = (req, res) => {};
+
 
 module.exports = {
   getLogin,
