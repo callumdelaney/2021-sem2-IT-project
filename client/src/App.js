@@ -1,5 +1,5 @@
 import React from "react";
-import Login from "./Login";
+import Pages from "./pages";
 
 function App() {
   const [data, setData] = React.useState(null);
@@ -13,11 +13,9 @@ function App() {
 
   return (
     <div className="container">
-      {/* <header> */}
       {/* conditional rendering */}
       {/* <p>{!data ? "Loading..." : data}</p> */}
-      {/* </header> */}
-      <Login />
+      <Pages />
     </div>
   );
 }
