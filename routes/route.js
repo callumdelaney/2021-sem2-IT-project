@@ -1,16 +1,15 @@
-const express = require('express')
+const express = require("express");
 
-const router = express.Router()
+const router = express.Router();
 
-const controller = require("../controllers/controller.js")
+const controller = require("../controllers/controller");
 
-router.get('/', async (req, res) => {
-    res.redirect('/login')
-})
+router.get("/", async (req, res) => {
+  res.redirect("/login");
+});
 
-router.get('/login', controller.getLogin);
-router.get('/contacts', controller.getContacts);
-router.get('/contacts/:contact', controller.getOneContact);
-
+router.get("/login", controller.getLogin);
+router.get("/contacts", controller.getContacts);
+router.get("/contacts/:contact", controller.getOneContact);
 
 module.exports = router;

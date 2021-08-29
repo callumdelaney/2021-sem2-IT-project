@@ -10,8 +10,8 @@ const app = express();
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
-const router = require("./routes/route.js");
-const controller = require("../controllers/controller.js");
+const router = require("./routes/route");
+const controller = require("./controllers/controller");
 
 // this code allows retrieval of json files from client-side
 app.use(
@@ -28,7 +28,7 @@ app.get("/api", (req, res) => {
 });
 
 // .post method receives data 'posted' by client-side
-app.post("/api", controller.Login);
+app.post("/api", controller.getLogin);
 
 /////////////////////////////////////////////// added by Callum
 
