@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 // pages
 import Login from "./Login";
+import Contacts from "./Contacts";
+import Contact from "./Contact";
 
 const ReactRouterSetup = () => {
   return (
@@ -15,6 +17,10 @@ const ReactRouterSetup = () => {
         <Route path="/login">
           <Login />
         </Route>
+        <Route path="/contacts">
+          <Contacts />
+        </Route>
+        <Route path="/contacts/:id" children={<Contact />}></Route>
       </Switch>
     </Router>
   );
