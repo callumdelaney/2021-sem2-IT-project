@@ -1,10 +1,7 @@
-const mongoose = require('mongoose') 
+const mongoose = require("mongoose");
 
-const Contact = mongoose.model("Contact")
-
-const getLogin = (req, res) => {
-    
-}
+const contact = mongoose.model("Contact");
+const user = mongoose.model("User");
 
 //Get all contacts from database
 const getContacts = (req, res) => {
@@ -123,13 +120,26 @@ const changeCategory = (req, res) => {
     }
 }
 
+const bcrypt = require("bcrypt");
+
+const getLogin = async (req, res) => {
+  var userData = {
+    email: req.body.email,
+    pass: await bcrypt.hash(req.body.password, 10),
+  };
+  //Placeholder until user schema finished
+  res.send(JSON.stringify(userData));
+  console.log(req.body);
+};
+
 module.exports = {
-    getLogin,
-    getContacts,
-    getOneContact,
-    addNewContact,
-    editContact,
-    deleteContact,
-    addNote,
-    changeCategory
-}
+  getLogin,
+  getContacts,
+  getOneContact,
+  addNewContact,
+  editContact,
+  deleteContact,
+  addNote,
+  changeCategory
+};
+
