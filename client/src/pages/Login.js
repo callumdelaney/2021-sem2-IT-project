@@ -17,9 +17,9 @@ function Login() {
     // use axios to post user data to back end for processing, use
     // response to test for validity
     axios
-      .post("/api", JSON.stringify(userData))
+      .post("/api", userData)
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);

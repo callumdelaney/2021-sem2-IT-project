@@ -12,6 +12,7 @@ const getLogin = async (req, res) => {
   };
   //Placeholder until user schema finished
   res.send(JSON.stringify(userData));
+  console.log(req.body);
 };
 
 const getContacts = (req, res) => {};
