@@ -10,4 +10,4 @@ const tagSchema = new mongoose.Schema({
 
 const TAG = mongoose.model('Tag', tagSchema)
 
-module.exports = CONTACT
+module.exports = TAG
