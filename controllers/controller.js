@@ -4,7 +4,7 @@ const contact = mongoose.model("Contact");
 const user = mongoose.model("User");
 
 //Get all contacts from database
-const getContacts = (req, res) => {
+const getContacts = async (req, res) => {
    try {
        const contacts = await Contact.find({}).lean()
 
@@ -15,7 +15,7 @@ const getContacts = (req, res) => {
 }
 
 //Get one specific contact
-const getOneContact = (req, res) => {
+const getOneContact = async (req, res) => {
    try {
        const contact = await Contact.findOne({
            "contactId" : req.body.contactId
@@ -28,7 +28,7 @@ const getOneContact = (req, res) => {
 }
 
 //New contact
-const addNewContact = (req, res) => {
+const addNewContact = async (req, res) => {
     try {
         const newContact = await Contact.create({
             "contactId" : req.body.contactId,
@@ -53,7 +53,7 @@ const addNewContact = (req, res) => {
 }
 
 //Edit contact
-const editContact = (res, req) => {
+const editContact = async (res, req) => {
     try {
         await Contact.findOneAndUpdate({
             "contactId" : req.body.contactId
@@ -75,7 +75,7 @@ const editContact = (res, req) => {
 }
 
 //Delete contact
-const deleteContact = (res, req) => {
+const deleteContact = async (res, req) => {
     try {
         await Contact.findOneAndDelete({
             "contactId" : req.body.contactId
@@ -90,7 +90,7 @@ const deleteContact = (res, req) => {
 }
 
 //Add note to contact
-const addNote = (req, res) => {
+const addNote = async (req, res) => {
     var newNote = req.body.note
     try {
         var contact = await Contact.findOne({"contactId" : req.body.contactId})
@@ -104,7 +104,7 @@ const addNote = (req, res) => {
 }
 
 //Change contact category
-const changeCategory = (req, res) => {
+const changeCategory = async (req, res) => {
     try {
         await Contact.findOneAndUpdate({
             "contactId" : req.body.contactId
