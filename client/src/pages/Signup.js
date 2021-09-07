@@ -13,7 +13,7 @@ function Signup() {
   // handleSubmit is executed when the submit button is clicked
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    // registration details
     var userData = {
       firstName: firstName,
       lastName: lastName,
@@ -34,7 +34,7 @@ function Signup() {
   };
 
   return (
-    // Section for login details where email and password can be entered
+    // Contents of the page, each seperated by a div
     <article className="articleSignup">
       <form className="form" action="" onSubmit={handleSubmit}>
         <div className="form-control">
