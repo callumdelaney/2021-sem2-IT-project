@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 // component for login page
 function Login() {
@@ -28,7 +29,7 @@ function Login() {
 
   return (
     // Section for login details where email and password can be entered
-    <article className="article">
+    <article className="articleLogin">
       <form className="form" action="" onSubmit={handleSubmit}>
         <div className="form-control">
           <label htmlFor="email">Email: </label>
@@ -53,6 +54,9 @@ function Login() {
           />
         </div>
         <button type="submit">Login</button>
+        <Link to="/signup">
+          <button>Signup</button>
+        </Link>
       </form>
     </article>
   );

@@ -65,7 +65,15 @@ code {
 }
 
 .container {
-  margin-top: 20rem;
+  /* margin-top: 10rem; */
+}
+
+.articleSignup {
+  margin-top: 10%;
+}
+
+.articleLogin {
+  margin-top: 17rem;
 }
 
 .form {
@@ -82,12 +90,14 @@ code {
   font-family: "Roboto", sans-serif;
   font-size: 19px;
   cursor: auto;
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
 .form-control {
   /* margin-top: 2rem; */
   margin: 0.5rem 0;
-  display: grid;
+  display: block;
   grid-template-columns: 100px 1fr;
   align-items: center;
 }
@@ -107,6 +117,7 @@ code {
   border-radius: var(--radius);
   cursor: pointer;
   transition: var(--transition);
+  margin-right: 8.5rem;
 }
 
 .form button:hover {
@@ -119,4 +130,5 @@ code {
   border-color: transparent;
   border-radius: var(--radius);
   padding: 0.25rem 0.5rem;
+  min-width: 250px;
 }
