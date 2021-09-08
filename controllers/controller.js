@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-const contact = mongoose.model("Contact");
-const user = mongoose.model("User");
+const Contact = mongoose.model("Contact");
+const User = mongoose.model("User");
 
 //Get all contacts from database
 const getContacts = async (req, res) => {
@@ -9,6 +9,7 @@ const getContacts = async (req, res) => {
     const contacts = await Contact.find({}).lean();
 
     res.send(JSON.stringify(contacts));
+    console.log(contacts)
   } catch (err) {
     return res.send(err);
   }
@@ -125,15 +126,40 @@ const changeCategory = async (req, res) => {
 
 const bcrypt = require("bcrypt");
 
+//Logs user in
 const getLogin = async (req, res) => {
   var userData = {
     email: req.body.email,
-    pass: await bcrypt.hash(req.body.password, 10),
+    password: await bcrypt.hash(req.body.password, 5)
   };
-  //Placeholder until user schema finished
+
   res.send(JSON.stringify(userData));
   console.log(req.body);
-};
+}
+
+//Create new account
+const newUser = async (req, res) => {
+    const user = await User.create({
+        "email" : req.body.email,
+        "password" : await bcrypt.hash(req.body.password, 10)
+    })
+    /** 
+     * Placeholder 
+    try {
+        
+        const check = User.findOne({"email" : req.body.email})
+        if (check == null) {
+            new User(user).save()
+
+            res.send({message : "Account created"})
+        } else {
+            res.send({message : "Email already in use"})
+        } 
+    } catch (err) {
+        return res.send(err)
+    }  */
+
+}
 
 module.exports = {
   getLogin,
@@ -144,4 +170,5 @@ module.exports = {
   deleteContact,
   addNote,
   changeCategory,
+  newUser
 };
