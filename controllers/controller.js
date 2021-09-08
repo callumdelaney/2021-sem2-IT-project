@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-const contact = mongoose.model("Contact");
-const user = mongoose.model("User");
+const Contact = mongoose.model("Contact");
+const User = mongoose.model("User");
 
 //Get all contacts from database
 const getContacts = async (req, res) => {
