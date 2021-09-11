@@ -9,6 +9,7 @@ const getContacts = async (req, res) => {
        const contacts = await Contact.find({}).lean()
 
        res.send(JSON.stringify(contacts));
+       console.log(contacts)
    } catch (err) {
        return res.send(err)
    }
@@ -18,10 +19,11 @@ const getContacts = async (req, res) => {
 const getOneContact = async (req, res) => {
    try {
        const contact = await Contact.findOne({
-           "contactId" : req.body.contactId
+           "_id" : req.body._id
        }).lean()
 
        res.send(JSON.stringify(contact));
+       console.log(contact)
    } catch (err) {
        return res.send(err)
    }
@@ -38,12 +40,11 @@ const addNewContact = async (req, res) => {
             "email" : req.body.email,
             "category" : req.body.category
         })
-    
+
+        console.log(newContact)
+        
         new Contact(newContact).save()
-
-        window.alert("Contact created")
-
-        res.send({message : "Contact created"})
+   
     
     } catch (err) {
         res.send("Failed")
@@ -65,9 +66,12 @@ const editContact = async (res, req) => {
             "category" : req.body.category
         })
 
-        window.alert("Contact updated")
+        await Contact.findOneAndUpdate({
+            "contactId" : req.body.contactId
+        }, {
+            "firstName" : "Frank"
+        })
 
-        res.send({message : "Contact updated"})
 
     } catch (err) {
         return res.send(err)
@@ -78,12 +82,9 @@ const editContact = async (res, req) => {
 const deleteContact = async (res, req) => {
     try {
         await Contact.findOneAndDelete({
-            "contactId" : req.body.contactId
+            "contactId" : res.body.contactId
         })
 
-        window.alert("Contact deleted")
-
-        res.send({message : "Contact deleted"})
     } catch (err) {
         return res.send(err)
     }
@@ -91,13 +92,15 @@ const deleteContact = async (res, req) => {
 
 //Add note to contact
 const addNote = async (req, res) => {
-    var newNote = req.body.note
+    var newNote = req.body.notes
     try {
-        var contact = await Contact.findOne({"contactId" : req.body.contactId})
-
-        contact.notes.push(req.body.note)
-
-        contact.save
+        await Contact.findOneAndUpdate({
+            "contactId" : req.body.contactId
+        }, {
+            "notes" : newNote
+        })
+        
+        console.log(newNote)
     } catch (err) {
         return res.send(err)
     }
@@ -112,9 +115,6 @@ const changeCategory = async (req, res) => {
             "category" : req.body.category
         })
 
-        window.alert("Category updated")
-
-        res.send({message : "Category updated"})
     } catch (err) {
         return res.send(err)
     }
@@ -125,11 +125,24 @@ const bcrypt = require("bcrypt");
 const getLogin = async (req, res) => {
   var userData = {
     email: req.body.email,
-    pass: await bcrypt.hash(req.body.password, 10),
+    pass: req.body.password
   };
+ 
+  var user = await User.findOne({"email" : userData.email}).lean()
+
+  if (user != null) {
+      if (user.password == userData.pass) {
+
+          console.log("Success")
+      } else {
+          console.log("Fail")
+      }
+  } else {
+      console.log("User not found")
+  }
   //Placeholder until user schema finished
   res.send(JSON.stringify(userData));
-  console.log(req.body);
+
 };
 
 module.exports = {
