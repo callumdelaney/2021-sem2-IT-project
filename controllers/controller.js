@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 
 const contact = mongoose.model("Contact");
 const user = mongoose.model("User");
+const tag = mongoose.model("Tag")
+
+//
 
 //Get all contacts from database
 const getContacts = async (req, res) => {
@@ -120,6 +123,110 @@ const changeCategory = async (req, res) => {
     }
 }
 
+// tag stuff
+
+
+//Get all tags from database
+const getTags = async (req, res) => {
+    try {
+        const tags = await Tag.find({}).lean()
+ 
+        res.send(JSON.stringify(tags));
+    } catch (err) {
+        return res.send(err)
+    }
+ }
+ 
+
+//get tags by userID
+
+const getUserTags = async (req, res) => {
+    try {
+        const tags = await Tag.find({
+            //searching for all tags linked to one userId
+            'userId': req.body.userId
+
+        }).lean()
+ 
+        res.send(JSON.stringify(tags));
+    } catch (err) {
+        return res.send(err)
+    }
+ }
+
+ //Get one specific tag
+ const getOneTag = async (req, res) => {
+    try {
+        const tag = await Tag.findOne({
+            "_id" : req.body._id
+        }).lean()
+ 
+        res.send(JSON.stringify(contact));
+    } catch (err) {
+        return res.send(err)
+    }
+ }
+ 
+ //New tag
+ const addNewTag = async (req, res) => {
+     try {
+         const newTag = await Contact.create({
+             "userId" : req.body.userId,
+             "tagText" : req.body.tagText,
+             "tagColour" : req.body.tagColour
+         })
+     
+         new Tag(newTag).save()
+ 
+         window.alert("Tag created")
+ 
+         res.send({message : "Tag created"})
+     
+     } catch (err) {
+         res.send("Failed")
+         throw(err)
+     }
+   
+ }
+ 
+ //Edit tag
+ const editTag = async (res, req) => {
+     try {
+         await Tag.findOneAndUpdate({
+             "_id" : req.body._id
+         }, {
+             "tagText" : req.body.tagText,
+             "tagColour" : req.body.tagColour
+         })
+ 
+         window.alert("Tag updated")
+ 
+         res.send({message : "Tag updated"})
+ 
+     } catch (err) {
+         return res.send(err)
+     }
+ }
+ 
+ //Delete tag
+ const deleteTag = async (res, req) => {
+     try {
+         await Tag.findOneAndDelete({
+             "_id" : req.body._id
+         })
+ 
+         window.alert("tag deleted")
+ 
+         res.send({message : "tag deleted"})
+     } catch (err) {
+         return res.send(err)
+     }
+ }
+ 
+
+
+
+// login stuff
 const bcrypt = require("bcrypt");
 
 const getLogin = async (req, res) => {
@@ -140,6 +247,12 @@ module.exports = {
   editContact,
   deleteContact,
   addNote,
-  changeCategory
+  changeCategory,
+  getTags,
+  getUserTags,
+  getOneTag,
+  addNewTag,
+  editTag,
+  deleteTag
 };
 
