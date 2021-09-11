@@ -161,7 +161,7 @@ const getUserTags = async (req, res) => {
             "_id" : req.body._id
         }).lean()
  
-        res.send(JSON.stringify(contact));
+        res.send(JSON.stringify(tag));
     } catch (err) {
         return res.send(err)
     }
@@ -170,7 +170,7 @@ const getUserTags = async (req, res) => {
  //New tag
  const addNewTag = async (req, res) => {
      try {
-         const newTag = await Contact.create({
+         const newTag = await Tag.create({
              "userId" : req.body.userId,
              "tagText" : req.body.tagText,
              "tagColour" : req.body.tagColour
