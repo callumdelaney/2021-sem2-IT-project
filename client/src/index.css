@@ -1,3 +1,5 @@
+/* project styling sheet */
+
 :root {
   /* dark shades of primary color*/
   --clr-primary-1: hsl(205, 86%, 17%);
@@ -49,7 +51,7 @@
   --clr-orange-10: hsl(13, 73%, 16%);
   --clr-purple-1: hsl(293, 53%, 56%);
 }
-
+/* dressing */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -69,6 +71,7 @@ code {
   /* margin-top: 10rem; */
 }
 
+/* different offsets for login and signup */
 .articleSignup {
   margin-top: 10%;
 }
@@ -77,81 +80,89 @@ code {
   margin-top: 17rem;
 }
 
+/* form stylings */
 .form {
-  border: 2px solid black;
-  background: var(--clr-purple-1);
+  /* layout */
   max-width: var(--fixed-width);
   margin: 0 auto;
   margin-bottom: 4rem;
   padding: 2rem 3rem;
+  /* look */
+  border: 2px solid black;
+  background: var(--clr-purple-1);
   border-radius: var(--radius);
 }
-
+/* label stylings */
 .form label {
-  font-family: "Roboto", sans-serif;
-  font-size: 19px;
+  /* layout */
   cursor: auto;
   display: block;
   margin-bottom: 0.5rem;
+  /* look */
+  font-family: "Roboto", sans-serif;
+  font-size: 19px;
 }
-
+/* miscellaneous layout stylings for form */
 .form-control {
-  /* margin-top: 2rem; */
   margin: 0.5rem 2rem;
   display: block;
   grid-template-columns: 100px 1fr;
   align-items: center;
 }
-
+/* stylings for form buttons */
 .form button {
-  font-family: "Teko", sans-serif;
+  /* layout */
   font-weight: bold;
   font-size: 15px;
-  /* display: block; */
-  background: var(--clr-primary-4);
-  color: var(--clr-white);
-  border-color: transparent;
   margin-top: 1rem;
   letter-spacing: var(--spacing);
   padding: 0.15rem 0.4rem;
-  text-transform: capitalize;
-  border-radius: var(--radius);
   cursor: pointer;
-  transition: var(--transition);
   margin-right: 75px;
   margin-left: 2rem;
+  /* look */
+  font-family: "Teko", sans-serif;
+  background: var(--clr-primary-4);
+  color: var(--clr-white);
+  border-color: transparent;
+  text-transform: capitalize;
+  border-radius: var(--radius);
+  transition: var(--transition);
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
     0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
 }
-
+/* colour change on mouse hover for form buttons */
 .form button:hover {
   background: var(--clr-primary-3);
   color: var(--clr-primary-5);
 }
-
+/* stylings for form input fields */
 .form input {
+  /* layout */
+  padding: 0.25rem 0.5rem;
+  min-width: 250px;
+  /* look */
   background: var(--clr-grey-10);
   border-color: transparent;
   border-radius: var(--radius);
-  padding: 0.25rem 0.5rem;
-  min-width: 250px;
 }
 
 /* styling for login/signup verification errors */
 .errorMessage {
-  background: var(--clr-black);
-  color: red;
+  /* layout */
   margin-left: 2rem;
   margin-top: 1.2rem;
   padding: 0.2rem 0.5rem;
   max-width: 255px;
-  font-size: 14px;
   display: block;
-
+  /* look */
+  background: var(--clr-black);
+  color: red;
+  font-size: 14px;
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
     0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
 }
-
+/* layout stylings for custom error message */
 .errorText {
   margin-left: 10px;
 }
