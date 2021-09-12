@@ -1,10 +1,15 @@
 const mongoose = require("mongoose");
 
+<<<<<<< HEAD
 const contact = mongoose.model("Contact");
 const user = mongoose.model("User");
 const tag = mongoose.model("Tag")
 
 //
+=======
+const Contact = mongoose.model("Contact");
+const User = mongoose.model("User");
+>>>>>>> c78dd643182e3f456b4f525ac6782010363fd477
 
 //Get all contacts from database
 const getContacts = async (req, res) => {
