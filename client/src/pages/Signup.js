@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import ErrorMessage from "./components/ErrorMessage";
 
 // component for sign up page
 function Signup() {
@@ -9,10 +10,14 @@ function Signup() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [status, setStatus] = useState(1);
 
   // handleSubmit is executed when the submit button is clicked
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // setError based on feedback from back-end
+    setStatus(11);
     // registration details
     var userData = {
       firstName: firstName,
@@ -55,7 +60,7 @@ function Signup() {
             id="lastName"
             name="lastName"
             required
-            value={firstName}
+            value={lastName}
             onChange={(e) => setLastName(e.target.value)}
           />
         </div>
@@ -73,7 +78,7 @@ function Signup() {
         <div className="form-control">
           <label htmlFor="Phone">Phone number: </label>
           <input
-            type="text"
+            type="number"
             id="phone"
             name="phone"
             value={phoneNumber}
@@ -103,6 +108,8 @@ function Signup() {
           />
         </div>
         <button type="submit">Register</button>
+        {/* conditional rendering of error message based on status */}
+        <ErrorMessage statusCode={status} />
       </form>
     </article>
   );

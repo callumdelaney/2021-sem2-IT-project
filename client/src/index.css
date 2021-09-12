@@ -64,6 +64,7 @@ code {
     monospace;
 }
 
+/* global styles: currently none */
 .container {
   /* margin-top: 10rem; */
 }
@@ -119,6 +120,8 @@ code {
   transition: var(--transition);
   margin-right: 75px;
   margin-left: 2rem;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+    0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
 }
 
 .form button:hover {
@@ -132,4 +135,23 @@ code {
   border-radius: var(--radius);
   padding: 0.25rem 0.5rem;
   min-width: 250px;
+}
+
+/* styling for login/signup verification errors */
+.errorMessage {
+  background: var(--clr-black);
+  color: red;
+  margin-left: 2rem;
+  margin-top: 1.2rem;
+  padding: 0.2rem 0.5rem;
+  max-width: 255px;
+  font-size: 14px;
+  display: block;
+
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+    0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+}
+
+.errorText {
+  margin-left: 10px;
 }

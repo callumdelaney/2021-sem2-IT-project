@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import ErrorMessage from "./components/ErrorMessage";
 
 // component for login page
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [status, setStatus] = useState(1);
 
   // handleSubmit is executed when the submit button is clicked
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // setError based on feedback from back-end
+    setStatus(11);
+
+    // registration details
     var userData = {
       email: email,
       password: password,
@@ -57,6 +63,8 @@ function Login() {
         <Link to="/signup">
           <button>Signup</button>
         </Link>
+        {/* conditional rendering of error message based on status */}
+        <ErrorMessage statusCode={status} />
       </form>
     </article>
   );
