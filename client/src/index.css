@@ -50,6 +50,8 @@
   --clr-orange-9: hsl(13, 73%, 25%);
   --clr-orange-10: hsl(13, 73%, 16%);
   --clr-purple-1: hsl(293, 53%, 56%);
+  --clr-light-blue: hsl(184, 71%, 47%);
+  --clr-blue: hsl(184, 73%, 30%);
 }
 /* dressing */
 body {
@@ -118,7 +120,7 @@ code {
   letter-spacing: var(--spacing);
   padding: 0.15rem 0.4rem;
   cursor: pointer;
-  margin-right: 75px;
+  margin-right: 76px;
   margin-left: 2rem;
   /* look */
   font-family: "Teko", sans-serif;
@@ -165,4 +167,60 @@ code {
 /* layout stylings for custom error message */
 .errorText {
   margin-left: 10px;
+}
+
+/* Register Confirmation styling */
+.popup-box {
+  position: fixed;
+  background: #00000050;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+
+.box {
+  position: relative;
+  width: 30%;
+  margin: 0 auto;
+  height: auto;
+  max-height: 70vh;
+  margin-top: calc(100vh - 85vh + 120px);
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  border: 1px solid #999;
+  overflow: auto;
+}
+
+.popup-button {
+  /* layout */
+  font-weight: bold;
+  font-size: 15px;
+  margin-top: 0.5rem;
+  letter-spacing: var(--spacing);
+  padding: 0.15rem 0.4rem;
+  cursor: pointer;
+  margin-right: 75px;
+  margin-left: 43%;
+  /* look */
+  font-family: "Teko", sans-serif;
+  background: var(--clr-light-blue);
+  color: var(--clr-primary-1);
+  border-color: transparent;
+  text-transform: capitalize;
+  border-radius: var(--radius);
+  transition: var(--transition);
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+    0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+}
+
+/* colour change on mouse hover for popup buttons */
+.popup-button:hover {
+  background: var(--clr-blue);
+  color: var(--clr-primary-5);
+}
+
+.signup-header {
+  text-align: center;
 }

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import ErrorMessage from "./components/ErrorMessage";
 import statusCode from "./components/Status";
+import Popup from "./components/RegisterConfirmation";
 
 // component for sign up page
 function Signup() {
@@ -12,13 +13,18 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [status, setStatus] = useState(statusCode.SUCCESS);
+  // toggle state for confirmation popup
+  const [isOpen, setIsOpen] = useState(false);
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
 
   // handleSubmit is executed when the submit button is clicked
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // setError based on feedback from back-end
-    setStatus(statusCode.UNKNOWN_EMAIL);
+    setStatus(statusCode.SUCCESS);
     if (password !== passwordConfirm) {
       // dynamically change border color of these elements to red
       document.getElementById("password").style["border-color"] = "red";
@@ -44,11 +50,16 @@ function Signup() {
       .catch((error) => {
         console.log(error);
       });
+
+    if (status === statusCode.SUCCESS) {
+      togglePopup();
+    }
   };
 
   return (
     // Contents of the page, each seperated by a div
     <article className="articleSignup">
+      <h1 className="signup-header">Sign Up</h1>
       <form className="form" action="" onSubmit={handleSubmit}>
         <div className="form-control">
           <label htmlFor="firstName">First name:* </label>
@@ -129,6 +140,23 @@ function Signup() {
         {/* conditional rendering of error message based on status */}
         <ErrorMessage statusCode={status} />
       </form>
+      {/* register confirmation popup component */}
+      {isOpen && (
+        <Popup
+          content={
+            <>
+              <b>Account Created Successfully!</b>
+              <p>
+                Thank you for your interest! <br /> you can now login using your
+                credentials
+              </p>
+              <button className="popup-button" onClick={togglePopup}>
+                Login
+              </button>
+            </>
+          }
+        />
+      )}
     </article>
   );
 }
