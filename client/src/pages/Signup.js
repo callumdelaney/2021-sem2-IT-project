@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import ErrorMessage from "./components/ErrorMessage";
+import statusCode from "./components/Status";
 
 // component for sign up page
 function Signup() {
@@ -10,14 +11,14 @@ function Signup() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [status, setStatus] = useState(1);
+  const [status, setStatus] = useState(statusCode.SUCCESS);
 
   // handleSubmit is executed when the submit button is clicked
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // setError based on feedback from back-end
-    setStatus(11);
+    setStatus(statusCode.UNKNOWN_EMAIL);
     // registration details
     var userData = {
       firstName: firstName,
