@@ -6,6 +6,7 @@ const status = {
   INCORRECT_CREDENTIALS: 12,
   EMAIL_TAKEN: 13,
   INVALID_PASSWORD: 14,
+  MISMATCHED_PASSWORDS: 15,
 };
 
 export default status;

@@ -15,6 +15,8 @@ function ErrorMessage(props) {
     text = "email already exists";
   } else if (code === status.INVALID_PASSWORD) {
     text = "password is too short (must be at least 5 characters)";
+  } else if (code === status.MISMATCHED_PASSWORDS) {
+    text = "passwords don't match";
   }
   // return error if status is not a SUCCESS
   if (code !== status.SUCCESS) {

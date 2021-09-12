@@ -19,6 +19,13 @@ function Signup() {
 
     // setError based on feedback from back-end
     setStatus(statusCode.UNKNOWN_EMAIL);
+    if (password !== passwordConfirm) {
+      // dynamically change border color of these elements to red
+      document.getElementById("password").style["border-color"] = "red";
+      document.getElementById("passwordConfirm").style["border-color"] = "red";
+      setStatus(statusCode.MISMATCHED_PASSWORDS);
+    }
+
     // registration details
     var userData = {
       firstName: firstName,
@@ -94,7 +101,12 @@ function Signup() {
             name="password"
             required
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              // reset border color
+              document.getElementById("password").style["border-color"] =
+                "transparent";
+            }}
           />
         </div>
         <div className="form-control">
@@ -105,7 +117,12 @@ function Signup() {
             name="passwordConfirm"
             required
             value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.target.value)}
+            onChange={(e) => {
+              setPasswordConfirm(e.target.value);
+              // reset border color
+              document.getElementById("passwordConfirm").style["border-color"] =
+                "transparent";
+            }}
           />
         </div>
         <button type="submit">Register</button>
