@@ -147,6 +147,25 @@ const getLogin = async (req, res) => {
   res.send(JSON.stringify(userData));
 };
 
+const newUser = async (req, res) => {
+    var userData = {
+        email: req.body.email,
+        password: req.body.password,
+        firstName: req.body.firstName,
+        lastName: req.body.LastName,
+        phoneNumber: req.body.phoneNumber
+    }
+
+    const salt = await bcrypt.genSalt(10);
+
+    const newUser = new User(userData);
+
+    newUser.password = await bcrypt.hash(newUser.password, salt);
+    newUser.save()
+
+    res.send({status: status.SUCCESS})
+}
+
 module.exports = {
     getLogin,
     getContacts,
@@ -155,6 +174,7 @@ module.exports = {
     editContact,
     deleteContact,
     addNote,
-    changeCategory
+    changeCategory,
+    newUser
 };
 
