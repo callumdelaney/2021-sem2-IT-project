@@ -65,7 +65,6 @@ code {
 }
 
 .container {
-  margin-top: 20rem;
 }
 
 .form {
@@ -119,4 +118,10 @@ code {
   border-color: transparent;
   border-radius: var(--radius);
   padding: 0.25rem 0.5rem;
+}
+
+.profile {
+  border-radius: 50%;
+  float: right;
+  width: 150px;
 }
