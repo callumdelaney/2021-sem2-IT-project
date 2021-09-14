@@ -14,7 +14,9 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // setError based on feedback from back-end
+    // setError based on feedback from back-end. localStatus can change within
+    // this function to be referenced
+    var localStatus = statusCode.UNKNOWN_EMAIL;
     setStatus(statusCode.UNKNOWN_EMAIL);
 
     // registration details
@@ -37,6 +39,7 @@ function Login() {
   return (
     // Section for login details where email and password can be entered
     <article className="articleLogin">
+      <h1 className="header">Login</h1>
       <form className="form" action="" onSubmit={handleSubmit}>
         <div className="form-control">
           <label htmlFor="email">Email: </label>

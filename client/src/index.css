@@ -75,11 +75,11 @@ code {
 
 /* different offsets for login and signup */
 .articleSignup {
-  margin-top: 10%;
+  margin-top: 5%;
 }
 
 .articleLogin {
-  margin-top: 17rem;
+  margin-top: 10%;
 }
 
 /* form stylings */
@@ -167,6 +167,7 @@ code {
 /* layout stylings for custom error message */
 .errorText {
   margin-left: 10px;
+  display: inline;
 }
 
 /* Register Confirmation styling */
@@ -221,6 +222,6 @@ code {
   color: var(--clr-primary-5);
 }
 
-.signup-header {
+.header {
   text-align: center;
 }

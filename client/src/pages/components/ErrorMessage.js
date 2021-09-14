@@ -23,7 +23,7 @@ function ErrorMessage(props) {
     return (
       <div className="errorMessage">
         <img src={errorIcon} alt="ErrorIcon" width="15" height="15" />
-        <h7 className="errorText">{text}</h7>
+        <p className="errorText">{text}</p>
       </div>
     );
   }

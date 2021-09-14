@@ -3,6 +3,7 @@ import axios from "axios";
 import ErrorMessage from "./components/ErrorMessage";
 import statusCode from "./components/Status";
 import Popup from "./components/RegisterConfirmation";
+import { Link } from "react-router-dom";
 
 // component for sign up page
 function Signup() {
@@ -24,14 +25,18 @@ function Signup() {
     e.preventDefault();
 
     // setError based on feedback from back-end
+    var localStatus = statusCode.SUCCESS;
     setStatus(statusCode.SUCCESS);
+    // if the two password fields don't match, can't move forward
     if (password !== passwordConfirm) {
       // dynamically change border color of these elements to red
+      console.log("went here");
       document.getElementById("password").style["border-color"] = "red";
       document.getElementById("passwordConfirm").style["border-color"] = "red";
+      // change status code accordingly
+      localStatus = statusCode.MISMATCHED_PASSWORDS;
       setStatus(statusCode.MISMATCHED_PASSWORDS);
     }
-
     // registration details
     var userData = {
       firstName: firstName,
@@ -50,8 +55,9 @@ function Signup() {
       .catch((error) => {
         console.log(error);
       });
-
-    if (status === statusCode.SUCCESS) {
+    // since status won't change until the end of this function, need local status
+    // to keep track of the actual value
+    if (localStatus === statusCode.SUCCESS) {
       togglePopup();
     }
   };
@@ -59,7 +65,7 @@ function Signup() {
   return (
     // Contents of the page, each seperated by a div
     <article className="articleSignup">
-      <h1 className="signup-header">Sign Up</h1>
+      <h1 className="header">Sign Up</h1>
       <form className="form" action="" onSubmit={handleSubmit}>
         <div className="form-control">
           <label htmlFor="firstName">First name:* </label>
@@ -150,9 +156,9 @@ function Signup() {
                 Thank you for your interest! <br /> you can now login using your
                 credentials
               </p>
-              <button className="popup-button" onClick={togglePopup}>
-                Login
-              </button>
+              <Link to="/login">
+                <button className="popup-button">Login</button>
+              </Link>
             </>
           }
         />
