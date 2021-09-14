@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import Login from "./Login";
 import Contacts from "./Contacts";
 import Contact from "./Contact";
+import Signup from "./Signup";
 
 const ReactRouterSetup = () => {
   return (
@@ -16,6 +17,9 @@ const ReactRouterSetup = () => {
         </Route>
         <Route path="/login">
           <Login />
+        </Route>
+        <Route path="/signup">
+          <Signup />
         </Route>
         <Route path="/contacts">
           <Contacts />

@@ -14,7 +14,9 @@ const status = {
     INVALID_PASSWORD: 14
 }
 
+
 /******************* outgoing (backend -> frontend) ***************************/
+
 
 // Get all contacts from database
 const getContacts = async (req, res) => {
@@ -48,6 +50,7 @@ const getOneContact = async (req, res) => {
     console.log(contact)
 }
 
+
 /******************* incoming (frontend -> backend) ***************************/
 
 const addNewContact = async (req, res) => {
@@ -69,6 +72,7 @@ const addNewContact = async (req, res) => {
     console.log(newContact)
 }
 
+
 const editContact = async (res, req) => {
     try {
         await Contact.findOneAndUpdate({
@@ -87,6 +91,7 @@ const editContact = async (res, req) => {
     }
 }
 
+
 const deleteContact = async (res, req) => {
     try {
         await Contact.findOneAndDelete({
@@ -97,6 +102,7 @@ const deleteContact = async (res, req) => {
         res.send({status: status.FAILURE})
     }
 }
+
 
 const addNote = async (req, res) => {
     let newNote = req.body.note
@@ -111,6 +117,7 @@ const addNote = async (req, res) => {
     console.log(newNote)
 }
 
+
 const changeCategory = async (req, res) => {
     try {
         await Contact.findOneAndUpdate({
@@ -124,7 +131,7 @@ const changeCategory = async (req, res) => {
     }
 }
 
-
+//Logs user in
 const getLogin = async (req, res) => {
   var userData = {
     email: req.body.email,
@@ -145,7 +152,8 @@ const getLogin = async (req, res) => {
   }
   //Placeholder until user schema finished
   res.send(JSON.stringify(userData));
-};
+}
+
 
 const newUser = async (req, res) => {
     var userData = {
@@ -176,5 +184,5 @@ module.exports = {
     addNote,
     changeCategory,
     newUser
-};
 
+};
