@@ -124,31 +124,35 @@ const changeCategory = async (req, res) => {
     }
 }
 
+/**
+ * Verifies login details
+ * @param req expects an email and a password
+ * @param res responds with a status code
+ */
+const login = async (req, res) => {
+    try {
+        let email = req.body.email
+        let password = await bcrypt.hash(req.body.password, 10)
+        let user = await User.findOne({"email": email})
 
-const getLogin = async (req, res) => {
-  var userData = {
-    email: req.body.email,
-    pass: req.body.password
-  };
- 
-  var user = await User.findOne({"email" : userData.email}).lean()
+        isPasswordCorrect = (password == user.password)
 
-  if (user != null) {
-      if (user.password == userData.pass) {
-
-          console.log("Success")
-      } else {
-          console.log("Fail")
-      }
-  } else {
-      console.log("User not found")
-  }
-  //Placeholder until user schema finished
-  res.send(JSON.stringify(userData));
-};
+        if (isPasswordCorrect) {
+            res.send({status: status.SUCCESS})
+        } else {
+            res.send({status: status.INCORRECT_CREDENTIALS})
+            console.log("Incorrect password for user %s", email)
+            return
+        }
+    } catch (err) {
+        console.log(err)
+        return res.send({status: status.FAILURE})
+    }
+    console.log(req.body)
+}
 
 module.exports = {
-    getLogin,
+    login,
     getContacts,
     getOneContact,
     addNewContact,
