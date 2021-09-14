@@ -6,6 +6,7 @@ import statusCode from "./components/Status";
 
 // component for login page
 function Login() {
+  // hooks, setXXXX will change the associated variable and then re-render the page
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState(statusCode.SUCCESS);
