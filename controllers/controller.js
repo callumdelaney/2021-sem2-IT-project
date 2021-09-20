@@ -24,14 +24,15 @@ const getContacts = async (req, res) => {
     try {
         let contacts = await Contact.find({}).lean()
         res.send({
-            status: status.SUCCESS,
-            contacts: JSON.stringify(contacts)
+            contacts: JSON.stringify(contacts),
+            status: status.SUCCESS
         });
+        console.log(contacts)
     } catch (err) {
         console.log(err)
         return res.send({status: status.FAILURE})
     }
-    console.log(contacts)
+    
 }
 
 // Get one specific contact
@@ -44,14 +45,18 @@ const getOneContact = async (req, res) => {
             status: status.SUCCESS,
             contacts: JSON.stringify(contact)
         });
+        console.log(contact)
     } catch (err) {
         console.log(err)
         return res.send({status: status.FAILURE})
     }
-    console.log(contact)
+    
 }
 
 /******************* incoming (frontend -> backend) ***************************/
+
+
+//New contact
 
 const addNewContact = async (req, res) => {
     try {
@@ -63,14 +68,16 @@ const addNewContact = async (req, res) => {
             "email": req.body.email,
             "category": req.body.category
         })
+        console.log(newContact)
         new Contact(newContact).save()
         res.send({status: status.SUCCESS})
     } catch (err) {
         console.log(err)
         res.send({status: status.FAILURE})
     }
-    console.log(newContact)
 }
+
+
 
 const editContact = async (res, req) => {
     try {
@@ -107,11 +114,12 @@ const addNote = async (req, res) => {
         var contact = await Contact.findOne({"contactId": req.body.contactId})
         contact.notes.push(newNote)
         contact.save
+        console.log(newNote)
         res.send({status: status.SUCCESS})
     } catch (err) {
         res.send({status: status.FAILURE})
     }
-    console.log(newNote)
+    
 }
 
 const changeCategory = async (req, res) => {
@@ -171,16 +179,21 @@ const getLogin = async (req, res) => {
 //Get all tags from database
 const getTags = async (req, res) => {
     try {
+        console.log("getting tags");
         let tags = await Tag.find({}).lean()
-        res.send({
-            status: status.SUCCESS,
-            tags: JSON.stringify(tags)
+        console.log(JSON.stringify(tags));
+        res.send({       
+            tags: JSON.stringify(tags),
+            message : "tag got",
+            status: status.SUCCESS
         });
-        console.log(tags)
+        
 
     } catch (err) {
+        console.log("tags get fail");
         console.log(err)
         return res.send({status: status.FAILURE})
+        
     }
  }
  
@@ -236,13 +249,22 @@ const getUserTags = async (req, res) => {
  //New tag
  const addNewTag = async (req, res) => {
      try {
+         
         const newTag = await Tag.create({
              "userId" : req.body.userId,
              "tagText" : req.body.tagText,
              "tagColour" : req.body.tagColour
         })
+        /*
+        const newTag = await Tag.create({
+            "userId" : "LYLA3",
+            "tagText" : "LYLA",
+            "tagColour" : "LYLA"
+       })
+       */
      
         new Tag(newTag).save()
+        console.log(newTag)
         res.send({status: status.SUCCESS})
      
     } catch (err) {
@@ -250,7 +272,6 @@ const getUserTags = async (req, res) => {
         res.send({status: status.FAILURE})
     }
 
-     console.log(newTag)
    
  }
  
