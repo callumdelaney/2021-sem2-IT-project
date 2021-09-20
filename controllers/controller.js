@@ -81,6 +81,8 @@ const addNewContact = async (req, res) => {
 
 const editContact = async (res, req) => {
     try {
+
+
         await Contact.findOneAndUpdate({
             "contactId": req.body.contactId
         }, {
@@ -181,12 +183,14 @@ const getTags = async (req, res) => {
     try {
         console.log("getting tags");
         let tags = await Tag.find({}).lean()
-        console.log(JSON.stringify(tags));
+        
         res.send({       
             tags: JSON.stringify(tags),
             message : "tag got",
             status: status.SUCCESS
         });
+
+        console.log(tags)
         
 
     } catch (err) {
@@ -228,6 +232,7 @@ const getUserTags = async (req, res) => {
         //try to find it
         let tag = await Tag.findOne({
             "_id" : req.body._id
+            
         }).lean()
  
         //send it if found, and report success
@@ -250,18 +255,7 @@ const getUserTags = async (req, res) => {
  const addNewTag = async (req, res) => {
      try {
          
-        const newTag = await Tag.create({
-             "userId" : req.body.userId,
-             "tagText" : req.body.tagText,
-             "tagColour" : req.body.tagColour
-        })
-        /*
-        const newTag = await Tag.create({
-            "userId" : "LYLA3",
-            "tagText" : "LYLA",
-            "tagColour" : "LYLA"
-       })
-       */
+        
      
         new Tag(newTag).save()
         console.log(newTag)
@@ -277,13 +271,21 @@ const getUserTags = async (req, res) => {
  
  //Edit tag
  const editTag = async (res, req) => {
+    
+
      try {
+
+        
+
+         
         await Tag.findOneAndUpdate({
-            "_id" : req.body._id
+            "_id" : req.body._id,
         }, {
-             "tagText" : req.body.tagText,
-             "tagColour" : req.body.tagColour
+            "tagText" : req.body.tagText,
+            "tagColour" : req.body.tagColour
         })
+        
+        
  
         res.send({status: status.SUCCESS})
  
@@ -296,6 +298,9 @@ const getUserTags = async (req, res) => {
  //Delete tag
  const deleteTag = async (res, req) => {
     try {
+
+       
+
         await Tag.findOneAndDelete({
             "_id" : req.body._id
         })
