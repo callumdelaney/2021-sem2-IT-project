@@ -255,11 +255,26 @@ const getUserTags = async (req, res) => {
  const addNewTag = async (req, res) => {
      try {
 
+        
+        req = {
+            "body": {
+            "userId" : "LYLA3",
+            "tagText" : "LYLA",
+            }
+        }
+
+        
+
+        //Generate random hex colour from
+        // https://css-tricks.com/snippets/javascript/random-hex-color/
+        var randomColor = Math.floor(Math.random()*16777215).toString(16);
      
         const newTag = await Tag.create({
             "userId" : req.body.userId,
             "tagText" : req.body.tagText,
-            "tagColour" : req.body.tagColour
+            //"tagColour" : req.body.tagColour
+            //random generate tag's hex colour instead
+            "tagColour": randomColor
        })
          
         
