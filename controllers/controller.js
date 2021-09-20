@@ -254,6 +254,21 @@ const getUserTags = async (req, res) => {
  //New tag
  const addNewTag = async (req, res) => {
      try {
+
+        const req = {
+            "body": {
+             "userId" : "LYLA3",
+             "tagText" : "LYLA",
+             "tagColour" : "LYLA"
+             }
+         }
+ 
+     
+        const newTag = await Tag.create({
+            "userId" : req.body.userId,
+            "tagText" : req.body.tagText,
+            "tagColour" : req.body.tagColour
+       })
          
         
      
