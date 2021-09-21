@@ -51,7 +51,7 @@ function ContactsTable() {
         onRowClick={() => console.log("clicked")}
         components={{
           Toolbar: (props) => (
-            <div>
+            <div className="toolbar">
               <MTableToolbar {...props} />
               <div>
                 {/* business/personal filter */}
