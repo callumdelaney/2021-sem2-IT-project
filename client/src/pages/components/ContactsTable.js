@@ -13,6 +13,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 function ContactsTable() {
   const [category, setCategory] = useState("");
   const [filteredData, setFilteredData] = useState(tableData);
+  const [selectedRow, setSelectedRow] = useState(null);
   // useEffect hook for dealing with category changes
   useEffect(() => {
     setFilteredData(
@@ -45,6 +46,11 @@ function ContactsTable() {
       // hidden: true,
     },
   ];
+  // color constants used in styles
+  const iconColor = "#83498A";
+  const businessColor = "orange";
+  const personalColor = "yellow";
+
   return (
     <div>
       <MaterialTable
@@ -54,7 +60,9 @@ function ContactsTable() {
         actions={[
           {
             // create contact button
-            icon: () => <AddCircleIcon color="secondary" fontSize="large" />,
+            icon: () => (
+              <AddCircleIcon style={{ fill: iconColor }} fontSize="large" />
+            ),
             tooltip: "Create Contact",
             position: "toolbar",
             onClick: () => {
@@ -62,21 +70,39 @@ function ContactsTable() {
             },
           },
         ]}
-        // table options
+        // function for clicking on contacts
+        onRowClick={(e, selectedRow) =>
+          setSelectedRow(selectedRow.tableData.id)
+        }
+        // table options (stylings + layout)
         options={{
           tableLayout: "fixed",
           pageSize: filteredData.length,
+          // table size options
           pageSizeOptions: [{ value: filteredData.length, label: "All" }],
-          headerStyle: { position: "sticky", top: 0 },
+          // styings for header
+          headerStyle: {
+            position: "sticky",
+            top: 0,
+            backgroundColor: "#01579b",
+            color: "#FFF",
+          },
           paging: false,
           maxBodyHeight: "850px",
+          // stylings for each individual row
+          rowStyle: (rowData) => ({
+            backgroundColor:
+              selectedRow === rowData.tableData.id ? "#EEE" : "#FFF",
+            border: "2px solid black",
+          }),
         }}
-        // function for clicking contacts in the table
-        onRowClick={() => console.log("clicked")}
         components={{
+          // Toolbar containing search, add-contacts icon and category selection
           Toolbar: (props) => (
             <div className="toolbar">
-              <MTableToolbar {...props} />
+              <div className="search">
+                <MTableToolbar {...props} />
+              </div>
               <div className="toolbar-labels">
                 {/* business/personal filter */}
                 <RadioGroup
@@ -86,13 +112,22 @@ function ContactsTable() {
                 >
                   <FormControlLabel
                     value="business"
-                    control={<Radio />}
+                    control={
+                      <Radio
+                        className="toolbar-icon"
+                        // specify the color of the icon
+                        style={{ color: iconColor }}
+                      />
+                    }
                     label="Business"
+                    // color of first label
+                    style={{ color: businessColor }}
                   />
                   <FormControlLabel
                     value="personal"
-                    control={<Radio />}
+                    control={<Radio style={{ color: iconColor }} />}
                     label="Personal"
+                    style={{ color: personalColor }}
                   />
                 </RadioGroup>
               </div>
