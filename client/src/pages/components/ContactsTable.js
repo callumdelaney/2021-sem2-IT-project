@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { tableData } from "./data";
 import MaterialTable from "material-table";
 import { MTableToolbar } from "material-table";
-import { Typography, FormControlLabel, Grid, Radio } from "@material-ui/core";
+import {
+  Typography,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 function ContactsTable() {
+  const [category, setCategory] = useState("");
+  const [filteredData, setFilteredData] = useState(tableData);
+  // useEffect hook for dealing with category changes
+  useEffect(() => {
+    setFilteredData(
+      category === ""
+        ? tableData
+        : // filter data shown based on category equivalence
+          tableData.filter((data) => data.category === category)
+    );
+  }, [category]);
+
   const column = [
     {
       title: "Name",
@@ -22,13 +39,17 @@ function ContactsTable() {
         );
       },
     },
+    {
+      title: "Category",
+      field: "category",
+      // hidden: true,
+    },
   ];
   return (
     <div>
       <MaterialTable
-        minRows={10}
         columns={column}
-        data={tableData}
+        data={filteredData}
         title=""
         actions={[
           {
@@ -44,8 +65,11 @@ function ContactsTable() {
         // table options
         options={{
           tableLayout: "fixed",
-          pageSize: 20,
+          pageSize: filteredData.length,
+          pageSizeOptions: [{ value: filteredData.length, label: "All" }],
           headerStyle: { position: "sticky", top: 0 },
+          paging: false,
+          maxBodyHeight: "850px",
         }}
         // function for clicking contacts in the table
         onRowClick={() => console.log("clicked")}
@@ -53,18 +77,24 @@ function ContactsTable() {
           Toolbar: (props) => (
             <div className="toolbar">
               <MTableToolbar {...props} />
-              <div>
+              <div className="toolbar-labels">
                 {/* business/personal filter */}
-                <FormControlLabel
-                  value="business"
-                  control={<Radio />}
-                  label="Business"
-                />
-                <FormControlLabel
-                  value="personal"
-                  control={<Radio />}
-                  label="Personal"
-                />
+                <RadioGroup
+                  row
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                >
+                  <FormControlLabel
+                    value="business"
+                    control={<Radio />}
+                    label="Business"
+                  />
+                  <FormControlLabel
+                    value="personal"
+                    control={<Radio />}
+                    label="Personal"
+                  />
+                </RadioGroup>
               </div>
             </div>
           ),

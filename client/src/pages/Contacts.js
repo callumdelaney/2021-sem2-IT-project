@@ -15,11 +15,15 @@ function Contacts() {
         <div className="flex-child">
           {/* div displaying user information */}
           <div className="user-info">
-            <h1>Hello There</h1>
             <img
               src="https://erasmuscoursescroatia.com/wp-content/uploads/2015/11/no-user-200x200.jpg"
               alt="userphoto"
             />
+            <h1>Hello There</h1>
+            <div>
+              <button>Profile Setting</button>
+            </div>
+            <h4>user email here</h4>
           </div>
           {/* component displaying contact-info */}
           <Contact />
