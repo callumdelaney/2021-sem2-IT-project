@@ -114,7 +114,6 @@ function ContactsTable() {
                     value="business"
                     control={
                       <Radio
-                        className="toolbar-icon"
                         // specify the color of the icon
                         style={{ color: iconColor }}
                       />
