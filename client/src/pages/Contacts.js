@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import { text } from "./components/data";
 import ContactsTable from "./components/ContactsTable";
 import Contact from "./components/Contact";
 
@@ -19,7 +18,7 @@ function Contacts() {
             <h1>Hello There</h1>
             <img
               src="https://erasmuscoursescroatia.com/wp-content/uploads/2015/11/no-user-200x200.jpg"
-              alt="photo"
+              alt="userphoto"
             />
           </div>
           {/* component displaying contact-info */}

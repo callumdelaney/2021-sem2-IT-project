@@ -15,6 +15,7 @@ function ContactsTable() {
         const taglist = tableData.tag.map((tag) => <li>{tag}</li>);
         return (
           <div>
+            {/* table contents */}
             <h4>{tableData.contacts}</h4>
             <ul>{taglist}</ul>
           </div>
@@ -31,6 +32,7 @@ function ContactsTable() {
         title=""
         actions={[
           {
+            // create contact button
             icon: () => <AddCircleIcon color="secondary" fontSize="large" />,
             tooltip: "Create Contact",
             position: "toolbar",
@@ -39,17 +41,20 @@ function ContactsTable() {
             },
           },
         ]}
+        // table options
         options={{
           tableLayout: "fixed",
           pageSize: 20,
           headerStyle: { position: "sticky", top: 0 },
         }}
+        // function for clicking contacts in the table
         onRowClick={() => console.log("clicked")}
         components={{
           Toolbar: (props) => (
             <div>
               <MTableToolbar {...props} />
               <div>
+                {/* business/personal filter */}
                 <FormControlLabel
                   value="business"
                   control={<Radio />}

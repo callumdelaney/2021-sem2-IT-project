@@ -1,6 +1,7 @@
 import React from "react";
 import { text } from "./data";
 
+// contact-info content
 function Contact() {
   return (
     <div className="contact-info">

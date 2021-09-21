@@ -124,44 +124,49 @@ code {
 
 /* CONTACTS PAGE CSS */
 
-.table {
-  display: block;
-  max-height: 50%;
-  max-width: 50%;
-}
-
 .user-info {
+  /* layout */
   display: inline-block;
   min-width: 100%;
+  /* look */
   border: 2px solid black;
 }
 .user-info img {
+  /* layout */
   float: right;
-  border-radius: 50%;
   margin-right: 5px;
   margin-top: 5px;
+  /* look */
+  border-radius: 50%;
 }
 
 .user-info h1 {
+  /* layout */
   display: inline-flex;
 }
 
 .contact-info {
+  /* layout */
   display: block;
+  /* look */
   border: 2px solid black;
 }
 /* flex-container is the parent element, the whole page from which children are specified */
 .flex-container {
+  /* layout */
   display: flex;
 }
 /* flex-child properties */
 .flex-child {
+  /* layout */
   flex: 1;
+  /* look */
   border: 2px solid black;
 }
 
 /* properties  */
 .flex-child:nth-child(1) {
+  /* layout */
   height: 100vh;
   max-width: 44%;
   margin-right: 0px;
@@ -170,6 +175,7 @@ code {
   overflow-y: auto;
 }
 .flex-child:nth-child(2) {
+  /* layout */
   height: 100vh;
   /* can't scroll horizontally, but can vertically */
   overflow-x: hidden;
