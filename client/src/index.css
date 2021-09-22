@@ -61,6 +61,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* set scroll to be invisible */
+  overflow: hidden;
 }
 
 code {
@@ -70,12 +72,10 @@ code {
 
 /* global styles: currently none */
 .container {
-  /* margin-top: 10rem; */
-}
-
 /* different offsets for login and signup */
 .articleSignup {
   margin-top: 5%;
+
 }
 
 .articleLogin {
@@ -228,4 +228,89 @@ code {
 
 .header {
   text-align: center;
+}
+
+/* CONTACTS PAGE CSS */
+
+.user-info {
+  /* layout */
+  display: inline-block;
+  min-width: 100%;
+  /* look */
+  border: 2px solid black;
+}
+.user-info img {
+  /* layout */
+  float: right;
+
+  margin-right: 5px;
+  margin-top: 5px;
+  max-width: 100%;
+  max-height: 100%;
+  /* look */
+  border-radius: 50%;
+}
+
+.user-info h1 {
+  /* layout */
+  display: inline-flex;
+}
+
+.contact-info {
+  /* layout */
+  display: block;
+  /* look */
+  border: 2px solid black;
+}
+/* flex-container is the parent element, the whole page from which children are specified */
+.flex-container {
+  /* layout */
+  display: flex;
+}
+/* flex-child properties */
+.flex-child {
+  /* layout */
+  flex: 1;
+  /* look */
+  border: 2px solid black;
+}
+
+/* table properties  */
+.flex-child:nth-child(1) {
+  /* layout */
+  height: 100vh;
+  /* max-width: 30%; */
+  max-width: 40%;
+  margin-right: 0px;
+  /* overflow allows the scrolling through selected content */
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+/* right-side properties  */
+.flex-child:nth-child(2) {
+  /* layout */
+  height: 100vh;
+  /* can't scroll horizontally, but can vertically */
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* CSS for toolbars */
+.toolbar {
+  /* layout */
+  display: inline-block;
+  min-width: 100%;
+  /* look */
+  background: #01579b;
+}
+
+.toolbar-labels {
+  /* layout */
+  margin-top: 10px;
+}
+
+.search {
+  /* layout */
+  margin-right: 50px;
+  float: left;
 }

@@ -5,8 +5,12 @@ import { Redirect } from "react-router-dom";
 // pages
 import Login from "./Login";
 import Contacts from "./Contacts";
-import Contact from "./Contact";
+
+
 import Signup from "./Signup";
+
+import Contact from "./components/Contact";
+
 
 const ReactRouterSetup = () => {
   return (
