@@ -50,6 +50,7 @@ function ContactsTable() {
   const iconColor = "#83498A";
   const businessColor = "orange";
   const personalColor = "yellow";
+  const whiteColor = "white";
 
   return (
     <div>
@@ -85,14 +86,18 @@ function ContactsTable() {
             position: "sticky",
             top: 0,
             backgroundColor: "#01579b",
-            color: "#FFF",
+            color: whiteColor,
+          },
+          // styling for search bar
+          searchFieldStyle: {
+            color: whiteColor,
           },
           paging: false,
           maxBodyHeight: "850px",
           // stylings for each individual row
           rowStyle: (rowData) => ({
             backgroundColor:
-              selectedRow === rowData.tableData.id ? "#EEE" : "#FFF",
+              selectedRow === rowData.tableData.id ? "#EEE" : whiteColor,
             border: "2px solid black",
           }),
         }}
