@@ -9,52 +9,52 @@ function ContactCreation() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  //   const handleSubmit = (e) => {
+  //     e.preventDefault();
 
-    // setError based on feedback from back-end
-    var localStatus = statusCode.SUCCESS;
-    setStatus(statusCode.SUCCESS);
-    // if the two password fields don't match, can't move forward
-    if (password !== passwordConfirm) {
-      // dynamically change border color of these elements to red
-      console.log("went here");
-      document.getElementById("password").style["border-color"] = "red";
-      document.getElementById("passwordConfirm").style["border-color"] = "red";
-      // change status code accordingly
-      localStatus = statusCode.MISMATCHED_PASSWORDS;
-      setStatus(statusCode.MISMATCHED_PASSWORDS);
-    }
-    // registration details
-    var userData = {
-      firstName: firstName,
-      lastName: lastName,
-      phoneNumber: phoneNumber,
-      email: email,
-      password: password,
-    };
-    // use axios to post user data to back end for processing, use
-    // response to test for validity
-    axios
-      .post("/api", userData)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    // since status won't change until the end of this function, need local status
-    // to keep track of the actual value
-    if (localStatus === statusCode.SUCCESS) {
-      togglePopup();
-    }
-  };
+  //     // setError based on feedback from back-end
+  //     var localStatus = statusCode.SUCCESS;
+  //     setStatus(statusCode.SUCCESS);
+  //     // if the two password fields don't match, can't move forward
+  //     if (password !== passwordConfirm) {
+  //       // dynamically change border color of these elements to red
+  //       console.log("went here");
+  //       document.getElementById("password").style["border-color"] = "red";
+  //       document.getElementById("passwordConfirm").style["border-color"] = "red";
+  //       // change status code accordingly
+  //       localStatus = statusCode.MISMATCHED_PASSWORDS;
+  //       setStatus(statusCode.MISMATCHED_PASSWORDS);
+  //     }
+  //     // registration details
+  //     var userData = {
+  //       firstName: firstName,
+  //       lastName: lastName,
+  //       phoneNumber: phoneNumber,
+  //       email: email,
+  //       password: password,
+  //     };
+  //     // use axios to post user data to back end for processing, use
+  //     // response to test for validity
+  //     axios
+  //       .post("/api", userData)
+  //       .then((response) => {
+  //         console.log(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //     // since status won't change until the end of this function, need local status
+  //     // to keep track of the actual value
+  //     if (localStatus === statusCode.SUCCESS) {
+  //       togglePopup();
+  //     }
+  //   };
 
   return (
     // Contents of the page, each seperated by a div
     <article className="articleSignup">
       <h1 className="header">Sign Up</h1>
-      <form className="form" action="" onSubmit={handleSubmit}>
+      <form className="form" action="" onSubmit={console.log("hi")}>
         <div className="form-control">
           <label htmlFor="firstName">First name:* </label>
           <input
@@ -132,25 +132,9 @@ function ContactCreation() {
         </div>
         <button type="submit">Register</button>
         {/* conditional rendering of error message based on status */}
-        <ErrorMessage statusCode={status} />
+        {/* <ErrorMessage statusCode={status} /> */}
       </form>
-      {/* register confirmation popup component */}
-      {isOpen && (
-        <Popup
-          content={
-            <>
-              <b>Account Created Successfully!</b>
-              <p>
-                Thank you for your interest! <br /> you can now login using your
-                credentials
-              </p>
-              <Link to="/login">
-                <button className="popup-button">Login</button>
-              </Link>
-            </>
-          }
-        />
-      )}
+      )
     </article>
   );
 }
