@@ -5,7 +5,12 @@ import { Redirect } from "react-router-dom";
 // pages
 import Login from "./Login";
 import Contacts from "./Contacts";
+
+
+import Signup from "./Signup";
+
 import Contact from "./components/Contact";
+
 
 const ReactRouterSetup = () => {
   return (
@@ -16,6 +21,9 @@ const ReactRouterSetup = () => {
         </Route>
         <Route path="/login">
           <Login />
+        </Route>
+        <Route path="/signup">
+          <Signup />
         </Route>
         <Route path="/contacts">
           <Contacts />

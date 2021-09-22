@@ -1,145 +1,188 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const Contact = mongoose.model("Contact");
 const User = mongoose.model("User");
 
-//Get all contacts from database
+// ENUM for status codes (refer to API documentation)
+const status = {
+    FAILURE: 0,
+    SUCCESS: 1,
+    UNKNOWN_EMAIL: 11,
+    INCORRECT_CREDENTIALS: 12,
+    EMAIL_TAKEN: 13,
+    INVALID_PASSWORD: 14
+}
+
+
+/******************* outgoing (backend -> frontend) ***************************/
+
+
+// Get all contacts from database
 const getContacts = async (req, res) => {
-   try {
-       const contacts = await Contact.find({}).lean()
-
-       res.send(JSON.stringify(contacts));
-   } catch (err) {
-       return res.send(err)
-   }
+    try {
+        let contacts = await Contact.find({}).lean()
+        res.send({
+            status: status.SUCCESS,
+            contacts: JSON.stringify(contacts)
+        });
+    } catch (err) {
+        console.log(err)
+        return res.send({status: status.FAILURE})
+    }
+    console.log(contacts)
 }
 
-//Get one specific contact
+// Get one specific contact
 const getOneContact = async (req, res) => {
-   try {
-       const contact = await Contact.findOne({
-           "contactId" : req.body.contactId
-       }).lean()
-
-       res.send(JSON.stringify(contact));
-   } catch (err) {
-       return res.send(err)
-   }
+    try {
+        let contact = await Contact.findOne({
+            "_id" : req.body._id
+        }).lean()
+        res.send({
+            status: status.SUCCESS,
+            contacts: JSON.stringify(contact)
+        });
+    } catch (err) {
+        console.log(err)
+        return res.send({status: status.FAILURE})
+    }
+    console.log(contact)
 }
 
-//New contact
+
+/******************* incoming (frontend -> backend) ***************************/
+
 const addNewContact = async (req, res) => {
     try {
         const newContact = await Contact.create({
-            "contactId" : req.body.contactId,
-            "firstName" : req.body.first_name,
-            "lastName" : req.body.last_name,
-            "phone" : req.body.phone,
-            "email" : req.body.email,
-            "category" : req.body.category
+            "contactId": req.body.contactId,
+            "firstName": req.body.first_name,
+            "lastName": req.body.last_name,
+            "phone": req.body.phone,
+            "email": req.body.email,
+            "category": req.body.category
         })
-    
         new Contact(newContact).save()
-
-        window.alert("Contact created")
-
-        res.send({message : "Contact created"})
-    
+        res.send({status: status.SUCCESS})
     } catch (err) {
-        res.send("Failed")
-        throw(err)
+        console.log(err)
+        res.send({status: status.FAILURE})
     }
-  
+    console.log(newContact)
 }
 
-//Edit contact
+
 const editContact = async (res, req) => {
     try {
         await Contact.findOneAndUpdate({
-            "contactId" : req.body.contactId
+            "contactId": req.body.contactId
         }, {
-            "firstName" : req.body.firstName,
-            "lastName" : req.body.lastName,
-            "phone" : req.body.phone,
-            "email" : req.body.email,
-            "category" : req.body.category
+            "firstName": req.body.firstName,
+            "lastName": req.body.lastName,
+            "phone": req.body.phone,
+            "email": req.body.email,
+            "category": req.body.category
         })
-
-        window.alert("Contact updated")
-
-        res.send({message : "Contact updated"})
-
+        res.send({status: status.SUCCESS})
     } catch (err) {
-        return res.send(err)
+        console.log(err)
+        res.send({status: status.FAILURE})
     }
 }
 
-//Delete contact
+
 const deleteContact = async (res, req) => {
     try {
         await Contact.findOneAndDelete({
-            "contactId" : req.body.contactId
+            "contactId": req.body.contactId
         })
-
-        window.alert("Contact deleted")
-
-        res.send({message : "Contact deleted"})
+        res.send({status: status.SUCCESS})
     } catch (err) {
-        return res.send(err)
+        res.send({status: status.FAILURE})
     }
 }
 
-//Add note to contact
+
 const addNote = async (req, res) => {
-    var newNote = req.body.note
+    let newNote = req.body.note
     try {
-        var contact = await Contact.findOne({"contactId" : req.body.contactId})
-
-        contact.notes.push(req.body.note)
-
+        var contact = await Contact.findOne({"contactId": req.body.contactId})
+        contact.notes.push(newNote)
         contact.save
+        res.send({status: status.SUCCESS})
     } catch (err) {
-        return res.send(err)
+        res.send({status: status.FAILURE})
     }
+    console.log(newNote)
 }
 
-//Change contact category
+
 const changeCategory = async (req, res) => {
     try {
         await Contact.findOneAndUpdate({
-            "contactId" : req.body.contactId
+            "contactId": req.body.contactId
         }, {
-            "category" : req.body.category
+            "category": req.body.category
         })
-
-        window.alert("Category updated")
-
-        res.send({message : "Category updated"})
+        res.send({status: status.SUCCESS})
     } catch (err) {
-        return res.send(err)
+        res.send({status: status.FAILURE})
     }
 }
 
-const bcrypt = require("bcrypt");
-
+//Logs user in
 const getLogin = async (req, res) => {
   var userData = {
     email: req.body.email,
-    pass: await bcrypt.hash(req.body.password, 10),
+    pass: req.body.password
   };
+ 
+  var user = await User.findOne({"email" : userData.email}).lean()
+
+  if (user != null) {
+      if (user.password == userData.pass) {
+
+          console.log("Success")
+      } else {
+          console.log("Fail")
+      }
+  } else {
+      console.log("User not found")
+  }
   //Placeholder until user schema finished
   res.send(JSON.stringify(userData));
-  console.log(req.body);
-};
+}
+
+
+const newUser = async (req, res) => {
+    var userData = {
+        email: req.body.email,
+        password: req.body.password,
+        firstName: req.body.firstName,
+        lastName: req.body.LastName,
+        phoneNumber: req.body.phoneNumber
+    }
+
+    const salt = await bcrypt.genSalt(10);
+
+    const newUser = new User(userData);
+
+    newUser.password = await bcrypt.hash(newUser.password, salt);
+    newUser.save()
+
+    res.send({status: status.SUCCESS})
+}
 
 module.exports = {
-  getLogin,
-  getContacts,
-  getOneContact,
-  addNewContact,
-  editContact,
-  deleteContact,
-  addNote,
-  changeCategory
-};
+    getLogin,
+    getContacts,
+    getOneContact,
+    addNewContact,
+    editContact,
+    deleteContact,
+    addNote,
+    changeCategory,
+    newUser
 
+};

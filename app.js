@@ -23,15 +23,14 @@ app.use(express.json());
 ///////////////////////////////
 
 // testing /api for client to communicate with server
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
-});
 
 // .post method receives data 'posted' by client-side
 app.post("/api", controller.getLogin);
 
 /////////////////////////////////////////////// added by Callum
-
+app.get("/api", (req, res) => {
+  res.json({ message: "Hello from server!" });
+});
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));

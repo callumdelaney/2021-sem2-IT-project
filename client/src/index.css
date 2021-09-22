@@ -1,3 +1,5 @@
+/* project styling sheet */
+
 :root {
   /* dark shades of primary color*/
   --clr-primary-1: hsl(205, 86%, 17%);
@@ -36,7 +38,7 @@
   --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   --dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
   --max-width: 1170px;
-  --fixed-width: 450px;
+  --fixed-width: 350px;
   --clr-orange-1: hsl(12, 83%, 98%);
   --clr-orange-2: hsl(14, 91%, 95%);
   --clr-orange-3: hsl(12, 89%, 89%);
@@ -48,8 +50,10 @@
   --clr-orange-9: hsl(13, 73%, 25%);
   --clr-orange-10: hsl(13, 73%, 16%);
   --clr-purple-1: hsl(293, 53%, 56%);
+  --clr-light-blue: hsl(184, 71%, 47%);
+  --clr-blue: hsl(184, 73%, 30%);
 }
-
+/* dressing */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -66,60 +70,164 @@ code {
     monospace;
 }
 
+/* global styles: currently none */
 .container {
+/* different offsets for login and signup */
+.articleSignup {
+  margin-top: 5%;
+
 }
 
+.articleLogin {
+  margin-top: 10%;
+}
+
+/* form stylings */
 .form {
-  border: 2px solid black;
-  background: var(--clr-purple-1);
+  /* layout */
   max-width: var(--fixed-width);
   margin: 0 auto;
   margin-bottom: 4rem;
   padding: 2rem 3rem;
+  /* look */
+  border: 2px solid black;
+  background: var(--clr-purple-1);
   border-radius: var(--radius);
 }
-
+/* label stylings */
 .form label {
+  /* layout */
+  cursor: auto;
+  display: block;
+  margin-bottom: 0.5rem;
+  /* look */
   font-family: "Roboto", sans-serif;
   font-size: 19px;
-  cursor: auto;
 }
-
+/* miscellaneous layout stylings for form */
 .form-control {
-  /* margin-top: 2rem; */
-  margin: 0.5rem 0;
-  display: grid;
+  margin: 0.5rem 2rem;
+  display: block;
   grid-template-columns: 100px 1fr;
   align-items: center;
 }
-
+/* stylings for form buttons */
 .form button {
-  font-family: "Teko", sans-serif;
+  /* layout */
   font-weight: bold;
   font-size: 15px;
-  display: inline-block;
-  background: var(--clr-primary-4);
-  color: var(--clr-white);
-  border-color: transparent;
   margin-top: 1rem;
   letter-spacing: var(--spacing);
   padding: 0.15rem 0.4rem;
+  cursor: pointer;
+  margin-right: 76px;
+  margin-left: 2rem;
+  /* look */
+  font-family: "Teko", sans-serif;
+  background: var(--clr-primary-4);
+  color: var(--clr-white);
+  border-color: transparent;
   text-transform: capitalize;
   border-radius: var(--radius);
-  cursor: pointer;
   transition: var(--transition);
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+    0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
 }
-
+/* colour change on mouse hover for form buttons */
 .form button:hover {
   background: var(--clr-primary-3);
   color: var(--clr-primary-5);
 }
-
+/* stylings for form input fields */
 .form input {
+  /* layout */
+  padding: 0.25rem 0.5rem;
+  min-width: 250px;
+  /* look */
   background: var(--clr-grey-10);
   border-color: transparent;
   border-radius: var(--radius);
-  padding: 0.25rem 0.5rem;
+}
+
+/* styling for login/signup verification errors */
+.errorMessage {
+  /* layout */
+  margin-left: 2rem;
+  margin-top: 1.2rem;
+  padding: 0.2rem 0.5rem;
+  max-width: 255px;
+  display: block;
+  /* look */
+  background: var(--clr-black);
+  color: red;
+  font-size: 14px;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+    0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+}
+/* layout stylings for custom error message */
+.errorText {
+  margin-left: 10px;
+  display: inline;
+}
+
+/* Register Confirmation styling */
+.popup-box {
+  /* layout */
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  /* look */
+  background: #00000050;
+}
+
+.box {
+  /* layout */
+  position: relative;
+  width: 30%;
+  margin: 0 auto;
+  height: auto;
+  max-height: 70vh;
+  margin-top: calc(100vh - 85vh + 120px);
+  padding: 20px;
+  overflow: auto;
+  /* look */
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #999;
+}
+
+.popup-button {
+  /* layout */
+  font-weight: bold;
+  font-size: 15px;
+  margin-top: 0.5rem;
+  letter-spacing: var(--spacing);
+  padding: 0.15rem 0.4rem;
+  cursor: pointer;
+  margin-right: 75px;
+  margin-left: 43%;
+  /* look */
+  font-family: "Teko", sans-serif;
+  background: var(--clr-light-blue);
+  color: var(--clr-primary-1);
+  border-color: transparent;
+  text-transform: capitalize;
+  border-radius: var(--radius);
+  transition: var(--transition);
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+    0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+}
+
+/* colour change on mouse hover for popup buttons */
+.popup-button:hover {
+  background: var(--clr-blue);
+  color: var(--clr-primary-5);
+}
+
+.header {
+  text-align: center;
 }
 
 /* CONTACTS PAGE CSS */
