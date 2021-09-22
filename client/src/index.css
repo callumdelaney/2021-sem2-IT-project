@@ -72,10 +72,10 @@ code {
 
 /* global styles: currently none */
 .container {
+}
 /* different offsets for login and signup */
 .articleSignup {
   margin-top: 5%;
-
 }
 
 .articleLogin {
@@ -272,7 +272,7 @@ code {
   /* layout */
   flex: 1;
   /* look */
-  border: 2px solid black;
+  /* border: 2px solid black; */
 }
 
 /* table properties  */
@@ -313,4 +313,99 @@ code {
   /* layout */
   margin-right: 50px;
   float: left;
+}
+
+/* contacts popup box */
+.contact-popup-box {
+  text-align: center;
+}
+
+.contact-popup-button {
+  text-align: center;
+  margin-left: 45px;
+}
+
+/* contact form stylings */
+
+.contact-article {
+  /* border: 2px solid black; */
+  background: var(--clr-purple-1);
+  border-radius: var(--radius);
+}
+
+.contact-form {
+  /* layout */
+  /* max-width: var(--fixed-width); */
+  margin: 0 auto;
+  margin-bottom: 4rem;
+  padding: 2rem 3rem;
+  /* look */
+
+  text-align: center;
+}
+/* label stylings */
+.contact-form label {
+  /* layout */
+  cursor: auto;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  /* look */
+  font-family: "Roboto", sans-serif;
+  font-size: 19px;
+  width: 150px;
+  text-align: left;
+  vertical-align: top;
+}
+/* miscellaneous layout stylings for contact form */
+.contact-form-control {
+  margin: 0.5rem 2rem;
+  display: block;
+  grid-template-columns: 100px 1fr;
+  align-items: center;
+}
+/* stylings for form buttons */
+.contact-form button {
+  /* layout */
+  font-weight: bold;
+  font-size: 15px;
+  margin-top: 1rem;
+  letter-spacing: var(--spacing);
+  padding: 0.15rem 0.4rem;
+  cursor: pointer;
+  margin-right: 76px;
+  margin-left: 2rem;
+  /* look */
+  font-family: "Teko", sans-serif;
+  background: var(--clr-primary-4);
+  color: var(--clr-white);
+  border-color: transparent;
+  text-transform: capitalize;
+  border-radius: var(--radius);
+  transition: var(--transition);
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+    0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+}
+/* colour change on mouse hover for form buttons */
+.contact-form button:hover {
+  background: var(--clr-primary-3);
+  color: var(--clr-primary-5);
+}
+/* stylings for form input fields */
+.contact-form input {
+  /* layout */
+  padding: 0.25rem 0.5rem;
+  min-width: 250px;
+  /* look */
+  background: var(--clr-grey-10);
+  border-color: transparent;
+  border-radius: var(--radius);
+}
+.contact-form-notes {
+  /* layout */
+  padding: 0.25rem 0.5rem;
+  min-width: 250px;
+  /* look */
+  background: var(--clr-grey-10);
+  border-color: transparent;
+  border-radius: var(--radius);
 }

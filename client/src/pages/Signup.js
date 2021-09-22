@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import ErrorMessage from "./components/ErrorMessage";
 import statusCode from "./components/Status";
-import Popup from "./components/RegisterConfirmation";
+import Popup from "./components/Popup";
 import { Link } from "react-router-dom";
 
 // component for sign up page

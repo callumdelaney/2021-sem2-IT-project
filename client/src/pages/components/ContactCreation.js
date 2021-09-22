@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import statusCode from "./Status";
+import Popup from "./Popup";
 
 function ContactCreation() {
   const [firstName, setFirstName] = useState("");
@@ -8,55 +10,55 @@ function ContactCreation() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [category, setCategory] = useState("");
+  const [notes, setNotes] = useState("");
+  const [photo, setPhoto] = useState("");
+  const [status, setStatus] = useState(statusCode.SUCCESS);
 
-  //   const handleSubmit = (e) => {
-  //     e.preventDefault();
+  // toggle state for confirmation popup
+  const [isOpen, setIsOpen] = useState(false);
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
 
-  //     // setError based on feedback from back-end
-  //     var localStatus = statusCode.SUCCESS;
-  //     setStatus(statusCode.SUCCESS);
-  //     // if the two password fields don't match, can't move forward
-  //     if (password !== passwordConfirm) {
-  //       // dynamically change border color of these elements to red
-  //       console.log("went here");
-  //       document.getElementById("password").style["border-color"] = "red";
-  //       document.getElementById("passwordConfirm").style["border-color"] = "red";
-  //       // change status code accordingly
-  //       localStatus = statusCode.MISMATCHED_PASSWORDS;
-  //       setStatus(statusCode.MISMATCHED_PASSWORDS);
-  //     }
-  //     // registration details
-  //     var userData = {
-  //       firstName: firstName,
-  //       lastName: lastName,
-  //       phoneNumber: phoneNumber,
-  //       email: email,
-  //       password: password,
-  //     };
-  //     // use axios to post user data to back end for processing, use
-  //     // response to test for validity
-  //     axios
-  //       .post("/api", userData)
-  //       .then((response) => {
-  //         console.log(response.data);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //     // since status won't change until the end of this function, need local status
-  //     // to keep track of the actual value
-  //     if (localStatus === statusCode.SUCCESS) {
-  //       togglePopup();
-  //     }
-  //   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    var localStatus = statusCode.SUCCESS;
+    setStatus(statusCode.SUCCESS);
+    // contact details
+    var userData = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      category: category,
+      phoneNumber: phoneNumber,
+      notes: notes,
+    };
+    // use axios to post user data to back end for processing, use
+    // response to test for validity
+    axios
+      .post("/api", userData)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // since status won't change until the end of this function, need local status
+    // to keep track of the actual value
+    if (localStatus === statusCode.SUCCESS) {
+      togglePopup();
+    }
+  };
 
   return (
     // Contents of the page, each seperated by a div
-    <article className="articleSignup">
-      <h1 className="header">Sign Up</h1>
-      <form className="form" action="" onSubmit={console.log("hi")}>
-        <div className="form-control">
-          <label htmlFor="firstName">First name:* </label>
+    <article className="contact-article">
+      <h1 className="header">Edit Contact</h1>
+      <form className="contact-form" action="" onSubmit={handleSubmit}>
+        <div className="contact-form-control">
+          <label htmlFor="firstName">First name: </label>
           <input
             type="text"
             id="firstName"
@@ -66,8 +68,8 @@ function ContactCreation() {
             onChange={(e) => setFirstName(e.target.value)}
           />
         </div>
-        <div className="form-control">
-          <label htmlFor="lastName">Last name:* </label>
+        <div className="contact-form-control">
+          <label htmlFor="lastName">Last name: </label>
           <input
             type="text"
             id="lastName"
@@ -77,8 +79,8 @@ function ContactCreation() {
             onChange={(e) => setLastName(e.target.value)}
           />
         </div>
-        <div className="form-control">
-          <label htmlFor="email">Email:* </label>
+        <div className="contact-form-control">
+          <label htmlFor="email">Email: </label>
           <input
             type="text"
             id="email"
@@ -88,7 +90,7 @@ function ContactCreation() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="form-control">
+        <div className="contact-form-control">
           <label htmlFor="Phone">Phone number: </label>
           <input
             type="number"
@@ -98,43 +100,38 @@ function ContactCreation() {
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
         </div>
-        <div className="form-control">
-          <label htmlFor="password">Password:* </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              // reset border color
-              document.getElementById("password").style["border-color"] =
-                "transparent";
-            }}
-          />
+        <div className="contact-form-control">
+          <label htmlFor="notes" style={{ paddingBottom: "150px" }}>
+            Notes:{" "}
+          </label>
+          <textarea
+            className="contact-form-notes"
+            name="notes"
+            id="notes"
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            cols="30"
+            rows="10"
+            placeholder="Write Something..."
+          ></textarea>
         </div>
-        <div className="form-control">
-          <label htmlFor="passwordConfirm">Confirm password:* </label>
-          <input
-            type="password"
-            id="passwordConfirm"
-            name="passwordConfirm"
-            required
-            value={passwordConfirm}
-            onChange={(e) => {
-              setPasswordConfirm(e.target.value);
-              // reset border color
-              document.getElementById("passwordConfirm").style["border-color"] =
-                "transparent";
-            }}
+        <button type="submit">Save</button>
+        {/* contact saved popup component */}
+        {isOpen && (
+          <Popup
+            content={
+              <>
+                <h1 className="contact-popup-box">Contact Saved!</h1>
+                <div className="contact-popup-button">
+                  <button className="" onClick={togglePopup}>
+                    Close
+                  </button>
+                </div>
+              </>
+            }
           />
-        </div>
-        <button type="submit">Register</button>
-        {/* conditional rendering of error message based on status */}
-        {/* <ErrorMessage statusCode={status} /> */}
+        )}
       </form>
-      )
     </article>
   );
 }
