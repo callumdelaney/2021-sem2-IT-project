@@ -4,6 +4,10 @@ const bcrypt = require("bcrypt");
 const Contact = mongoose.model("Contact");
 const User = mongoose.model("User");
 
+const LocalStrategy = require('passport-local').Strategy;
+const passport = require("passport");
+passport.use(new LocalStrategy(User.authenticate()));
+
 // ENUM for status codes (refer to API documentation)
 const status = {
     FAILURE: 0,
@@ -24,11 +28,11 @@ const getContacts = async (req, res) => {
             status: status.SUCCESS,
             contacts: JSON.stringify(contacts)
         });
+        console.log(contacts)
     } catch (err) {
         console.log(err)
         return res.send({status: status.FAILURE})
     }
-    console.log(contacts)
 }
 
 // Get one specific contact
@@ -69,7 +73,7 @@ const addNewContact = async (req, res) => {
     console.log(newContact)
 }
 
-const editContact = async (res, req) => {
+const editContact = async (req, res) => {
     try {
         await Contact.findOneAndUpdate({
             "contactId": req.body.contactId
@@ -87,7 +91,7 @@ const editContact = async (res, req) => {
     }
 }
 
-const deleteContact = async (res, req) => {
+const deleteContact = async (req, res) => {
     try {
         await Contact.findOneAndDelete({
             "contactId": req.body.contactId
@@ -129,7 +133,7 @@ const changeCategory = async (req, res) => {
  * @param req expects an email and a password
  * @param res responds with a status code
  */
-const login = async (req, res) => {
+/**const login = async (req, res) => {
     try {
         let email = req.body.email
         let password = await bcrypt.hash(req.body.password, 10)
@@ -149,7 +153,38 @@ const login = async (req, res) => {
         return res.send({status: status.FAILURE})
     }
     console.log(req.body)
+}*/
+
+const login = async (req, res) => {
+    passport.authenticate('local', function (err, user, info) {
+        if (err) {
+            res.send({status: status.FAILURE})
+        } else if (!user) {
+            res.send({status: status.INCORRECT_CREDENTIALS})
+        } else {
+            req.login(user, function(err) {
+                if (err) {
+                    res.send({status: status.FAILURE})
+                } else {
+                    const token = jwt.sign({username: user.username}, secretkey, {expiresIn: '24h'})
+                    res.send({status: status.SUCCESS, token: token})
+                }
+            })
+        }
+    })
 }
+
+const newUser = async (req, res) => {
+
+    try {
+        User.register({username : req.body.email}, req.body.password)
+        res.send({status: status.SUCCESS})
+    } catch (err) {
+        res.send({status: status.FAILURE})
+        console.log(err)
+    }
+}
+
 
 module.exports = {
     login,
@@ -159,6 +194,7 @@ module.exports = {
     editContact,
     deleteContact,
     addNote,
-    changeCategory
+    changeCategory,
+    newUser
 };
 
