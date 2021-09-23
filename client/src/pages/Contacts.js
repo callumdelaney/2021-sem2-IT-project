@@ -32,7 +32,15 @@ function Contacts() {
             <h4>user email here</h4>
           </div>
           {/* component displaying contact-info */}
-          <Contact addContact={info.addContact} firstName={info.firstName} />
+          <Contact
+            addContact={info.addContact}
+            firstName={info.firstName}
+            category={info.category}
+            notes={info.notes}
+            phoneNumber={info.phoneNumber}
+            email={info.email}
+            photo={info.photo}
+          />
         </div>
       </div>
     </>

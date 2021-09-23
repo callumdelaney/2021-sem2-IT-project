@@ -259,12 +259,6 @@ code {
   display: inline-flex;
 }
 
-.contact-info {
-  /* layout */
-  display: block;
-  /* look */
-  border: 2px solid black;
-}
 /* flex-container is the parent element, the whole page from which children are specified */
 .flex-container {
   /* layout */
@@ -423,4 +417,35 @@ code {
 
 .contact-form-category {
   justify-content: center;
+}
+
+/* stylings for contact info space */
+.contact-info {
+  /* layout */
+  display: block;
+  /* look */
+  border: 2px solid black;
+}
+.contact-info img {
+  max-width: 230px;
+  min-height: 200px;
+  max-height: 230px;
+  margin-top: 2rem;
+  margin-left: 1rem;
+  float: left;
+}
+
+.contact-info-details {
+  border: solid 2px black;
+}
+
+.contact-info-notes {
+  border: solid 2px black;
+}
+.contact-info-name {
+  display: inline-block;
+  border: steelblue 2px solid;
+}
+.contact-info h1 {
+  display: inline-flex;
 }

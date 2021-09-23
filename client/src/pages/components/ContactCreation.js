@@ -38,6 +38,7 @@ function ContactCreation() {
       category: category,
       phoneNumber: phoneNumber,
       notes: notes,
+      photo: photo,
     };
     // use axios to post user data to back end for processing, use
     // response to test for validity

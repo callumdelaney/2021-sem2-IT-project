@@ -56,8 +56,23 @@ function ContactsTable(contactInfo) {
   const whiteColor = "white";
 
   // update the selected contact information in a global variable
-  const updateSelectedContact = (name, cat) => {
-    setInfo({ addContact: false, firstName: name, category: cat });
+  const updateSelectedContact = (
+    name,
+    cat,
+    notes,
+    phoneNumber,
+    email,
+    photo
+  ) => {
+    setInfo({
+      addContact: false,
+      firstName: name,
+      category: cat,
+      notes: notes,
+      phoneNumber: phoneNumber,
+      email: email,
+      photo: photo,
+    });
   };
 
   return (
@@ -84,7 +99,14 @@ function ContactsTable(contactInfo) {
         // function for clicking on contacts
         onRowClick={(e, selectedRow) => {
           setSelectedRow(selectedRow.tableData.id);
-          updateSelectedContact(selectedRow.contacts, selectedRow.category);
+          updateSelectedContact(
+            selectedRow.contacts,
+            selectedRow.category,
+            selectedRow.notes,
+            selectedRow.phoneNumber,
+            selectedRow.email,
+            selectedRow.photo
+          );
         }}
         // table options (stylings + layout)
         options={{
