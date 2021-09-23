@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import axios from "axios";
 import statusCode from "./Status";
 import Popup from "./Popup";
+import {
+  Typography,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from "@material-ui/core";
 
 function ContactCreation() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [category, setCategory] = useState("");
   const [notes, setNotes] = useState("");
   const [photo, setPhoto] = useState("");
@@ -51,6 +55,11 @@ function ContactCreation() {
       togglePopup();
     }
   };
+
+  // color constants used in styles
+  const iconColor = "#83498A";
+  const businessColor = "orange";
+  const personalColor = "yellow";
 
   return (
     // Contents of the page, each seperated by a div
@@ -115,6 +124,27 @@ function ContactCreation() {
             placeholder="Write Something..."
           ></textarea>
         </div>
+        <div style={{ marginLeft: "20px" }}>
+          <RadioGroup
+            row
+            style={{
+              justifyContent: "center",
+            }}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <FormControlLabel
+              value="business"
+              control={<Radio style={{ color: iconColor }} />}
+              label="Business"
+            />
+            <FormControlLabel
+              value="personal"
+              control={<Radio style={{ color: businessColor }} />}
+              label="Personal"
+            />
+          </RadioGroup>
+        </div>
+
         <button type="submit">Save</button>
         {/* contact saved popup component */}
         {isOpen && (
