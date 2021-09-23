@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const text =
   "Batman[a] is a superhero who appears in American comic books\
               (2016–present) and Robert Pattinson in The Batman (2022). Kevin\
@@ -168,4 +170,15 @@ const tableData = [
   // { contacts: "Hulk", tag: ["buiness,mom's friend"], category: "personal" },
 ];
 
-export { text, tableData };
+var contactInfo = "da";
+//{
+//   firstName: undefined,
+//   lastName: undefined,
+//   email: undefined,
+//   phoneNumber: undefined,
+//   category: undefined,
+//   notes: undefined,
+//   photo: undefined,
+// };
+
+export { text, tableData, contactInfo };

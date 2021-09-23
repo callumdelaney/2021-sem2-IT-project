@@ -9,11 +9,14 @@ import {
   RadioGroup,
 } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import { useGlobalState } from "state-pool";
 
-function ContactsTable() {
+function ContactsTable(contactInfo) {
   const [category, setCategory] = useState("");
   const [filteredData, setFilteredData] = useState(tableData);
   const [selectedRow, setSelectedRow] = useState(null);
+  // access the global variable contactInfo
+  const [info, setInfo] = useGlobalState("contactInfo");
   // useEffect hook for dealing with category changes
   useEffect(() => {
     setFilteredData(
@@ -52,6 +55,11 @@ function ContactsTable() {
   const personalColor = "yellow";
   const whiteColor = "white";
 
+  // update the selected contact information in a global variable
+  const updateSelectedContact = (name, cat) => {
+    setInfo({ firstName: name, category: cat });
+  };
+
   return (
     <div>
       <MaterialTable
@@ -72,9 +80,10 @@ function ContactsTable() {
           },
         ]}
         // function for clicking on contacts
-        onRowClick={(e, selectedRow) =>
-          setSelectedRow(selectedRow.tableData.id)
-        }
+        onRowClick={(e, selectedRow) => {
+          setSelectedRow(selectedRow.tableData.id);
+          updateSelectedContact(selectedRow.contacts, selectedRow.category);
+        }}
         // table options (stylings + layout)
         options={{
           tableLayout: "fixed",

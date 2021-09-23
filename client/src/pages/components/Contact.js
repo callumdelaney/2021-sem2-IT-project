@@ -3,21 +3,14 @@ import { text } from "./data";
 import ContactCreation from "./ContactCreation";
 
 // contact-info content
-function Contact({
-  firstName,
-  lastName,
-  email,
-  phoneNumber,
-  category,
-  notes,
-  photo,
-}) {
-  if (firstName === undefined) {
+function Contact(props) {
+  const { firstName, category } = props;
+  if (firstName === -1) {
     return <ContactCreation />;
   }
   return (
     <div className="contact-info">
-      <h1>contact</h1>
+      <h1>{firstName}</h1>
       <p>{text}</p>
     </div>
   );
