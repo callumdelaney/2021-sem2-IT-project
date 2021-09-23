@@ -2,21 +2,16 @@ import React, { useState } from "react";
 import axios from "axios";
 import statusCode from "./Status";
 import Popup from "./Popup";
-import {
-  Typography,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-} from "@material-ui/core";
+import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 
-function ContactCreation() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [category, setCategory] = useState("");
-  const [notes, setNotes] = useState("");
-  const [photo, setPhoto] = useState("");
+function ContactUpdate(props) {
+  const [firstName, setFirstName] = useState(props.firstName);
+  const [lastName, setLastName] = useState(props.lastName);
+  const [email, setEmail] = useState(props.email);
+  const [phoneNumber, setPhoneNumber] = useState(props.phoneNumber);
+  const [category, setCategory] = useState(props.category);
+  const [notes, setNotes] = useState(props.notes);
+  const [photo, setPhoto] = useState(props.photo);
   const [status, setStatus] = useState(statusCode.SUCCESS);
 
   // toggle state for confirmation popup
@@ -63,7 +58,7 @@ function ContactCreation() {
   return (
     // Contents of the page, each seperated by a div
     <article className="contact-article">
-      <h1 className="header">Add Contact</h1>
+      <h1 className="header">Edit Contact</h1>
       <form className="contact-form" action="" onSubmit={handleSubmit}>
         <div className="contact-form-control">
           <label htmlFor="firstName">First name: </label>
@@ -151,7 +146,9 @@ function ContactCreation() {
           <Popup
             content={
               <>
-                <h1 className="contact-popup-box">Contact Saved!</h1>
+                <h1 className="contact-popup-box">
+                  Contact Updated Successfully!
+                </h1>
                 <div className="contact-popup-button">
                   <button className="" onClick={togglePopup}>
                     Close
@@ -166,4 +163,4 @@ function ContactCreation() {
   );
 }
 
-export default ContactCreation;
+export default ContactUpdate;

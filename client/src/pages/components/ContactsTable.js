@@ -57,7 +57,7 @@ function ContactsTable(contactInfo) {
 
   // update the selected contact information in a global variable
   const updateSelectedContact = (name, cat) => {
-    setInfo({ firstName: name, category: cat });
+    setInfo({ addContact: false, firstName: name, category: cat });
   };
 
   return (
@@ -75,7 +75,9 @@ function ContactsTable(contactInfo) {
             tooltip: "Create Contact",
             position: "toolbar",
             onClick: () => {
-              console.log("clicked");
+              // set addContact to true so that Contact component knows to display add contact element
+              setInfo({ addContact: true, firstName: "", category: "" });
+              setSelectedRow(null);
             },
           },
         ]}
@@ -106,7 +108,7 @@ function ContactsTable(contactInfo) {
           // stylings for each individual row
           rowStyle: (rowData) => ({
             backgroundColor:
-              selectedRow === rowData.tableData.id ? "#EEE" : whiteColor,
+              selectedRow === rowData.tableData.id ? "#e6e6e6" : whiteColor,
             border: "2px solid black",
           }),
         }}

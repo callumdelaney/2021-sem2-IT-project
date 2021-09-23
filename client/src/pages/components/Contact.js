@@ -4,8 +4,9 @@ import ContactCreation from "./ContactCreation";
 
 // contact-info content
 function Contact(props) {
-  const { firstName, category } = props;
-  if (firstName === -1) {
+  const { addContact, firstName, category } = props;
+  // display contact creation area if no contact is selected or user presses add contact button
+  if (firstName === -1 || addContact) {
     return <ContactCreation />;
   }
   return (

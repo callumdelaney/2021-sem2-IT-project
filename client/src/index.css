@@ -52,6 +52,7 @@
   --clr-purple-1: hsl(293, 53%, 56%);
   --clr-light-blue: hsl(184, 71%, 47%);
   --clr-blue: hsl(184, 73%, 30%);
+  --clr-dark-blue: #01579b;
 }
 /* dressing */
 body {
@@ -236,6 +237,8 @@ code {
   /* layout */
   display: inline-block;
   min-width: 100%;
+  /* height should be 25% of the RHS of screen */
+  min-height: 25%;
   /* look */
   border: 2px solid black;
 }
@@ -303,7 +306,7 @@ code {
   min-width: 100%;
   max-width: 100%;
   /* look */
-  background: #01579b;
+  background: var(--clr-dark-blue);
 }
 
 .toolbar-labels {
@@ -336,15 +339,14 @@ code {
 .contact-article {
   /* border: 2px solid black; */
   margin-top: -20px;
-  max-height: 100vw;
-  max-width: 100vw;
-  background: var(--clr-purple-1);
-  border-radius: var(--radius);
+  min-height: 75%;
+  max-height: 100%;
+  max-width: 100%;
+  background: var(--clr-dark-blue);
 }
 
 .contact-form {
   /* layout */
-  /* max-width: var(--fixed-width); */
   margin: 0 auto;
   margin-bottom: 4rem;
   padding: 2rem 3rem;
@@ -360,7 +362,7 @@ code {
   margin-bottom: 0.5rem;
   /* look */
   font-family: "Roboto", sans-serif;
-  font-size: 19px;
+  font-size: 22px;
   width: 150px;
   text-align: left;
   vertical-align: top;
@@ -376,10 +378,10 @@ code {
 .contact-form button {
   /* layout */
   font-weight: bold;
-  font-size: 15px;
+  font-size: 22px;
   margin-top: 1rem;
   letter-spacing: var(--spacing);
-  padding: 0.15rem 0.4rem;
+  padding: 0.4rem 1rem;
   cursor: pointer;
   margin-right: 76px;
   margin-left: 2rem;
@@ -417,4 +419,8 @@ code {
   background: var(--clr-grey-10);
   border-color: transparent;
   border-radius: var(--radius);
+}
+
+.contact-form-category {
+  justify-content: center;
 }
