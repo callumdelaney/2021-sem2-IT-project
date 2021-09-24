@@ -135,7 +135,8 @@ const tableData = [
     photo:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Chris_Evans_SDCC_2010_2.jpg/1024px-Chris_Evans_SDCC_2010_2.jpg",
     notes:
-      "Mauris consectetur, metus sit amet tempus gravida, dui dolor commodo arcu, a auctor lectus erat et leo. Mauris cursus egestas neque vitae tincidunt. Phasellus facilisis mauris et mi elementum, a tincidunt est congue. Duis mattis, nulla quis egestas auctor, ex lorem hendrerit ante, nec consectetur dui enim in est. Quisque enim dui, faucibus sed elementum nec, euismod eu lorem. Donec maximus odio ac enim efficitur, ac malesuada urna viverra. Nam et pulvinar ipsum. Maecenas at congue quam, ac ultricies mi. Praesent hendrerit ipsum non libero venenatis, quis eleifend arcu vestibulum.",
+      "Mauris consectetur, metus sit amet tempus gravida, dui dolor commodo arcu, a auctor lectus erat et leo. Mauris cursus egestas neque vitae tincidunt. Phasellus facilisis mauris et mi elementum, a tincidunt est congue. Duis mattis, nulla quis egestas auctor, ex lorem hendrerit ante, nec consectetur dui enim in est. Quisque enim dui, faucibus sed elementum nec, euismod eu lorem. Donec maximus odio ac enim efficitur, ac malesuada urna viverra. Nam et pulvinar ipsum. Maecenas at congue quam, ac ultricies mi. Praesent hendrerit ipsum non libero venenatis, quis eleifend arcu vestibulum.\
+      Mauris consectetur, metus sit amet tempus gravida, dui dolor commodo arcu, a auctor lectus erat et leo. Mauris cursus egestas neque vitae tincidunt. Phasellus facilisis mauris et mi elementum, a tincidunt est congue. Duis mattis, nulla quis egestas auctor, ex lorem hendrerit ante, nec consectetur dui enim in est. Quisque enim dui, faucibus sed elementum nec, euismod eu lorem. Donec maximus odio ac enim efficitur, ac malesuada urna viverra. Nam et pulvinar ipsum. Maecenas at congue quam, ac ultricies mi. Praesent hendrerit ipsum non libero venenatis, quis eleifend arcu vestibulum.",
   },
 
   {

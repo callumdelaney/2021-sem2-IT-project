@@ -278,7 +278,7 @@ code {
   height: 100vh;
   /* max-width: 30%; */
   /* max-width: 40%; */
-  width: 40vw;
+  max-width: 45%;
   margin-right: 0px;
   /* overflow allows the scrolling through selected content */
   overflow-x: hidden;
@@ -430,13 +430,16 @@ code {
   max-width: 230px;
   min-height: 200px;
   max-height: 230px;
-  margin-top: 2rem;
-  margin-left: 1rem;
+  /* margin-top: 2rem; */
+  /* margin-left: 1rem; */
+  padding: 20px 20px;
+
   float: left;
 }
 
 .contact-info-details {
   border: solid 2px black;
+  max-width: 50%;
 }
 
 .contact-info-notes {
@@ -445,7 +448,17 @@ code {
 .contact-info-name {
   display: inline-block;
   border: steelblue 2px solid;
+  width: 100%;
 }
 .contact-info h1 {
   display: inline-flex;
+  font-size: 300%;
+  padding-top: 75px;
+}
+
+.contact-info h2 {
+  display: inline;
+  border: 2px solid black;
+
+  max-width: 100%;
 }

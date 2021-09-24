@@ -34,6 +34,7 @@ function Contacts() {
           {/* component displaying contact-info */}
           <Contact
             addContact={info.addContact}
+            editContact={info.editContact}
             firstName={info.firstName}
             category={info.category}
             notes={info.notes}

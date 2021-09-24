@@ -3,15 +3,17 @@ import axios from "axios";
 import statusCode from "./Status";
 import Popup from "./Popup";
 import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
+import { useGlobalState } from "state-pool";
 
 function ContactUpdate(props) {
+  const [info, setInfo] = useGlobalState("contactInfo");
   const [firstName, setFirstName] = useState(props.firstName);
-  const [lastName, setLastName] = useState(props.lastName);
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState(props.email);
   const [phoneNumber, setPhoneNumber] = useState(props.phoneNumber);
   const [category, setCategory] = useState(props.category);
   const [notes, setNotes] = useState(props.notes);
-  const [photo, setPhoto] = useState(props.photo);
+  const [photo, setPhoto] = useState("");
   const [status, setStatus] = useState(statusCode.SUCCESS);
 
   // toggle state for confirmation popup

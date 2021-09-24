@@ -66,6 +66,7 @@ function ContactsTable(contactInfo) {
   ) => {
     setInfo({
       addContact: false,
+      editContact: false,
       firstName: name,
       category: cat,
       notes: notes,
