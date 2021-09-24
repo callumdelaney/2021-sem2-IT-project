@@ -41,6 +41,7 @@ function Contacts() {
             phoneNumber={info.phoneNumber}
             email={info.email}
             photo={info.photo}
+            id={info.id}
           />
         </div>
       </div>

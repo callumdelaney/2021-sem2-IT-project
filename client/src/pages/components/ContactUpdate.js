@@ -13,7 +13,7 @@ function ContactUpdate(props) {
   const [phoneNumber, setPhoneNumber] = useState(props.phoneNumber);
   const [category, setCategory] = useState(props.category);
   const [notes, setNotes] = useState(props.notes);
-  const [photo, setPhoto] = useState("");
+  const [photo, setPhoto] = useState(props.photo);
   const [status, setStatus] = useState(statusCode.SUCCESS);
 
   // toggle state for confirmation popup
@@ -142,6 +142,7 @@ function ContactUpdate(props) {
           </RadioGroup>
         </div>
 
+        {/* changes contact info onClick */}
         <button type="submit">Save</button>
         {/* contact saved popup component */}
         {isOpen && (
@@ -152,7 +153,23 @@ function ContactUpdate(props) {
                   Contact Updated Successfully!
                 </h1>
                 <div className="contact-popup-button">
-                  <button className="" onClick={togglePopup}>
+                  <button
+                    className=""
+                    onClick={() => {
+                      // onclick toggles popup and updates info
+                      togglePopup();
+                      setInfo({
+                        addContact: false,
+                        editContact: false,
+                        firstName: firstName,
+                        category: category,
+                        notes: notes,
+                        phoneNumber: phoneNumber,
+                        email: email,
+                        photo: photo,
+                      });
+                    }}
+                  >
                     Close
                   </button>
                 </div>

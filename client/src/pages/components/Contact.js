@@ -4,6 +4,7 @@ import ContactCreation from "./ContactCreation";
 import { useGlobalState } from "state-pool";
 import ContactUpdate from "./ContactUpdate";
 import { useState } from "react";
+import Contacts from "../Contacts";
 
 // contact-info content
 function Contact(props) {
@@ -16,23 +17,25 @@ function Contact(props) {
     phoneNumber,
     email,
     photo,
+    id,
   } = props;
   const [info, setInfo] = useGlobalState("contactInfo");
-  const [newTableData, setNewTableData] = useState(tableData);
 
-  const handleEditClick = (firstName, category, notes, phoneNumber, email) => {
+  // passing in props here fixed the issue
+  const handleEditClick = (props) => {
     setInfo({
       addContact: false,
       editContact: true,
-      firstName: firstName,
-      category: category,
-      notes: notes,
-      phoneNumber: phoneNumber,
-      email: email,
+      firstName: props.firstName,
+      category: props.category,
+      notes: props.notes,
+      phoneNumber: props.phoneNumber,
+      email: props.email,
     });
   };
 
   const handleDeleteClick = (id) => {
+    console.log("delete");
     console.log(id);
   };
   // display contact creation area if no contact is selected or user presses add contact button
@@ -42,7 +45,7 @@ function Contact(props) {
   if (editContact) {
     return (
       <ContactUpdate
-        firstName={firstName}
+        firstName={info.firstName}
         category={info.category}
         notes={info.notes}
         phoneNumber={info.phoneNumber}
@@ -95,8 +98,8 @@ function Contact(props) {
       {/* Edit and delete Buttons */}
       <button
         style={{ display: "flex" }}
-        onClick={(firstName, category, notes, phoneNumber, email) => {
-          handleEditClick(firstName, category, notes, phoneNumber, email);
+        onClick={() => {
+          handleEditClick(props);
         }}
       >
         Edit
@@ -104,7 +107,7 @@ function Contact(props) {
       <button
         style={{ color: "red" }}
         onClick={() => {
-          handleDeleteClick(tableData);
+          handleDeleteClick(id);
         }}
       >
         Delete

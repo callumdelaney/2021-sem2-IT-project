@@ -13,17 +13,19 @@ import { useGlobalState } from "state-pool";
 
 function ContactsTable(contactInfo) {
   const [category, setCategory] = useState("");
+  const [tableDataCpy, setTableDataCpy] = useState(tableData);
   const [filteredData, setFilteredData] = useState(tableData);
   const [selectedRow, setSelectedRow] = useState(null);
   // access the global variable contactInfo
   const [info, setInfo] = useGlobalState("contactInfo");
+
   // useEffect hook for dealing with category changes
   useEffect(() => {
     setFilteredData(
       category === ""
-        ? tableData
+        ? tableDataCpy
         : // filter data shown based on category equivalence
-          tableData.filter((data) => data.category === category)
+          tableDataCpy.filter((data) => data.category === category)
     );
   }, [category]);
 
@@ -32,12 +34,12 @@ function ContactsTable(contactInfo) {
       title: "Name",
       field: "contacts",
       /*render a div in each cell so that name and tags can be displayed in one cell*/
-      render: (tableData) => {
-        const taglist = tableData.tag.map((tag) => <li>{tag}</li>);
+      render: (filteredData) => {
+        const taglist = filteredData.tag.map((tag) => <li>{tag}</li>);
         return (
           <div>
             {/* table contents */}
-            <h4>{tableData.contacts}</h4>
+            <h4>{filteredData.contacts}</h4>
             <ul>{taglist}</ul>
           </div>
         );
@@ -62,7 +64,8 @@ function ContactsTable(contactInfo) {
     notes,
     phoneNumber,
     email,
-    photo
+    photo,
+    id
   ) => {
     setInfo({
       addContact: false,
@@ -73,6 +76,7 @@ function ContactsTable(contactInfo) {
       phoneNumber: phoneNumber,
       email: email,
       photo: photo,
+      id: id,
     });
   };
 
@@ -99,15 +103,43 @@ function ContactsTable(contactInfo) {
         ]}
         // function for clicking on contacts
         onRowClick={(e, selectedRow) => {
-          setSelectedRow(selectedRow.tableData.id);
+          setSelectedRow(selectedRow);
           updateSelectedContact(
             selectedRow.contacts,
             selectedRow.category,
             selectedRow.notes,
             selectedRow.phoneNumber,
             selectedRow.email,
-            selectedRow.photo
+            selectedRow.photo,
+            selectedRow.id
           );
+        }}
+        // Option for deleting rows/contacts
+        editable={{
+          onRowDelete: (oldData) =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                const dataDelete = [...filteredData];
+                const index = oldData.tableData.id;
+                dataDelete.splice(index, 1);
+                setFilteredData([...dataDelete]);
+                setTableDataCpy([...dataDelete]);
+
+                resolve();
+              }, 1000);
+            }),
+        }}
+        // Customizable styling for delete message
+        localization={{
+          body: {
+            editRow: {
+              deleteText: (
+                <div style={{ marginLeft: "60px" }}>
+                  Are you sure you want to delete this contact?
+                </div>
+              ),
+            },
+          },
         }}
         // table options (stylings + layout)
         options={{
