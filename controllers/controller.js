@@ -79,7 +79,7 @@ const addNewContact = async (req, res) => {
 
 
 
-const editContact = async (res, req) => {
+const editContact = async (req, res) => {
     try {
 
 
@@ -99,7 +99,7 @@ const editContact = async (res, req) => {
     }
 }
 
-const deleteContact = async (res, req) => {
+const deleteContact = async (req, res) => {
     try {
         await Contact.findOneAndDelete({
             "contactId": req.body.contactId
@@ -283,12 +283,12 @@ const getUserTags = async (req, res) => {
  }
  
  //Edit tag
- const editTag = async (res, req) => {
+ const editTag = async (req, res) => {
     
 
      try {
 
-        
+         
 
          
         await Tag.findOneAndUpdate({
@@ -309,7 +309,7 @@ const getUserTags = async (req, res) => {
  }
  
  //Delete tag
- const deleteTag = async (res, req) => {
+ const deleteTag = async (req, res) => {
     try {
 
        

@@ -30,7 +30,7 @@ app.get("/api", (req, res) => {
 // .post method receives data 'posted' by client-side
 
 
-app.post("/api", controller.addNewTag);
+app.post("/api", controller.editTag);
 
 /////////////////////////////////////////////// added by Callum
 
