@@ -6,6 +6,7 @@ import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 import { useGlobalState } from "state-pool";
 
 function ContactUpdate(props) {
+  // set state variables
   const [info, setInfo] = useGlobalState("contactInfo");
   const [firstName, setFirstName] = useState(props.firstName);
   const [lastName, setLastName] = useState("");
@@ -161,12 +162,12 @@ function ContactUpdate(props) {
                       setInfo({
                         addContact: false,
                         editContact: false,
-                        firstName: firstName,
-                        category: category,
-                        notes: notes,
-                        phoneNumber: phoneNumber,
-                        email: email,
-                        photo: photo,
+                        firstName: props.firstName,
+                        category: props.category,
+                        notes: props.notes,
+                        phoneNumber: props.phoneNumber,
+                        email: props.email,
+                        photo: props.photo,
                       });
                     }}
                   >

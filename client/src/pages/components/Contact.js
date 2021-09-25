@@ -31,6 +31,8 @@ function Contact(props) {
       notes: props.notes,
       phoneNumber: props.phoneNumber,
       email: props.email,
+      photo: props.photo,
+      id: props.id,
     });
   };
 
@@ -50,6 +52,8 @@ function Contact(props) {
         notes={info.notes}
         phoneNumber={info.phoneNumber}
         email={info.email}
+        photo={info.photo}
+        id={info.id}
       />
     );
   }

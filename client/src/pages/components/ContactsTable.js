@@ -15,7 +15,7 @@ function ContactsTable(contactInfo) {
   const [category, setCategory] = useState("");
   const [tableDataCpy, setTableDataCpy] = useState(tableData);
   const [filteredData, setFilteredData] = useState(tableData);
-  const [selectedRow, setSelectedRow] = useState(null);
+  const [selectedRow, setSelectedRow] = useState(0);
   // access the global variable contactInfo
   const [info, setInfo] = useGlobalState("contactInfo");
 
@@ -97,13 +97,14 @@ function ContactsTable(contactInfo) {
             onClick: () => {
               // set addContact to true so that Contact component knows to display add contact element
               setInfo({ addContact: true, firstName: "", category: "" });
-              setSelectedRow(null);
+              setSelectedRow(0);
             },
           },
         ]}
         // function for clicking on contacts
         onRowClick={(e, selectedRow) => {
           setSelectedRow(selectedRow);
+          console.log(selectedRow);
           updateSelectedContact(
             selectedRow.contacts,
             selectedRow.category,
@@ -163,7 +164,10 @@ function ContactsTable(contactInfo) {
           // stylings for each individual row
           rowStyle: (rowData) => ({
             backgroundColor:
-              selectedRow === rowData.tableData.id ? "#e6e6e6" : whiteColor,
+              // not sure why this is needed
+              parseInt(selectedRow.id) - 1 === rowData.tableData.id
+                ? "#e6e6e6"
+                : whiteColor,
             border: "2px solid black",
           }),
         }}
