@@ -154,7 +154,6 @@ const login = async (req, res, next) => {
     }
 
     req.body = data;
-    console.log(req.body)
 
     passport.authenticate('local', (err, user, info) => {
         if (err) {

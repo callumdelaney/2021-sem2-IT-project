@@ -13,7 +13,7 @@ router.use(bodyParser.urlencoded({
 }))
 router.use(bodyParser.json())
 // .post method receives data 'posted' by client-side
-router.post('/api', controller.login);
+router.post('/api/login', controller.login);
 router.post("/api/signup", controller.newUser);
 //router.post("/api/update-user", controller.editUser);
 //router.post("/api/update-user-password", controller.changePassword);
