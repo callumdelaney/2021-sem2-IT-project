@@ -4,9 +4,11 @@ const bcrypt = require("bcrypt");
 const Contact = mongoose.model("Contact");
 const User = mongoose.model("User");
 
-const LocalStrategy = require('passport-local').Strategy;
 const passport = require("passport");
-passport.use(new LocalStrategy(User.authenticate()));
+const LocalStrategy = require('passport-local').Strategy;
+
+const passportFunc = require('../passport');
+
 
 // ENUM for status codes (refer to API documentation)
 const status = {
@@ -128,61 +130,46 @@ const changeCategory = async (req, res) => {
     }
 }
 
-/**
- * Verifies login details
- * @param req expects an email and a password
- * @param res responds with a status code
- */
-/**const login = async (req, res) => {
-    try {
-        let email = req.body.email
-        let password = await bcrypt.hash(req.body.password, 10)
-        let user = await User.findOne({"email": email})
-
-        isPasswordCorrect = (password == user.password)
-
-        if (isPasswordCorrect) {
-            res.send({status: status.SUCCESS})
-        } else {
-            res.send({status: status.INCORRECT_CREDENTIALS})
-            console.log("Incorrect password for user %s", email)
-            return
-        }
-    } catch (err) {
-        console.log(err)
-        return res.send({status: status.FAILURE})
-    }
-    console.log(req.body)
-}*/
-
-const login = async (req, res) => {
-    passport.authenticate('local', function (err, user, info) {
-        if (err) {
-            res.send({status: status.FAILURE})
-        } else if (!user) {
-            res.send({status: status.INCORRECT_CREDENTIALS})
-        } else {
-            req.login(user, function(err) {
-                if (err) {
-                    res.send({status: status.FAILURE})
-                } else {
-                    const token = jwt.sign({username: user.username}, secretkey, {expiresIn: '24h'})
-                    res.send({status: status.SUCCESS, token: token})
-                }
-            })
-        }
-    })
-}
 
 const newUser = async (req, res) => {
-
+    var pass = passportFunc.genPassword(req.body.password)
     try {
-        User.register({username : req.body.email}, req.body.password)
-        res.send({status: status.SUCCESS})
+        const newUser = await User.create({
+            username: req.body.email,
+            hash: pass.hash,
+            salt: pass.salt
+        })
+
+        new User(newUser).save();
     } catch (err) {
-        res.send({status: status.FAILURE})
+        res.send({status: status.FAILURE, error: err})
         console.log(err)
     }
+}
+
+const login = async (req, res, next) => {
+    var data = {
+        username: req.body.email,
+        password: req.body.password
+    }
+
+    req.body = data;
+    console.log(req.body)
+
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            res.send({status: status.FAILURE, error: err})
+            return next(err);
+        }
+
+        if (!user) {
+            res.send({status: status.INCORRECT_CREDENTIALS})
+        }
+
+        req.logIn(user, function (err) {
+            res.send({status: status.SUCCESS})
+        })
+    })(req, res, next);
 }
 
 

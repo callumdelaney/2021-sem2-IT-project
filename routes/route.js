@@ -3,38 +3,17 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 const connectEnsureLogin = require('connect-ensure-login');
-const mongoose = require("mongoose");
-const User = mongoose.model("User");
 
 const router = express.Router();
+
+const controller = require("../controllers/controller");
 
 router.use(bodyParser.urlencoded({
   extended: true
 }))
 router.use(bodyParser.json())
-
-const controller = require("../controllers/controller");
-
-router.use(session({
-  secret: 'r8q,+&1LM3)CD*zAGpx1xm{NeQhc;#',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 60 * 60 * 1000 }
-}));
-
-router.use(passport.initialize());
-router.use(passport.session());
-
-// Passport Local Strategy
-passport.use(User.createStrategy());
-
-// To use with sessions
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
-
 // .post method receives data 'posted' by client-side
-router.post("/api/login", controller.login);
+router.post('/api', controller.login);
 router.post("/api/signup", controller.newUser);
 //router.post("/api/update-user", controller.editUser);
 //router.post("/api/update-user-password", controller.changePassword);
