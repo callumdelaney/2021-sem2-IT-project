@@ -142,32 +142,39 @@ const newUser = async (req, res) => {
 
         new User(newUser).save();
     } catch (err) {
-        res.send({status: status.FAILURE, error: err})
+        res.send({ status: status.FAILURE, error: err })
         console.log(err)
     }
 }
 
+/**
+ * Authenticates login details and, if valid, logs the user in
+ * (i.e. starts a session)
+ * @param req expects an email and a password
+ * @param res responds with a status code
+ */
 const login = async (req, res, next) => {
+
+    /* This is a work-around:
+    User schemas have 'email' but Passport needs req to have 'username' */
     var data = {
         username: req.body.email,
         password: req.body.password
     }
-
     req.body = data;
-    console.log(req.body)
 
     passport.authenticate('local', (err, user, info) => {
         if (err) {
-            res.send({status: status.FAILURE, error: err})
+            res.send({ status: status.FAILURE, error: err })
             return next(err);
         }
 
         if (!user) {
-            res.send({status: status.INCORRECT_CREDENTIALS})
+            res.send({ status: status.INCORRECT_CREDENTIALS })
         }
 
         req.logIn(user, function (err) {
-            res.send({status: status.SUCCESS})
+            res.send({ status: status.SUCCESS })
         })
     })(req, res, next);
 }
