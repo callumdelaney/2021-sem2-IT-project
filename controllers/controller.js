@@ -4,6 +4,12 @@ const bcrypt = require("bcrypt");
 const Contact = mongoose.model("Contact");
 const User = mongoose.model("User");
 
+const passport = require("passport");
+const LocalStrategy = require('passport-local').Strategy;
+
+const passportFunc = require('../passport');
+
+
 // ENUM for status codes (refer to API documentation)
 const status = {
     FAILURE: 0,
@@ -24,11 +30,11 @@ const getContacts = async (req, res) => {
             status: status.SUCCESS,
             contacts: JSON.stringify(contacts)
         });
+        console.log(contacts)
     } catch (err) {
         console.log(err)
         return res.send({ status: status.FAILURE })
     }
-    console.log(contacts)
 }
 
 // Get one specific contact
@@ -69,7 +75,7 @@ const addNewContact = async (req, res) => {
     console.log(newContact)
 }
 
-const editContact = async (res, req) => {
+const editContact = async (req, res) => {
     try {
         await Contact.findOneAndUpdate({
             "contactId": req.body.contactId
@@ -87,7 +93,7 @@ const editContact = async (res, req) => {
     }
 }
 
-const deleteContact = async (res, req) => {
+const deleteContact = async (req, res) => {
     try {
         await Contact.findOneAndDelete({
             "contactId": req.body.contactId
@@ -124,33 +130,48 @@ const changeCategory = async (req, res) => {
     }
 }
 
-/**
- * Verifies login details
- * @param req expects an email and a password
- * @param res responds with a status code
- */
-const login = async (req, res) => {
-    console.log("hello")
+
+const newUser = async (req, res) => {
+    var pass = passportFunc.genPassword(req.body.password)
     try {
-        let email = req.body.email
-        let password = await bcrypt.hash(req.body.password, 10)
-        let user = await User.findOne({"email": email})
+        const newUser = await User.create({
+            username: req.body.email,
+            hash: pass.hash,
+            salt: pass.salt
+        })
 
-        isPasswordCorrect = (password == user.password)
-
-        if (isPasswordCorrect) {
-            res.send({status: status.SUCCESS})
-        } else {
-            res.send({status: status.INCORRECT_CREDENTIALS})
-            console.log("Incorrect password for user %s", email)
-            return
-        }
+        new User(newUser).save();
     } catch (err) {
+        res.send({status: status.FAILURE, error: err})
         console.log(err)
-        return res.send({status: status.FAILURE})
     }
-    console.log(req.body)
 }
+
+const login = async (req, res, next) => {
+    var data = {
+        username: req.body.email,
+        password: req.body.password
+    }
+
+    req.body = data;
+    console.log(req.body)
+
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            res.send({status: status.FAILURE, error: err})
+            return next(err);
+        }
+
+        if (!user) {
+            res.send({status: status.INCORRECT_CREDENTIALS})
+        }
+
+        req.logIn(user, function (err) {
+            res.send({status: status.SUCCESS})
+        })
+    })(req, res, next);
+}
+
 
 module.exports = {
     login,
@@ -160,6 +181,6 @@ module.exports = {
     editContact,
     deleteContact,
     addNote,
-    changeCategory
+    changeCategory,
+    newUser
 };
-
