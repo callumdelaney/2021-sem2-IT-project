@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 
 const Contact = mongoose.model("Contact");
 const User = mongoose.model("User");
+const Tag = mongoose.model("Tag");
 
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
@@ -172,6 +173,169 @@ const login = async (req, res, next) => {
 }
 
 
+
+// tag stuff
+
+
+
+/******************* outgoing (backend -> frontend) ***************************/
+
+
+
+
+//Get all tags from database
+const getTags = async (req, res) => {
+    try {
+        console.log("getting tags");
+        let tags = await Tag.find({}).lean()
+        
+        res.send({       
+            tags: JSON.stringify(tags),
+            message : "tag got",
+            status: status.SUCCESS
+        });
+
+        console.log(tags)
+        
+
+    } catch (err) {
+        console.log("tags get fail");
+        console.log(err)
+        return res.send({status: status.FAILURE})
+        
+    }
+ }
+ 
+
+//get tags by userID
+
+const getUserTags = async (req, res) => {
+    try {
+        let tags = await Tag.find({
+            //searching for all tags linked to one userId
+            'userId': req.body.userId
+
+        }).lean()
+
+        //if tag us found, send success and log tag
+        res.send({
+            status: status.SUCCESS,
+            tags: JSON.stringify(tags)
+        });
+
+        console.log(tags)
+
+    } catch (err) {
+        console.log(err)
+        return res.send({status: status.FAILURE})
+    }
+ }
+
+ //Get one specific tag
+ const getOneTag = async (req, res) => {
+    try {
+        //try to find it
+        let tag = await Tag.findOne({
+            "_id" : req.body._id
+            
+        }).lean()
+ 
+        //send it if found, and report success
+        res.send({
+            status: status.SUCCESS,
+            tags: JSON.stringify(tag)
+        });
+        console.log(tag)
+
+    }  catch (err) {
+        console.log(err)
+        return res.send({status: status.FAILURE})
+    }
+ }
+ 
+ /******************* incoming (frontend -> backend) ***************************/
+
+
+ //New tag
+ const addNewTag = async (req, res) => {
+     try {
+ 
+
+        //Generate random hex colour from
+        // https://css-tricks.com/snippets/javascript/random-hex-color/
+        var randomColour = Math.floor(Math.random()*16777215).toString(16);
+     
+        const newTag = await Tag.create({
+            "userId" : req.body.userId,
+            "tagText" : req.body.tagText,
+            //"tagColour" : req.body.tagColour
+            //random generate tag's hex colour instead
+            "tagColour": randomColour
+       })
+         
+        
+     
+        new Tag(newTag).save()
+        console.log(newTag)
+        res.send({status: status.SUCCESS})
+     
+    } catch (err) {
+        console.log(err)
+        res.send({status: status.FAILURE})
+    }
+
+   
+ }
+ 
+ //Edit tag
+ const editTag = async (req, res) => {
+    
+
+     try {
+
+         
+
+         
+        await Tag.findOneAndUpdate({
+            "_id" : req.body._id,
+        }, {
+            "tagText" : req.body.tagText,
+            "tagColour" : req.body.tagColour
+        })
+        
+        
+ 
+        res.send({status: status.SUCCESS})
+ 
+    } catch (err) {
+        console.log(err)
+        res.send({status: status.FAILURE})
+    }
+ }
+ 
+ //Delete tag
+ const deleteTag = async (req, res) => {
+    try {
+
+       
+
+        await Tag.findOneAndDelete({
+            "_id" : req.body._id
+        })
+
+        res.send({status: status.SUCCESS})
+
+      //  window.alert("tag deleted")
+      //  res.send({message : "tag deleted"})
+    } catch (err) {
+        res.send({status: status.FAILURE})
+    }
+}
+ 
+
+
+
+
 module.exports = {
     login,
     getContacts,
@@ -181,6 +345,12 @@ module.exports = {
     deleteContact,
     addNote,
     changeCategory,
-    newUser
+    newUser,
+    getTags,
+    getUserTags,
+    getOneTag,
+    addNewTag,
+    editTag,
+    deleteTag
 };
 
