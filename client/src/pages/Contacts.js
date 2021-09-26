@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import ContactsTable from "./components/ContactsTable";
 import Contact from "./components/Contact";
+import UserInfo from "./components/UserInfo";
 import { store, useGlobalState } from "state-pool";
 
 // declare a global state variable, contactInfo, with an initial "unselected" state
@@ -20,29 +21,9 @@ function Contacts() {
         </div>
         <div className="flex-child">
           {/* div displaying user information */}
-          <div className="user-info">
-            <img
-              src="https://erasmuscoursescroatia.com/wp-content/uploads/2015/11/no-user-200x200.jpg"
-              alt="userphoto"
-            />
-            <h1>Hello There</h1>
-            <div>
-              <button>Profile Setting</button>
-            </div>
-            <h4>user email here</h4>
-          </div>
+          <UserInfo />
           {/* component displaying contact-info */}
-          <Contact
-            addContact={info.addContact}
-            editContact={info.editContact}
-            firstName={info.firstName}
-            category={info.category}
-            notes={info.notes}
-            phoneNumber={info.phoneNumber}
-            email={info.email}
-            photo={info.photo}
-            id={info.id}
-          />
+          <Contact />
         </div>
       </div>
     </>

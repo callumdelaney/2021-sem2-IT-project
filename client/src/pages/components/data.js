@@ -176,6 +176,8 @@ const tableData = [
     contacts: "Peter",
     tag: ["buiness,spider boi"],
     category: "business",
+    photo:
+      "https://drive.google.com/file/d/1UU_ybmsKFitP4Z4C65r0HCjhAzgjEAfZ/view?usp=sharing",
   },
   {
     id: "7",

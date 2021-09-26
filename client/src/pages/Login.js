@@ -1,8 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import ErrorMessage from "./components/ErrorMessage";
 import statusCode from "./components/Status";
+import { store, useGlobalState } from "state-pool";
+
+// store.setState("contactInfo", { firstName: -1 });
+// initialise user info global variable
+store.setState("userInfo", {
+  firstName: "Obi-Wan",
+  lastName: "Kenobi",
+  email: "obiwankenobi@hellothere.org",
+  photo: "https://static.myfigurecollection.net/pics/figure/big/44190.jpg",
+});
 
 // component for login page
 function Login() {
@@ -10,6 +20,10 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState(statusCode.SUCCESS);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // const [contactInfo, setContactInfo] = useGlobalState("contactInfo");
+  const [userInfo, setUserInfo] = useGlobalState("userInfo");
 
   // handleSubmit is executed when the submit button is clicked
   const handleSubmit = (e) => {
@@ -17,8 +31,11 @@ function Login() {
 
     // setError based on feedback from back-end. localStatus can change within
     // this function to be referenced
-    var localStatus = statusCode.UNKNOWN_EMAIL;
-    setStatus(statusCode.UNKNOWN_EMAIL);
+
+    // var localStatus = statusCode.UNKNOWN_EMAIL;
+    // setStatus(statusCode.UNKNOWN_EMAIL);
+    var localStatus = statusCode.SUCCESS;
+    setStatus(statusCode.SUCCESS);
 
     // registration details
     var userData = {
@@ -28,15 +45,35 @@ function Login() {
     // use axios to post user data to back end for processing, use
     // response to test for validity
     axios
-      .post("/api", userData)
+      .post("/api/login", userData)
       .then((response) => {
         console.log(response.data);
+        // check if credentials are correct
+        localStatus = response.data.status;
+        setStatus(localStatus);
       })
       .catch((error) => {
         console.log(error);
       });
+    if (localStatus === statusCode.SUCCESS) {
+      console.log("login successful!");
+      fetch("/api/user-info", userData)
+        .then((res) => res.json())
+        .then((data) => setUserInfo(data))
+        .catch((error) => {
+          console.log(error);
+        });
+      // fetch("/api/user-contacts", userData)
+      //   .then((res) => res.json())
+      //   .then((data) => setContactInfo(data));
+      console.log(userInfo);
+      setIsLoggedIn(true);
+    }
   };
 
+  if (isLoggedIn) {
+    return <Redirect to="/contacts" />;
+  }
   return (
     // Section for login details where email and password can be entered
     <article className="articleLogin">

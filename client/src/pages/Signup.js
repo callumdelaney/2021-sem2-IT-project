@@ -41,16 +41,19 @@ function Signup() {
     var userData = {
       firstName: firstName,
       lastName: lastName,
-      phoneNumber: phoneNumber,
       email: email,
       password: password,
+      phoneNumber: phoneNumber,
     };
     // use axios to post user data to back end for processing, use
     // response to test for validity
     axios
-      .post("/api", userData)
+      .post("/api/signup", userData)
       .then((response) => {
         console.log(response.data);
+        // check if data was saved successfully
+        localStatus = response.data.status;
+        setStatus(localStatus);
       })
       .catch((error) => {
         console.log(error);

@@ -141,6 +141,9 @@ function ContactsTable(contactInfo) {
               ),
             },
           },
+          header: {
+            actions: "",
+          },
         }}
         // table options (stylings + layout)
         options={{

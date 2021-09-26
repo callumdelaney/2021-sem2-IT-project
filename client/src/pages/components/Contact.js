@@ -7,44 +7,32 @@ import { useState } from "react";
 import Contacts from "../Contacts";
 
 // contact-info content
-function Contact(props) {
-  const {
-    addContact,
-    editContact,
-    firstName,
-    category,
-    notes,
-    phoneNumber,
-    email,
-    photo,
-    id,
-  } = props;
+function Contact() {
   const [info, setInfo] = useGlobalState("contactInfo");
 
   // passing in props here fixed the issue
-  const handleEditClick = (props) => {
+  const handleEditClick = () => {
     setInfo({
       addContact: false,
       editContact: true,
-      firstName: props.firstName,
-      category: props.category,
-      notes: props.notes,
-      phoneNumber: props.phoneNumber,
-      email: props.email,
-      photo: props.photo,
-      id: props.id,
+      firstName: info.firstName,
+      category: info.category,
+      notes: info.notes,
+      phoneNumber: info.phoneNumber,
+      email: info.email,
+      photo: info.photo,
+      id: info.id,
     });
   };
 
-  const handleDeleteClick = (id) => {
+  const handleDeleteClick = () => {
     console.log("delete");
-    console.log(id);
   };
   // display contact creation area if no contact is selected or user presses add contact button
-  if (firstName === -1 || addContact) {
+  if (info.firstName === -1 || info.addContact) {
     return <ContactCreation />;
   }
-  if (editContact) {
+  if (info.editContact) {
     return (
       <ContactUpdate
         firstName={info.firstName}
@@ -61,15 +49,15 @@ function Contact(props) {
     <div className="contact-info">
       {/* contact photo and name */}
       <div className="contact-info-name">
-        <img src={photo} alt="contactPhoto" />
-        <h1>{firstName}</h1>
+        <img src={info.photo} alt="contactPhoto" />
+        <h1>{info.firstName}</h1>
       </div>
       <div
         style={{ display: "inline-flex", width: "100%", marginLeft: "100px" }}
       >
         {/* phone number */}
         <h2 style={{ border: "none", paddingRight: "50px" }}>Phone Number:</h2>
-        <h2>{phoneNumber}</h2>
+        <h2>{info.phoneNumber}</h2>
       </div>
 
       <div
@@ -77,7 +65,7 @@ function Contact(props) {
       >
         {/* email */}
         <h2 style={{ border: "none", paddingRight: "50px" }}>Email:</h2>
-        <h2>{email}</h2>
+        <h2>{info.email}</h2>
       </div>
       <div
         style={{
@@ -96,14 +84,14 @@ function Contact(props) {
             padding: "10px",
           }}
         >
-          {notes}
+          {info.notes}
         </p>
       </div>
       {/* Edit and delete Buttons */}
       <button
         style={{ display: "flex" }}
         onClick={() => {
-          handleEditClick(props);
+          handleEditClick();
         }}
       >
         Edit
@@ -111,7 +99,7 @@ function Contact(props) {
       <button
         style={{ color: "red" }}
         onClick={() => {
-          handleDeleteClick(id);
+          handleDeleteClick();
         }}
       >
         Delete
