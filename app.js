@@ -28,7 +28,7 @@ app.get("/api", (req, res) => {
 });
 
 // .post method receives data 'posted' by client-side
-app.post("/api", controller.getLogin);
+app.post("/api", controller.login);
 
 /////////////////////////////////////////////// added by Callum
 

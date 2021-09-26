@@ -26,7 +26,7 @@ const getContacts = async (req, res) => {
         });
     } catch (err) {
         console.log(err)
-        return res.send({status: status.FAILURE})
+        return res.send({ status: status.FAILURE })
     }
     console.log(contacts)
 }
@@ -35,7 +35,7 @@ const getContacts = async (req, res) => {
 const getOneContact = async (req, res) => {
     try {
         let contact = await Contact.findOne({
-            "_id" : req.body._id
+            "_id": req.body._id
         }).lean()
         res.send({
             status: status.SUCCESS,
@@ -43,7 +43,7 @@ const getOneContact = async (req, res) => {
         });
     } catch (err) {
         console.log(err)
-        return res.send({status: status.FAILURE})
+        return res.send({ status: status.FAILURE })
     }
     console.log(contact)
 }
@@ -61,10 +61,10 @@ const addNewContact = async (req, res) => {
             "category": req.body.category
         })
         new Contact(newContact).save()
-        res.send({status: status.SUCCESS})
+        res.send({ status: status.SUCCESS })
     } catch (err) {
         console.log(err)
-        res.send({status: status.FAILURE})
+        res.send({ status: status.FAILURE })
     }
     console.log(newContact)
 }
@@ -80,10 +80,10 @@ const editContact = async (res, req) => {
             "email": req.body.email,
             "category": req.body.category
         })
-        res.send({status: status.SUCCESS})
+        res.send({ status: status.SUCCESS })
     } catch (err) {
         console.log(err)
-        res.send({status: status.FAILURE})
+        res.send({ status: status.FAILURE })
     }
 }
 
@@ -92,21 +92,21 @@ const deleteContact = async (res, req) => {
         await Contact.findOneAndDelete({
             "contactId": req.body.contactId
         })
-        res.send({status: status.SUCCESS})
+        res.send({ status: status.SUCCESS })
     } catch (err) {
-        res.send({status: status.FAILURE})
+        res.send({ status: status.FAILURE })
     }
 }
 
 const addNote = async (req, res) => {
     let newNote = req.body.note
     try {
-        var contact = await Contact.findOne({"contactId": req.body.contactId})
+        var contact = await Contact.findOne({ "contactId": req.body.contactId })
         contact.notes.push(newNote)
         contact.save
-        res.send({status: status.SUCCESS})
+        res.send({ status: status.SUCCESS })
     } catch (err) {
-        res.send({status: status.FAILURE})
+        res.send({ status: status.FAILURE })
     }
     console.log(newNote)
 }
@@ -118,9 +118,9 @@ const changeCategory = async (req, res) => {
         }, {
             "category": req.body.category
         })
-        res.send({status: status.SUCCESS})
+        res.send({ status: status.SUCCESS })
     } catch (err) {
-        res.send({status: status.FAILURE})
+        res.send({ status: status.FAILURE })
     }
 }
 
@@ -130,6 +130,7 @@ const changeCategory = async (req, res) => {
  * @param res responds with a status code
  */
 const login = async (req, res) => {
+    console.log("hello")
     try {
         let email = req.body.email
         let password = await bcrypt.hash(req.body.password, 10)
