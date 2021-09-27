@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 
 import ContactsTable from "./components/ContactsTable";
 import Contact from "./components/Contact";
 import UserInfo from "./components/UserInfo";
-import { store, useGlobalState } from "state-pool";
+import { store } from "state-pool";
 
 // declare a global state variable, contactInfo, with an initial "unselected" state
 store.setState("contactInfo", { firstName: -1 });
 
 /*Contacts page main function*/
 function Contacts() {
-  const [info, setInfo] = useGlobalState("contactInfo");
-
   return (
     <>
       <div className="flex-container">

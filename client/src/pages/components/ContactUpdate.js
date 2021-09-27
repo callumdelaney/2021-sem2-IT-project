@@ -7,6 +7,7 @@ import { useGlobalState } from "state-pool";
 
 function ContactUpdate(props) {
   // set state variables (default to contact details)
+  // eslint-disable-next-line
   const [info, setInfo] = useGlobalState("contactInfo");
   const [firstName, setFirstName] = useState(props.firstName);
   const [lastName, setLastName] = useState(props.lastName);
@@ -14,7 +15,9 @@ function ContactUpdate(props) {
   const [phoneNumber, setPhoneNumber] = useState(props.phoneNumber);
   const [category, setCategory] = useState(props.category);
   const [notes, setNotes] = useState(props.notes);
+  // eslint-disable-next-line
   const [photo, setPhoto] = useState(props.photo);
+  // eslint-disable-next-line
   const [status, setStatus] = useState(statusCode.SUCCESS);
 
   // toggle state for confirmation popup

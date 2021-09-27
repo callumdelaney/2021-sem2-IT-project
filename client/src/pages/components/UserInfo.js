@@ -2,7 +2,7 @@ import React from "react";
 import { useGlobalState } from "state-pool";
 
 function UserInfo() {
-  const [userInfo, setUserInfo] = useGlobalState("userInfo");
+  const [userInfo] = useGlobalState("userInfo");
   return (
     <div className="user-info">
       <img src={userInfo.photo} alt="userphoto" />

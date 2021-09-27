@@ -1,16 +1,13 @@
 import React from "react";
-import { text, tableData } from "./data";
 import ContactCreation from "./ContactCreation";
 import { useGlobalState } from "state-pool";
 import ContactUpdate from "./ContactUpdate";
-import { useState } from "react";
-import Contacts from "../Contacts";
 
 // contact-info content
 function Contact() {
   const [info, setInfo] = useGlobalState("contactInfo");
 
-  // passing in props here fixed the issue
+  // function for handling the click of edit button
   const handleEditClick = () => {
     setInfo({
       addContact: false,
@@ -25,7 +22,7 @@ function Contact() {
       id: info.id,
     });
   };
-
+  // function for handling delete contact button
   const handleDeleteClick = () => {
     console.log("delete");
   };

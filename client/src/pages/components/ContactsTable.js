@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 import { tableData } from "./data";
 import MaterialTable from "material-table";
 import { MTableToolbar } from "material-table";
-import {
-  Typography,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-} from "@material-ui/core";
+import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useGlobalState } from "state-pool";
 
@@ -17,6 +12,7 @@ function ContactsTable(contactInfo) {
   const [filteredData, setFilteredData] = useState(tableData);
   const [selectedRow, setSelectedRow] = useState(null);
   // access the global variable contactInfo
+  // eslint-disable-next-line
   const [info, setInfo] = useGlobalState("contactInfo");
 
   // useEffect hook for dealing with category changes

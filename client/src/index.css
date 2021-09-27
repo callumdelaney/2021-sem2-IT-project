@@ -72,8 +72,8 @@ code {
 }
 
 /* global styles: currently none */
-.container {
-}
+/* .container {
+} */
 /* different offsets for login and signup */
 .articleSignup {
   margin-top: 5%;
@@ -92,7 +92,7 @@ code {
   padding: 2rem 3rem;
   /* look */
   border: 2px solid black;
-  background: var(--clr-purple-1);
+  background: var(--clr-dark-blue);
   border-radius: var(--radius);
 }
 /* label stylings */

@@ -79,6 +79,7 @@ function Login() {
     // Section for login details where email and password can be entered
     <article className="articleLogin">
       <h1 className="header">Login</h1>
+      {/* form div containing all of the required fields */}
       <form className="form" action="" onSubmit={handleSubmit}>
         <div className="form-control">
           <label htmlFor="email">Email: </label>
