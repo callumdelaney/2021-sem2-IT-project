@@ -14,7 +14,9 @@ const status = {
     INVALID_PASSWORD: 14
 }
 
+
 /******************* outgoing (backend -> frontend) ***************************/
+
 
 // Get all contacts from database
 const getContacts = async (req, res) => {
@@ -48,6 +50,7 @@ const getOneContact = async (req, res) => {
     console.log(contact)
 }
 
+
 /******************* incoming (frontend -> backend) ***************************/
 
 const addNewContact = async (req, res) => {
@@ -69,6 +72,7 @@ const addNewContact = async (req, res) => {
     console.log(newContact)
 }
 
+
 const editContact = async (res, req) => {
     try {
         await Contact.findOneAndUpdate({
@@ -87,6 +91,7 @@ const editContact = async (res, req) => {
     }
 }
 
+
 const deleteContact = async (res, req) => {
     try {
         await Contact.findOneAndDelete({
@@ -97,6 +102,7 @@ const deleteContact = async (res, req) => {
         res.send({status: status.FAILURE})
     }
 }
+
 
 const addNote = async (req, res) => {
     let newNote = req.body.note
@@ -111,6 +117,7 @@ const addNote = async (req, res) => {
     console.log(newNote)
 }
 
+
 const changeCategory = async (req, res) => {
     try {
         await Contact.findOneAndUpdate({
@@ -123,6 +130,24 @@ const changeCategory = async (req, res) => {
         res.send({status: status.FAILURE})
     }
 }
+
+const newUser = async (req, res) => {
+    var userData = {
+        email: req.body.email,
+        password: req.body.password,
+        firstName: req.body.firstName,
+        lastName: req.body.LastName,
+        phoneNumber: req.body.phoneNumber
+    }
+
+    const salt = await bcrypt.genSalt(10);
+
+    const newUser = new User(userData);
+
+    newUser.password = await bcrypt.hash(newUser.password, salt);
+    newUser.save()
+
+    res.send({status: status.SUCCESS})
 
 /**
  * Verifies login details
@@ -149,6 +174,7 @@ const login = async (req, res) => {
         return res.send({status: status.FAILURE})
     }
     console.log(req.body)
+
 }
 
 module.exports = {
@@ -159,6 +185,6 @@ module.exports = {
     editContact,
     deleteContact,
     addNote,
-    changeCategory
+    changeCategory,
+    newUser
 };
-
