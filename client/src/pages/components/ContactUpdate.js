@@ -9,7 +9,7 @@ function ContactUpdate(props) {
   // set state variables (default to contact details)
   const [info, setInfo] = useGlobalState("contactInfo");
   const [firstName, setFirstName] = useState(props.firstName);
-  const [lastName, setLastName] = useState("");
+  const [lastName, setLastName] = useState(props.lastName);
   const [email, setEmail] = useState(props.email);
   const [phoneNumber, setPhoneNumber] = useState(props.phoneNumber);
   const [category, setCategory] = useState(props.category);

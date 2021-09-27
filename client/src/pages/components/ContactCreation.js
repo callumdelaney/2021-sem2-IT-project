@@ -2,12 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import statusCode from "./Status";
 import Popup from "./Popup";
-import {
-  Typography,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-} from "@material-ui/core";
+import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 
 function ContactCreation() {
   const [firstName, setFirstName] = useState("");
@@ -16,7 +11,9 @@ function ContactCreation() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [category, setCategory] = useState("");
   const [notes, setNotes] = useState("");
+  // eslint-disable-next-line
   const [photo, setPhoto] = useState("");
+  // eslint-disable-next-line
   const [status, setStatus] = useState(statusCode.SUCCESS);
 
   // toggle state for confirmation popup
@@ -62,7 +59,8 @@ function ContactCreation() {
   const personalColor = "yellow";
 
   return (
-    // Contents of the page, each seperated by a div
+    // Contents of the page, each seperated by a div. each div contains a label and a
+    // corresponding input field. Required fields are firstName, lastName, email and category
     <article className="contact-article">
       <h1 className="header">Add Contact</h1>
       <form className="contact-form" action="" onSubmit={handleSubmit}>
@@ -136,6 +134,8 @@ function ContactCreation() {
               control={<Radio style={{ color: businessColor }} />}
               label={<span style={{ fontSize: "22px" }}>Business</span>}
               style={{ fontSize: "22px" }}
+              // default to business unless changed
+              checked={true}
             />
             <FormControlLabel
               value="personal"

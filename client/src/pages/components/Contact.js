@@ -16,6 +16,7 @@ function Contact() {
       addContact: false,
       editContact: true,
       firstName: info.firstName,
+      lastName: info.lastName,
       category: info.category,
       notes: info.notes,
       phoneNumber: info.phoneNumber,
@@ -36,6 +37,7 @@ function Contact() {
     return (
       <ContactUpdate
         firstName={info.firstName}
+        lastName={info.lastName}
         category={info.category}
         notes={info.notes}
         phoneNumber={info.phoneNumber}
@@ -50,7 +52,9 @@ function Contact() {
       {/* contact photo and name */}
       <div className="contact-info-name">
         <img src={info.photo} alt="contactPhoto" />
-        <h1>{info.firstName}</h1>
+        <h1>
+          {info.firstName} {info.lastName}
+        </h1>
       </div>
       <div
         style={{ display: "inline-flex", width: "100%", marginLeft: "100px" }}

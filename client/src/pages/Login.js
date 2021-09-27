@@ -72,6 +72,7 @@ function Login() {
   };
 
   if (isLoggedIn) {
+    // redirect to contacts page upon successful login
     return <Redirect to="/contacts" />;
   }
   return (

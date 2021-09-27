@@ -15,7 +15,7 @@ function ContactsTable(contactInfo) {
   const [category, setCategory] = useState("");
   const [tableDataCpy, setTableDataCpy] = useState(tableData);
   const [filteredData, setFilteredData] = useState(tableData);
-  const [selectedRow, setSelectedRow] = useState(0);
+  const [selectedRow, setSelectedRow] = useState(null);
   // access the global variable contactInfo
   const [info, setInfo] = useGlobalState("contactInfo");
 
@@ -27,19 +27,21 @@ function ContactsTable(contactInfo) {
         : // filter data shown based on category equivalence
           tableDataCpy.filter((data) => data.category === category)
     );
-  }, [category]);
+  }, [category, tableDataCpy]);
 
   const column = [
     {
       title: "Name",
-      field: "contacts",
+      field: "firstName",
       /*render a div in each cell so that name and tags can be displayed in one cell*/
       render: (filteredData) => {
         const taglist = filteredData.tag.map((tag) => <li>{tag}</li>);
         return (
           <div>
             {/* table contents */}
-            <h4>{filteredData.contacts}</h4>
+            <h4>
+              {filteredData.firstName} {filteredData.lastName}
+            </h4>
             <ul>{taglist}</ul>
           </div>
         );
@@ -59,7 +61,8 @@ function ContactsTable(contactInfo) {
 
   // update the selected contact information in a global variable
   const updateSelectedContact = (
-    name,
+    fstName,
+    lstName,
     cat,
     notes,
     phoneNumber,
@@ -67,10 +70,12 @@ function ContactsTable(contactInfo) {
     photo,
     id
   ) => {
+    // set contact info to selected contact, with addContact and editContact flags being set to false
     setInfo({
       addContact: false,
       editContact: false,
-      firstName: name,
+      firstName: fstName,
+      lastName: lstName,
       category: cat,
       notes: notes,
       phoneNumber: phoneNumber,
@@ -97,16 +102,17 @@ function ContactsTable(contactInfo) {
             onClick: () => {
               // set addContact to true so that Contact component knows to display add contact element
               setInfo({ addContact: true, firstName: "", category: "" });
-              setSelectedRow(0);
+              setSelectedRow(null);
             },
           },
         ]}
-        // function for clicking on contacts
+        // function for clicking on firstName
         onRowClick={(e, selectedRow) => {
           setSelectedRow(selectedRow);
           console.log(selectedRow);
           updateSelectedContact(
-            selectedRow.contacts,
+            selectedRow.firstName,
+            selectedRow.lastName,
             selectedRow.category,
             selectedRow.notes,
             selectedRow.phoneNumber,
@@ -165,14 +171,22 @@ function ContactsTable(contactInfo) {
           paging: false,
           maxBodyHeight: "850px",
           // stylings for each individual row
-          rowStyle: (rowData) => ({
-            backgroundColor:
-              // not sure why this is needed
-              parseInt(selectedRow.id) - 1 === rowData.tableData.id
-                ? "#e6e6e6"
-                : whiteColor,
-            border: "2px solid black",
-          }),
+          rowStyle: (rowData) => {
+            if (selectedRow != null) {
+              return {
+                // row colour changes to grey upon clicking it
+                backgroundColor:
+                  selectedRow.tableData.id === rowData.tableData.id
+                    ? "#e6e6e6"
+                    : whiteColor,
+                border: "2px solid black",
+              };
+            }
+            return {
+              backgroundColor: whiteColor,
+              border: "2px solid black",
+            };
+          },
         }}
         components={{
           // Toolbar containing search, add-contacts icon and category selection
