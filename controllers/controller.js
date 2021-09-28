@@ -5,7 +5,12 @@ const Contact = mongoose.model("Contact");
 const User = mongoose.model("User");
 const Tag = mongoose.model("Tag");
 
-//
+
+const passport = require("passport");
+const LocalStrategy = require('passport-local').Strategy;
+
+const passportFunc = require('../passport');
+
 
 // ENUM for status codes (refer to API documentation)
 const status = {
@@ -24,16 +29,16 @@ const getContacts = async (req, res) => {
     try {
         let contacts = await Contact.find({}).lean()
         res.send({
-            contacts: JSON.stringify(contacts),
-            status: status.SUCCESS
+            status: status.SUCCESS,
+            contacts: JSON.stringify(contacts)
         });
         console.log(contacts)
     } catch (err) {
         console.log(err)
         return res.send({status: status.FAILURE})
     }
-    
 }
+
 
 // Get one specific contact
 const getOneContact = async (req, res) => {
@@ -50,7 +55,6 @@ const getOneContact = async (req, res) => {
         console.log(err)
         return res.send({status: status.FAILURE})
     }
-    
 }
 
 /******************* incoming (frontend -> backend) ***************************/
@@ -68,21 +72,18 @@ const addNewContact = async (req, res) => {
             "email": req.body.email,
             "category": req.body.category
         })
-        console.log(newContact)
         new Contact(newContact).save()
         res.send({status: status.SUCCESS})
     } catch (err) {
         console.log(err)
         res.send({status: status.FAILURE})
     }
+    console.log(newContact)
 }
 
-
-
+//edit contact
 const editContact = async (req, res) => {
     try {
-
-
         await Contact.findOneAndUpdate({
             "contactId": req.body.contactId
         }, {
@@ -99,6 +100,7 @@ const editContact = async (req, res) => {
     }
 }
 
+//delete contact
 const deleteContact = async (req, res) => {
     try {
         await Contact.findOneAndDelete({
@@ -110,22 +112,25 @@ const deleteContact = async (req, res) => {
     }
 }
 
+//add note
 const addNote = async (req, res) => {
     let newNote = req.body.note
     try {
         var contact = await Contact.findOne({"contactId": req.body.contactId})
         contact.notes.push(newNote)
         contact.save
-        console.log(newNote)
         res.send({status: status.SUCCESS})
     } catch (err) {
         res.send({status: status.FAILURE})
     }
-    
+    console.log(newNote)
 }
 
+//change contact category
 const changeCategory = async (req, res) => {
     try {
+
+
         await Contact.findOneAndUpdate({
             "contactId": req.body.contactId
         }, {
@@ -138,35 +143,45 @@ const changeCategory = async (req, res) => {
 }
 
 
+const newUser = async (req, res) => {
+    var pass = passportFunc.genPassword(req.body.password)
+    try {
+        const newUser = await User.create({
+            username: req.body.email,
+            hash: pass.hash,
+            salt: pass.salt
+        })
 
+        new User(newUser).save();
+    } catch (err) {
+        res.send({status: status.FAILURE, error: err})
+        console.log(err)
+    }
+}
 
+const login = async (req, res, next) => {
+    var data = {
+        username: req.body.email,
+        password: req.body.password
+    }
 
-//login stuff 
+    req.body = data;
 
-const getLogin = async (req, res) => {
-  var userData = {
-    email: req.body.email,
-    pass: req.body.password
-  };
- 
-  var user = await User.findOne({"email" : userData.email}).lean()
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            res.send({status: status.FAILURE, error: err})
+            return next(err);
+        }
 
-  if (user != null) {
-      if (user.password == userData.pass) {
+        if (!user) {
+            res.send({status: status.INCORRECT_CREDENTIALS})
+        }
 
-          console.log("Success")
-      } else {
-          console.log("Fail")
-      }
-  } else {
-      console.log("User not found")
-  }
-  //Placeholder until user schema finished
-  res.send(JSON.stringify(userData));
-};
-
-
-
+        req.logIn(user, function (err) {
+            res.send({status: status.SUCCESS})
+        })
+    })(req, res, next);
+}
 
 
 // tag stuff
@@ -332,19 +347,20 @@ const getUserTags = async (req, res) => {
 
 
 module.exports = {
-  getLogin,
-  getContacts,
-  getOneContact,
-  addNewContact,
-  editContact,
-  deleteContact,
-  addNote,
-  changeCategory,
-  getTags,
-  getUserTags,
-  getOneTag,
-  addNewTag,
-  editTag,
-  deleteTag
+    login,
+    getContacts,
+    getOneContact,
+    addNewContact,
+    editContact,
+    deleteContact,
+    addNote,
+    changeCategory,
+    newUser,
+    getTags,
+    getUserTags,
+    getOneTag,
+    addNewTag,
+    editTag,
+    deleteTag
 };
 

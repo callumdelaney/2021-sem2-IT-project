@@ -3,7 +3,7 @@ import axios from "axios";
 
 // component for login page
 function Login() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   // handleSubmit is executed when the submit button is clicked
@@ -11,7 +11,7 @@ function Login() {
     e.preventDefault();
 
     var userData = {
-      email: email,
+      username: username,
       password: password,
     };
     // use axios to post user data to back end for processing, use
@@ -31,14 +31,14 @@ function Login() {
     <article className="article">
       <form className="form" action="" onSubmit={handleSubmit}>
         <div className="form-control">
-          <label htmlFor="email">Email: </label>
+          <label htmlFor="username">Email: </label>
           <input
             type="text"
-            id="email"
-            name="email"
+            id="username"
+            name="username"
             required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className="form-control">
