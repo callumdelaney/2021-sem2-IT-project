@@ -5,7 +5,7 @@ const tagSchema = new mongoose.Schema({
     userId : {type : String, required : true},
     tagText : {type : String, required : true},
     //tag colour stored as string for Hex value
-    tagColour : {type : String, required : true},
+    tagColour : {type : String, required : true}
 })
 
 const TAG = mongoose.model('Tag', tagSchema)
