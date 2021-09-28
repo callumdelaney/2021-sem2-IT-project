@@ -139,8 +139,9 @@ const newUser = async (req, res) => {
             hash: pass.hash,
             salt: pass.salt
         })
-
+        res.send({status: status.SUCCESS})
         new User(newUser).save();
+
     } catch (err) {
         res.send({ status: status.FAILURE, error: err })
         console.log(err)
