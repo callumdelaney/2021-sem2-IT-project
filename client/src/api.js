@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import React from "react";
 
-//const BASE_URL = "https://snacks-in-a-van-2021.duckroll-crm.herokuapp.com";
+//const BASE_URL = "https://duckroll-crm.herokuapp.com/";
  const BASE_URL = 'http://localhost:3000'
 
 
@@ -21,7 +21,7 @@ router.post("/api/signup", controller.newUser);
 + router.get("/api/get-contacts", connectEnsureLogin.ensureLoggedIn(), controller.getContacts);
 + router.get("/api/get-one-contact", connectEnsureLogin.ensureLoggedIn(), controller.getOneContact);
 + router.post("/api/add-contact", controller.addNewContact);
-router.post("/api/update-contact", controller.editContact);
++ router.post("/api/update-contact", controller.editContact);
 router.post("/api/delete-contact",  controller.deleteContact);
 router.post("/api/add-note",  controller.addNote);
 router.post("/api/change-category",  controller.changeCategory);
@@ -63,11 +63,14 @@ export function useAllContacts() {
     const [error, setError] = useState(null); // what shows when there's an error
   
     useEffect(() => {
+      // try getting all contacts
         getAllContacts()
+        //if all contacts got, then set the state to the retrieved contacts
         .then(allContacts => {
           setAllContacts(allContacts);
           setLoading(false);
         })
+        //set state to error state if caught an error
         .catch(e => {
           console.log(e);
           setError(e);
@@ -83,54 +86,162 @@ export function useAllContacts() {
   }
 
   //get one contact, but with loading and error states
-  export function useOneContact(id) {
-    const [loading, setLoading] = useState(true);
-    const [contact, setContact] = useState([]);
-    const [error, setError] = useState(null);
-  
-    useEffect(() => {
-      getOneContact(id)
-        .then(food => {
-            setContact(contact);
-          setLoading(false);
-        })
-        .catch(e => {
-          console.log(e);
-          setError(e);
-          setLoading(false);
-        });
-    }, []);
-  
-    return {
-      loading,
-      contact,
-      error
-    };
-  }
+export function useOneContact(id) {
+  //various states
+  const [loading, setLoading] = useState(true);
+  const [contact, setContact] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    //try getting the contact
+    getOneContact(id)
+      .then(contact => {
+          setContact(contact);
+        setLoading(false);
+      })
+      //if there's an error in getting the contact, change state to error state
+      .catch(e => {
+        console.log(e);
+        setError(e);
+        setLoading(false);
+      });
+  }, []);
+
+  return {
+    loading,
+    contact,
+    error
+  };
+}
 
 
-  // posting https://reactnative.dev/docs/network
+// posting https://reactnative.dev/docs/network
 
+//creating a contact
 export async function addContact(contact) {
-    let endpoint = BASE_URL + '/api/add-contact';
-    return fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        "Content-Type": 'application/json'
-      },
-      body: JSON.stringify(contact)
-    })
-    .then((response) => response.json())
-    .then((json) => {
-      return json.addedContact;
-    })
-    .catch((error) => {
-      console.error(error);
+  //get the url
+  let endpoint = BASE_URL + '/api/add-contact';
+  // ask to fetch, using the below settings
+  try { 
+    const response = fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      "Content-Type": 'application/json'
+    },
+    body: JSON.stringify(contact)
     });
+
+    //return response if any
+    const json = await response.json();
+    return json;
+  } 
+  //catch any errors
+  catch (error) {
+    console.error(error);
+  }
+};
   
     
-}
-  
+
+//edit contact
+export async function updateContact(contact) {
+  //get the url
+  let endpoint = BASE_URL + '/api/update-contact';
+  // ask to fetch, using the below settings
+  try { 
+    const response = fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      "Content-Type": 'application/json'
+    },
+    body: JSON.stringify(contact)
+    });
+
+    //return response if any
+    const json = await response.json();
+    return json;
+  } 
+  //catch any errors
+  catch (error) {
+    console.error(error);
+  }
+};
+
+//delete contact
+export async function deleteContact(id) {
+  //get the url
+  let endpoint = BASE_URL + '/api/delete-contact';
+  // ask to fetch, using the below settings
+  try { 
+    const response = fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      "Content-Type": 'application/json'
+    },
+    body: JSON.stringify(id)
+    });
+
+    //return response if any
+    const json = await response.json();
+    return json;
+  } 
+  //catch any errors
+  catch (error) {
+    console.error(error);
+  }
+};
+
+//add note
+export async function addContactNote(note) {
+  //get the url
+  let endpoint = BASE_URL + '/api/add-note';
+  // ask to fetch, using the below settings
+  try { 
+    const response = fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      "Content-Type": 'application/json'
+    },
+    body: JSON.stringify(note)
+    });
+
+    //return response if any
+    const json = await response.json();
+    return json;
+  } 
+  //catch any errors
+  catch (error) {
+    console.error(error);
+  }
+};
 
 
+//change catergoty
+// details, i think would contain the contact id, and the catergory
+export async function updateContactCatergory(contactDetails) {
+  //get the url
+  let endpoint = BASE_URL + '/api/change-category';
+  // ask to fetch, using the below settings
+  try { 
+    const response = fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      "Content-Type": 'application/json'
+    },
+    body: JSON.stringify(contactDetails)
+    });
+
+    //return response if any
+    const json = await response.json();
+    return json;
+  } 
+  //catch any errors
+  catch (error) {
+    console.error(error);
+  }
+};
