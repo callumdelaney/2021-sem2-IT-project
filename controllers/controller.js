@@ -5,6 +5,7 @@ const Contact = mongoose.model("Contact");
 const User = mongoose.model("User");
 const Tag = mongoose.model("Tag");
 
+
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -38,6 +39,7 @@ const getContacts = async (req, res) => {
     }
 }
 
+
 // Get one specific contact
 const getOneContact = async (req, res) => {
     try {
@@ -48,14 +50,17 @@ const getOneContact = async (req, res) => {
             status: status.SUCCESS,
             contacts: JSON.stringify(contact)
         });
+        console.log(contact)
     } catch (err) {
         console.log(err)
         return res.send({status: status.FAILURE})
     }
-    console.log(contact)
 }
 
 /******************* incoming (frontend -> backend) ***************************/
+
+
+//New contact
 
 const addNewContact = async (req, res) => {
     try {
@@ -76,6 +81,7 @@ const addNewContact = async (req, res) => {
     console.log(newContact)
 }
 
+//edit contact
 const editContact = async (req, res) => {
     try {
         await Contact.findOneAndUpdate({
@@ -94,6 +100,7 @@ const editContact = async (req, res) => {
     }
 }
 
+//delete contact
 const deleteContact = async (req, res) => {
     try {
         await Contact.findOneAndDelete({
@@ -105,6 +112,7 @@ const deleteContact = async (req, res) => {
     }
 }
 
+//add note
 const addNote = async (req, res) => {
     let newNote = req.body.note
     try {
@@ -118,8 +126,11 @@ const addNote = async (req, res) => {
     console.log(newNote)
 }
 
+//change contact category
 const changeCategory = async (req, res) => {
     try {
+
+
         await Contact.findOneAndUpdate({
             "contactId": req.body.contactId
         }, {
@@ -171,7 +182,6 @@ const login = async (req, res, next) => {
         })
     })(req, res, next);
 }
-
 
 
 // tag stuff

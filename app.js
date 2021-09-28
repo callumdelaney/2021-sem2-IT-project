@@ -44,7 +44,9 @@ app.use(express.json());
 
 const router = require("./routes/route");
 
+
 app.use("/", router);
+
 
 
 // All other GET requests not handled before will return our React app
