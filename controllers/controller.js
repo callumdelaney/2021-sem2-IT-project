@@ -37,7 +37,7 @@ const getContacts = async (req, res) => {
         console.log(contacts)
     } catch (err) {
         console.log(err)
-        return res.send({status: status.FAILURE})
+        return res.send({ status: status.FAILURE })
     }
 }
 
@@ -46,7 +46,7 @@ const getContacts = async (req, res) => {
 const getOneContact = async (req, res) => {
     try {
         let contact = await Contact.findOne({
-            "_id" : req.body._id
+            "_id": req.body._id
         }).lean()
         res.send({
             status: status.SUCCESS,
@@ -55,7 +55,7 @@ const getOneContact = async (req, res) => {
         console.log(contact)
     } catch (err) {
         console.log(err)
-        return res.send({status: status.FAILURE})
+        return res.send({ status: status.FAILURE })
     }
 }
 
@@ -76,10 +76,10 @@ const addNewContact = async (req, res) => {
             "category": req.body.category
         })
         new Contact(newContact).save()
-        res.send({status: status.SUCCESS})
+        res.send({ status: status.SUCCESS })
     } catch (err) {
         console.log(err)
-        res.send({status: status.FAILURE})
+        res.send({ status: status.FAILURE })
     }
     console.log(newContact)
 }
@@ -95,10 +95,10 @@ const editContact = async (res, req) => {
             "email": req.body.email,
             "category": req.body.category
         })
-        res.send({status: status.SUCCESS})
+        res.send({ status: status.SUCCESS })
     } catch (err) {
         console.log(err)
-        res.send({status: status.FAILURE})
+        res.send({ status: status.FAILURE })
     }
 }
 
@@ -107,21 +107,21 @@ const deleteContact = async (req, res) => {
         await Contact.findOneAndDelete({
             "contactId": req.body.contactId
         })
-        res.send({status: status.SUCCESS})
+        res.send({ status: status.SUCCESS })
     } catch (err) {
-        res.send({status: status.FAILURE})
+        res.send({ status: status.FAILURE })
     }
 }
 
 const addNote = async (req, res) => {
     let newNote = req.body.note
     try {
-        var contact = await Contact.findOne({"contactId": req.body.contactId})
+        var contact = await Contact.findOne({ "contactId": req.body.contactId })
         contact.notes.push(newNote)
         contact.save
-        res.send({status: status.SUCCESS})
+        res.send({ status: status.SUCCESS })
     } catch (err) {
-        res.send({status: status.FAILURE})
+        res.send({ status: status.FAILURE })
     }
     console.log(newNote)
 }
@@ -136,52 +136,59 @@ const changeCategory = async (req, res) => {
         }, {
             "category": req.body.category
         })
-        res.send({status: status.SUCCESS})
+        res.send({ status: status.SUCCESS })
     } catch (err) {
-        res.send({status: status.FAILURE})
+        res.send({ status: status.FAILURE })
     }
 }
 
 const newUser = async (req, res) => {
     var pass = passportFunc.genPassword(req.body.password)
-    var userData = {
-        email: req.body.email,
-        password: req.body.password,
-        firstName: req.body.firstName,
-        lastName: req.body.LastName,
-        phoneNumber: req.body.phoneNumber
+    try {
+        const newUser = await User.create({
+            username: req.body.email,
+            hash: pass.hash,
+            salt: pass.salt,
+            firstName: req.body.firstName,
+            lastName: req.body.LastName
+        })
+        res.send({status: status.SUCCESS})
+        new User(newUser).save();
+
+    } catch (err) {
+        res.send({ status: status.FAILURE, error: err })
+        console.log(err)
     }
-
-    const salt = await bcrypt.genSalt(10);
-
-    const newUser = new User(userData);
-
-    newUser.password = await bcrypt.hash(newUser.password, salt);
-    newUser.save()
-
-    res.send({status: status.SUCCESS})
 }
 
+/**
+ * Authenticates login details and, if valid, logs the user in
+ * (i.e. starts a session)
+ * @param req expects an email and a password
+ * @param res responds with a status code
+ */
 const login = async (req, res, next) => {
+
+    /* This is a work-around:
+    User schemas have 'email' but Passport needs req to have 'username' */
     var data = {
         username: req.body.email,
         password: req.body.password
     }
-
     req.body = data;
 
     passport.authenticate('local', (err, user, info) => {
         if (err) {
-            res.send({status: status.FAILURE, error: err})
+            res.send({ status: status.FAILURE, error: err })
             return next(err);
         }
 
         if (!user) {
-            res.send({status: status.INCORRECT_CREDENTIALS})
+            res.send({ status: status.INCORRECT_CREDENTIALS })
         }
 
         req.logIn(user, function (err) {
-            res.send({status: status.SUCCESS})
+            res.send({ status: status.SUCCESS })
         })
     })(req, res, next);
 }
@@ -323,6 +330,7 @@ const getUserTags = async (req, res) => {
 
 
 module.exports = {
+	status,
     login,
     getContacts,
     getOneContact,

@@ -1,7 +1,7 @@
 const path = require("path");
 require("./models/db.js");
 const express = require("express");
-const bodyParser = require('body-parser'); 
+const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 const connectEnsureLogin = require('connect-ensure-login');

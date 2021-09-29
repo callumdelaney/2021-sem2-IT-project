@@ -1,5 +1,5 @@
 const express = require("express");
-const bodyParser = require('body-parser'); 
+const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 const connectEnsureLogin = require('connect-ensure-login');
@@ -32,13 +32,5 @@ router.post("/api/get-user-tags",  connectEnsureLogin.ensureLoggedIn(), controll
 router.post("/api/add-tag", controller.addNewTag);
 router.post("/api/update-tag", controller.editTag);
 router.post("/api/delete-tag",  controller.deleteTag);
-
-
-
-router.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
-});
-
-
 
 module.exports = router;
