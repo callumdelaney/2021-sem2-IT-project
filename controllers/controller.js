@@ -3,6 +3,14 @@ const bcrypt = require("bcrypt");
 
 const Contact = mongoose.model("Contact");
 const User = mongoose.model("User");
+const Tag = mongoose.model("Tag");
+
+
+const passport = require("passport");
+const LocalStrategy = require('passport-local').Strategy;
+
+const passportFunc = require('../passport');
+
 
 // ENUM for status codes (refer to API documentation)
 const status = {
@@ -26,12 +34,13 @@ const getContacts = async (req, res) => {
             status: status.SUCCESS,
             contacts: JSON.stringify(contacts)
         });
+        console.log(contacts)
     } catch (err) {
         console.log(err)
         return res.send({status: status.FAILURE})
     }
-    console.log(contacts)
 }
+
 
 // Get one specific contact
 const getOneContact = async (req, res) => {
@@ -43,15 +52,18 @@ const getOneContact = async (req, res) => {
             status: status.SUCCESS,
             contacts: JSON.stringify(contact)
         });
+        console.log(contact)
     } catch (err) {
         console.log(err)
         return res.send({status: status.FAILURE})
     }
-    console.log(contact)
 }
 
 
 /******************* incoming (frontend -> backend) ***************************/
+
+
+//New contact
 
 const addNewContact = async (req, res) => {
     try {
@@ -72,7 +84,6 @@ const addNewContact = async (req, res) => {
     console.log(newContact)
 }
 
-
 const editContact = async (res, req) => {
     try {
         await Contact.findOneAndUpdate({
@@ -91,8 +102,7 @@ const editContact = async (res, req) => {
     }
 }
 
-
-const deleteContact = async (res, req) => {
+const deleteContact = async (req, res) => {
     try {
         await Contact.findOneAndDelete({
             "contactId": req.body.contactId
@@ -102,7 +112,6 @@ const deleteContact = async (res, req) => {
         res.send({status: status.FAILURE})
     }
 }
-
 
 const addNote = async (req, res) => {
     let newNote = req.body.note
@@ -117,9 +126,11 @@ const addNote = async (req, res) => {
     console.log(newNote)
 }
 
-
+//change contact category
 const changeCategory = async (req, res) => {
     try {
+
+
         await Contact.findOneAndUpdate({
             "contactId": req.body.contactId
         }, {
@@ -132,6 +143,7 @@ const changeCategory = async (req, res) => {
 }
 
 const newUser = async (req, res) => {
+    var pass = passportFunc.genPassword(req.body.password)
     var userData = {
         email: req.body.email,
         password: req.body.password,
@@ -148,34 +160,167 @@ const newUser = async (req, res) => {
     newUser.save()
 
     res.send({status: status.SUCCESS})
+}
 
-/**
- * Verifies login details
- * @param req expects an email and a password
- * @param res responds with a status code
- */
-const login = async (req, res) => {
-    try {
-        let email = req.body.email
-        let password = await bcrypt.hash(req.body.password, 10)
-        let user = await User.findOne({"email": email})
+const login = async (req, res, next) => {
+    var data = {
+        username: req.body.email,
+        password: req.body.password
+    }
 
-        isPasswordCorrect = (password == user.password)
+    req.body = data;
 
-        if (isPasswordCorrect) {
-            res.send({status: status.SUCCESS})
-        } else {
-            res.send({status: status.INCORRECT_CREDENTIALS})
-            console.log("Incorrect password for user %s", email)
-            return
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            res.send({status: status.FAILURE, error: err})
+            return next(err);
         }
+
+        if (!user) {
+            res.send({status: status.INCORRECT_CREDENTIALS})
+        }
+
+        req.logIn(user, function (err) {
+            res.send({status: status.SUCCESS})
+        })
+    })(req, res, next);
+}
+
+/******************* outgoing (backend -> frontend) ***************************/
+
+// Get all tags from database
+const getTags = async (req, res) => {
+    try {
+        console.log("getting tags");
+        let tags = await Tag.find({}).lean()
+        
+        res.send({       
+            tags: JSON.stringify(tags),
+            message : "tag got",
+            status: status.SUCCESS
+        });
+
+        console.log(tags)
+        
+
+    } catch (err) {
+        console.log("tags get fail");
+        console.log(err)
+        return res.send({status: status.FAILURE})
+        
+    }
+ }
+ 
+
+// get tags by userID
+
+const getUserTags = async (req, res) => {
+    try {
+        let tags = await Tag.find({
+            //searching for all tags linked to one userId
+            'userId': req.body.userId
+
+        }).lean()
+
+        //if tag us found, send success and log tag
+        res.send({
+            status: status.SUCCESS,
+            tags: JSON.stringify(tags)
+        });
+
+        console.log(tags)
+
     } catch (err) {
         console.log(err)
         return res.send({status: status.FAILURE})
     }
-    console.log(req.body)
+ }
 
+ //Get one specific tag
+ const getOneTag = async (req, res) => {
+    try {
+        //try to find it
+        let tag = await Tag.findOne({
+            "_id" : req.body._id
+            
+        }).lean()
+ 
+        //send it if found, and report success
+        res.send({
+            status: status.SUCCESS,
+            tags: JSON.stringify(tag)
+        });
+        console.log(tag)
+
+    }  catch (err) {
+        console.log(err)
+        return res.send({status: status.FAILURE})
+    }
+ }
+ 
+ /******************* incoming (frontend -> backend) ***************************/
+
+ const addNewTag = async (req, res) => {
+     try {
+        //Generate random hex colour from
+        // https://css-tricks.com/snippets/javascript/random-hex-color/
+        var randomColour = Math.floor(Math.random()*16777215).toString(16);
+     
+        const newTag = await Tag.create({
+            "userId" : req.body.userId,
+            "tagText" : req.body.tagText,
+            //"tagColour" : req.body.tagColour
+            //random generate tag's hex colour instead
+            "tagColour": randomColour
+       })
+     
+        new Tag(newTag).save()
+        console.log(newTag)
+        res.send({status: status.SUCCESS})
+     
+    } catch (err) {
+        console.log(err)
+        res.send({status: status.FAILURE})
+    }
+ }
+ 
+ const editTag = async (req, res) => {
+     try {
+        await Tag.findOneAndUpdate({
+            "_id" : req.body._id,
+        }, {
+            "tagText" : req.body.tagText,
+            "tagColour" : req.body.tagColour
+        })
+        res.send({status: status.SUCCESS})
+ 
+    } catch (err) {
+        console.log(err)
+        res.send({status: status.FAILURE})
+    }
+ }
+ 
+ const deleteTag = async (req, res) => {
+    try {
+
+       
+
+        await Tag.findOneAndDelete({
+            "_id" : req.body._id
+        })
+
+        res.send({status: status.SUCCESS})
+
+      //  window.alert("tag deleted")
+      //  res.send({message : "tag deleted"})
+    } catch (err) {
+        res.send({status: status.FAILURE})
+    }
 }
+ 
+
+
+
 
 module.exports = {
     login,
@@ -186,5 +331,11 @@ module.exports = {
     deleteContact,
     addNote,
     changeCategory,
-    newUser
+    newUser,
+    getTags,
+    getUserTags,
+    getOneTag,
+    addNewTag,
+    editTag,
+    deleteTag
 };

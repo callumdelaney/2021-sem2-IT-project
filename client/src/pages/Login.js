@@ -17,7 +17,7 @@ store.setState("userInfo", {
 // component for login page
 function Login() {
   // hooks, setXXXX will change the associated variable and then re-render the page
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState(statusCode.SUCCESS);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -39,7 +39,7 @@ function Login() {
 
     // registration details
     var userData = {
-      email: email,
+      username: username,
       password: password,
     };
     // use axios to post user data to back end for processing, use
@@ -82,14 +82,14 @@ function Login() {
       {/* form div containing all of the required fields */}
       <form className="form" action="" onSubmit={handleSubmit}>
         <div className="form-control">
-          <label htmlFor="email">Email: </label>
+          <label htmlFor="username">Email: </label>
           <input
             type="text"
-            id="email"
-            name="email"
+            id="username"
+            name="username"
             required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className="form-control">
