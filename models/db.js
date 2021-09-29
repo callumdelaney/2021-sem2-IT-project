@@ -30,3 +30,5 @@ db.once("open", () => {
 
 require("./contact");
 require("./user");
+require("./tag");
+
