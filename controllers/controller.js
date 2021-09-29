@@ -22,7 +22,9 @@ const status = {
     INVALID_PASSWORD: 14
 }
 
+
 /******************* outgoing (backend -> frontend) ***************************/
+
 
 // Get all contacts from database
 const getContacts = async (req, res) => {
@@ -57,6 +59,7 @@ const getOneContact = async (req, res) => {
     }
 }
 
+
 /******************* incoming (frontend -> backend) ***************************/
 
 
@@ -81,8 +84,7 @@ const addNewContact = async (req, res) => {
     console.log(newContact)
 }
 
-//edit contact
-const editContact = async (req, res) => {
+const editContact = async (res, req) => {
     try {
         await Contact.findOneAndUpdate({
             "contactId": req.body.contactId
@@ -100,7 +102,6 @@ const editContact = async (req, res) => {
     }
 }
 
-//delete contact
 const deleteContact = async (req, res) => {
     try {
         await Contact.findOneAndDelete({
@@ -112,7 +113,6 @@ const deleteContact = async (req, res) => {
     }
 }
 
-//add note
 const addNote = async (req, res) => {
     let newNote = req.body.note
     try {
@@ -142,21 +142,24 @@ const changeCategory = async (req, res) => {
     }
 }
 
-
 const newUser = async (req, res) => {
     var pass = passportFunc.genPassword(req.body.password)
-    try {
-        const newUser = await User.create({
-            username: req.body.email,
-            hash: pass.hash,
-            salt: pass.salt
-        })
-
-        new User(newUser).save();
-    } catch (err) {
-        res.send({status: status.FAILURE, error: err})
-        console.log(err)
+    var userData = {
+        email: req.body.email,
+        password: req.body.password,
+        firstName: req.body.firstName,
+        lastName: req.body.LastName,
+        phoneNumber: req.body.phoneNumber
     }
+
+    const salt = await bcrypt.genSalt(10);
+
+    const newUser = new User(userData);
+
+    newUser.password = await bcrypt.hash(newUser.password, salt);
+    newUser.save()
+
+    res.send({status: status.SUCCESS})
 }
 
 const login = async (req, res, next) => {
@@ -183,17 +186,9 @@ const login = async (req, res, next) => {
     })(req, res, next);
 }
 
-
-// tag stuff
-
-
-
 /******************* outgoing (backend -> frontend) ***************************/
 
-
-
-
-//Get all tags from database
+// Get all tags from database
 const getTags = async (req, res) => {
     try {
         console.log("getting tags");
@@ -217,7 +212,7 @@ const getTags = async (req, res) => {
  }
  
 
-//get tags by userID
+// get tags by userID
 
 const getUserTags = async (req, res) => {
     try {
@@ -265,12 +260,8 @@ const getUserTags = async (req, res) => {
  
  /******************* incoming (frontend -> backend) ***************************/
 
-
- //New tag
  const addNewTag = async (req, res) => {
      try {
- 
-
         //Generate random hex colour from
         // https://css-tricks.com/snippets/javascript/random-hex-color/
         var randomColour = Math.floor(Math.random()*16777215).toString(16);
@@ -282,8 +273,6 @@ const getUserTags = async (req, res) => {
             //random generate tag's hex colour instead
             "tagColour": randomColour
        })
-         
-        
      
         new Tag(newTag).save()
         console.log(newTag)
@@ -293,28 +282,16 @@ const getUserTags = async (req, res) => {
         console.log(err)
         res.send({status: status.FAILURE})
     }
-
-   
  }
  
- //Edit tag
  const editTag = async (req, res) => {
-    
-
      try {
-
-         
-
-         
         await Tag.findOneAndUpdate({
             "_id" : req.body._id,
         }, {
             "tagText" : req.body.tagText,
             "tagColour" : req.body.tagColour
         })
-        
-        
- 
         res.send({status: status.SUCCESS})
  
     } catch (err) {
@@ -323,7 +300,6 @@ const getUserTags = async (req, res) => {
     }
  }
  
- //Delete tag
  const deleteTag = async (req, res) => {
     try {
 
@@ -363,4 +339,3 @@ module.exports = {
     editTag,
     deleteTag
 };
-
