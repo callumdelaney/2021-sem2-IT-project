@@ -17,8 +17,9 @@ store.setState("userInfo", {
 // component for login page
 function Login() {
 	// hooks, setXXXX will change the associated variable and then re-render the page
-	const [username, setUsername] = useState("");
+	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	// default success so that error won't appear
 	const [status, setStatus] = useState(statusCode.SUCCESS);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -29,19 +30,15 @@ function Login() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		// setError based on feedback from back-end. localStatus can change within
-		// this function to be referenced
-
-		// var localStatus = statusCode.UNKNOWN_EMAIL;
-		// setStatus(statusCode.UNKNOWN_EMAIL);
-		var localStatus = statusCode.SUCCESS;
-		setStatus(statusCode.SUCCESS);
+		// setStatus and localStatus keep track of what errors can be returned from trying to log in
+		var localStatus = status;
 
 		// registration details
 		var userData = {
-			username: username,
+			email: email,
 			password: password,
 		};
+		console.log(userData);
 		// use axios to post user data to back end for processing, use
 		// response to test for validity
 		axios
@@ -51,24 +48,25 @@ function Login() {
 				// check if credentials are correct
 				localStatus = response.data.status;
 				setStatus(localStatus);
+
+				if (localStatus === statusCode.SUCCESS) {
+					console.log("login successful!");
+					fetch("/api/user-info", userData)
+						.then((res) => res.json())
+						.then((data) => setUserInfo(data))
+						.catch((error) => {
+							console.log(error);
+						});
+					// fetch("/api/user-contacts", userData)
+					//   .then((res) => res.json())
+					//   .then((data) => setContactInfo(data));
+					console.log(userInfo);
+					setIsLoggedIn(true);
+				}
 			})
 			.catch((error) => {
 				console.log(error);
 			});
-		if (localStatus === statusCode.SUCCESS) {
-			console.log("login successful!");
-			fetch("/api/user-info", userData)
-				.then((res) => res.json())
-				.then((data) => setUserInfo(data))
-				.catch((error) => {
-					console.log(error);
-				});
-			// fetch("/api/user-contacts", userData)
-			//   .then((res) => res.json())
-			//   .then((data) => setContactInfo(data));
-			console.log(userInfo);
-			setIsLoggedIn(true);
-		}
 	};
 
 	if (isLoggedIn) {
@@ -82,14 +80,14 @@ function Login() {
 			{/* form div containing all of the required fields */}
 			<form className="form" action="" onSubmit={handleSubmit}>
 				<div className="form-control">
-					<label htmlFor="username">Email: </label>
+					<label htmlFor="email">Email: </label>
 					<input
 						type="text"
-						id="username"
-						name="username"
+						id="email"
+						name="email"
 						required
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
 					/>
 				</div>
 				<div className="form-control">
