@@ -10,22 +10,22 @@ store.setState("contactInfo", { firstName: -1 });
 
 /*Contacts page main function*/
 function Contacts() {
-  return (
-    <>
-      <div className="flex-container">
-        <div className="flex-child">
-          {/* Left-hand table showing records of user contacts */}
-          <ContactsTable />
-        </div>
-        <div className="flex-child">
-          {/* div displaying user information */}
-          <UserInfo />
-          {/* component displaying contact-info */}
-          <Contact />
-        </div>
-      </div>
-    </>
-  );
+	return (
+		<>
+			<div className="flex-container">
+				<div className="flex-child">
+					{/* Left-hand table showing records of user contacts */}
+					<ContactsTable />
+				</div>
+				<div className="flex-child">
+					{/* div displaying user information */}
+					<UserInfo />
+					{/* component displaying contact-info */}
+					<Contact />
+				</div>
+			</div>
+		</>
+	);
 }
 
 export default Contacts;
