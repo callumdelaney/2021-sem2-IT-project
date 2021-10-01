@@ -27,8 +27,11 @@ describe('Logging in', function () {
 		it('should respond with status 1', function (done) {
 			request(app)
 				.post('/api/login')
-				.send({email: "mocha", password: "mocha"})
+				.send({ email: "mocha", password: "mocha" })
 				.then(response => {
+					if (!response.body) {
+						done(new Error("empty response body"))
+					}
 					if (response.body.status == controller.status.SUCCESS) {
 						done()
 					}
@@ -43,7 +46,7 @@ describe('Logging in', function () {
 		it('should respond with status 1', function (done) {
 			request(app)
 				.post('/api/login')
-				.send({email: "0706167104", password: "07096661652786167104"})
+				.send({ email: "0706167104", password: "07096661652786167104" })
 				.then(response => {
 					if (response.body.status == controller.status.INCORRECT_CREDENTIALS) {
 						done()
@@ -76,12 +79,12 @@ describe('Get contacts', function () {
 	async function login() {
 		await server
 			.post("/api/login")
-			.send({email: "mocha", password: "mocha"})
+			.send({ email: "mocha", password: "mocha" })
 			.then(response => {
 				console.log(response.body)
 			})
 	}
-	
+
 	context('Logged in', function () {
 		it('login', login)
 		it('should return status code 1', function (done) {
