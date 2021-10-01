@@ -304,6 +304,85 @@ const login = async (req, res, next) => {
 	})(req, res, next);
 };
 
+
+
+/************************tags stuff*****************/
+
+/******************* outgoing (backend -> frontend) ***************************/
+
+// Get all tags from database
+const getTags = async (req, res) => {
+    try {
+        console.log("getting tags");
+        let tags = await Tag.find({}).lean()
+
+        res.send({       
+            tags: JSON.stringify(tags),
+            message : "tag got",
+            status: status.SUCCESS
+        });
+
+        console.log(tags)
+
+
+    } catch (err) {
+        console.log("tags get fail");
+        console.log(err)
+        return res.send({status: status.FAILURE})
+
+    }
+}
+
+
+// get tags by userID
+
+const getUserTags = async (req, res) => {
+    try {
+        let tags = await Tag.find({
+            //searching for all tags linked to one userId
+            'userId': req.body.userId
+
+        }).lean()
+
+        //if tag us found, send success and log tag
+        res.send({
+            status: status.SUCCESS,
+            tags: JSON.stringify(tags)
+        });
+
+        console.log(tags)
+
+    } catch (err) {
+        console.log(err)
+        return res.send({status: status.FAILURE})
+    }
+}
+
+ //Get one specific tag
+ const getOneTag = async (req, res) => {
+    try {
+        //try to find it
+        let tag = await Tag.findOne({
+            "_id" : req.body._id
+
+        }).lean()
+
+        //send it if found, and report success
+        res.send({
+            status: status.SUCCESS,
+            tags: JSON.stringify(tag)
+        });
+        console.log(tag)
+
+    }  catch (err) {
+        console.log(err)
+        return res.send({status: status.FAILURE})
+    }
+}
+
+/******************* incoming (frontend -> backend) ***************************/
+
+
 /**
  * Adds a new tag to the database
  * @param {object} req takes tag information (see ../models/tag/tagSchema)
@@ -371,6 +450,9 @@ const deleteTag = async (req, res) => {
 		res.send({ status: status.FAILURE });
 	}
 };
+
+
+
 
 module.exports = {
 	status,
