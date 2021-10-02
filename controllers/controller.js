@@ -271,7 +271,7 @@ const newUser = async (req, res) => {
 			hash: pass.hash,
 			salt: pass.salt,
 			firstName: req.body.firstName,
-			lastName: req.body.LastName
+			lastName: req.body.lastName
 		})
 		res.send({ status: status.SUCCESS })
 		new User(newUser).save();
@@ -302,15 +302,14 @@ const login = async (req, res, next) => {
 		if (err) {
 			res.send({ status: status.FAILURE, error: err })
 			return next(err);
-		}
-
-		if (!user) {
+		} else if (!user) {
 			res.send({ status: status.INCORRECT_CREDENTIALS })
+		} else {
+			req.logIn(user, function (err) {
+				res.send({ status: status.SUCCESS })
+			})
 		}
 
-		req.logIn(user, function (err) {
-			res.send({ status: status.SUCCESS })
-		})
 	})(req, res, next);
 }
 
