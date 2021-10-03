@@ -188,7 +188,7 @@ const addNewContact = async (req, res) => {
 const editContact = async (res, req) => {
 	try {
 		await Contact.findOneAndUpdate({
-			"_Id": req.body.id
+			"_id": req.body._id
 		}, {
 			"firstName": req.body.firstName,
 			"lastName": req.body.lastName,
@@ -211,7 +211,7 @@ const editContact = async (res, req) => {
 const deleteContact = async (req, res) => {
 	try {
 		await Contact.findOneAndDelete({
-			"contactId": req.body.contactId
+			"_id": req.body._id
 		})
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
@@ -228,7 +228,7 @@ const deleteContact = async (req, res) => {
 const addNote = async (req, res) => {
 	let newNote = req.body.note
 	try {
-		var contact = await Contact.findOne({ "contactId": req.body.contactId })
+		var contact = await Contact.findOne({ "_id": req.body._id })
 		contact.notes.push(newNote)
 		contact.save
 		res.send({ status: status.SUCCESS })
@@ -249,7 +249,7 @@ const changeCategory = async (req, res) => {
 
 
 		await Contact.findOneAndUpdate({
-			"contactId": req.body.contactId
+			"_id": req.body._id
 		}, {
 			"category": req.body.category
 		})
@@ -289,7 +289,19 @@ const newUser = async (req, res) => {
 }
 
 const changePassword = async (req, res) => {
-
+	var pass = passportFunc.genPassword(req.body.password)
+	try {
+		await User.findOneAndUpdate({
+			"username": req.body.username,
+		}, {
+			hash: pass.hash,
+			salt: pass.salt
+		})
+		res.send({ status: status.SUCCESS })
+	} catch (err) {
+		res.send({ status: status.FAILURE })
+	}
+	
 }
 
 /**
@@ -406,5 +418,6 @@ module.exports = {
 	getOneTag,
 	addNewTag,
 	editTag,
-	deleteTag
+	deleteTag,
+	changePassword
 };
