@@ -25,8 +25,7 @@ function Signup() {
 		e.preventDefault();
 
 		// setError based on feedback from back-end
-		var localStatus = statusCode.SUCCESS;
-		setStatus(statusCode.SUCCESS);
+		var localStatus = status;
 		// if the two password fields don't match, can't move forward
 		if (password !== passwordConfirm) {
 			// dynamically change border color of these elements to red

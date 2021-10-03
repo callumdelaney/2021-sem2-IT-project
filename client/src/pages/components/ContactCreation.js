@@ -14,6 +14,8 @@ function ContactCreation() {
 	// eslint-disable-next-line
 	const [photo, setPhoto] = useState("");
 	// eslint-disable-next-line
+	const [tags, setTags] = useState("");
+	// eslint-disable-next-line
 	const [status, setStatus] = useState(statusCode.SUCCESS);
 
 	// toggle state for confirmation popup
@@ -25,22 +27,22 @@ function ContactCreation() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		var localStatus = statusCode.SUCCESS;
-		setStatus(statusCode.SUCCESS);
+		var localStatus = status;
 		// contact details
-		var userData = {
+		var contactData = {
 			firstName: firstName,
 			lastName: lastName,
 			email: email,
 			category: category,
 			phoneNumber: phoneNumber,
 			notes: notes,
-			photo: photo,
+			//photo: photo,
+			//tags: tags,
 		};
 		// use axios to post user data to back end for processing, use
 		// response to test for validity
 		axios
-			.post("/api/add-contact", userData)
+			.post("/api/add-contact", contactData)
 			.then((response) => {
 				console.log(response.data);
 			})
