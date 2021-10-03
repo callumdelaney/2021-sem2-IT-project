@@ -172,11 +172,12 @@ const addNewContact = async (req, res) => {
 		})
 		new Contact(newContact).save()
 		res.send({ status: status.SUCCESS })
+		console.log(newContact)
 	} catch (err) {
 		console.log(err)
 		res.send({ status: status.FAILURE })
 	}
-	console.log(newContact)
+	
 }
 
 /**
