@@ -163,20 +163,20 @@ const getOneTag = async (req, res) => {
 const addNewContact = async (req, res) => {
 	try {
 		const newContact = await Contact.create({
-			"contactId": req.body.contactId,
-			"firstName": req.body.first_name,
-			"lastName": req.body.last_name,
-			"phone": req.body.phone,
+			"firstName": req.body.firstName,
+			"lastName": req.body.lastName,
+			"phone": req.body.phoneNumber,
 			"email": req.body.email,
-			"category": req.body.category
+			"category": req.body.category,
+			"photo": req.body.photo,
+			"notes": req.body.notes
 		})
-		new Contact(newContact).save()
 		res.send({ status: status.SUCCESS })
+		new Contact(newContact).save()
 	} catch (err) {
 		console.log(err)
 		res.send({ status: status.FAILURE })
 	}
-	console.log(newContact)
 }
 
 /**
@@ -187,7 +187,7 @@ const addNewContact = async (req, res) => {
 const editContact = async (res, req) => {
 	try {
 		await Contact.findOneAndUpdate({
-			"contactId": req.body.contactId
+			"_Id": req.body.id
 		}, {
 			"firstName": req.body.firstName,
 			"lastName": req.body.lastName,

@@ -40,7 +40,7 @@ function ContactCreation() {
 		// use axios to post user data to back end for processing, use
 		// response to test for validity
 		axios
-			.post("/api", userData)
+			.post("/api/add-contact", userData)
 			.then((response) => {
 				console.log(response.data);
 			})
