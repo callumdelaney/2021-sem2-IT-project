@@ -251,7 +251,7 @@ const deleteContactTag = async (req, res) => {
 	deleteTag.forEach(async (element) =>  {
 		try {
 			var contact = await Contact.findOne({ "_id": req.body._id })
-			console.log(contact)
+			
 
 			//find the index of the tag you want to delete in the array
 			const tagIndex = contact.tags.indexOf(element);
@@ -262,6 +262,7 @@ const deleteContactTag = async (req, res) => {
 			}
 
 			contact.save
+			console.log(contact)
 			res.send({ status: status.SUCCESS })
 
 		} catch (err) {
