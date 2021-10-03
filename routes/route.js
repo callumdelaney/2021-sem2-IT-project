@@ -30,6 +30,8 @@ router.get(
 );
 router.post("/api/add-contact", controller.addNewContact);
 router.post("/api/update-contact", controller.editContact);
+router.post("/api/push-contact-tag", controller.pushContactTag);
+router.post("/api/delete-contact-tag", controller.deleteContactTag);
 router.post("/api/delete-contact", controller.deleteContact);
 router.post("/api/add-note", controller.addNote);
 router.post("/api/change-category", controller.changeCategory);

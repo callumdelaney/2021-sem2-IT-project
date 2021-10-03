@@ -7,7 +7,8 @@ const contactSchema = new mongoose.Schema({
     email : {type : String, required : false},
     notes : {type : String, required : false},
     photo : {type : String, required : false},
-    category : {type : String, required : false}
+    category : {type : String, required : false},
+    tags: {type: [mongoose.Schema.Types.ObjectId], required: false, ref:'Tag'}
 })
 
 const CONTACT = mongoose.model('Contact', contactSchema)

@@ -184,16 +184,17 @@ const addNewContact = async (req, res) => {
  * @param {object} req takes contact information (see ../models/contact/contactSchema)
  * @param {object} res responds with a status code
  */
-const editContact = async (res, req) => {
+const editContact = async (req, res) => {
 	try {
 		await Contact.findOneAndUpdate({
-			"_Id": req.body.id
+			"_id": req.body._id
 		}, {
 			"firstName": req.body.firstName,
 			"lastName": req.body.lastName,
 			"phone": req.body.phone,
 			"email": req.body.email,
-			"category": req.body.category
+			"category": req.body.category,
+			"tags": req.body.tags
 		})
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
@@ -201,6 +202,76 @@ const editContact = async (res, req) => {
 		res.send({ status: status.FAILURE })
 	}
 }
+
+/**
+ * Appends a tag to a contact's tag array in the database
+ * @param {object} req takes contact information (see ../models/contact/contactSchema),
+ * and tag id/ids
+ * @param {object} res responds with a status code
+ * 
+ * https://www.w3schools.com/jsref/jsref_push.asp
+ * If pushing multiple to the list, it looks like:
+ * const fruits = ["Banana", "Orange", "Apple", "Mango"];
+ * fruits.push("Kiwi", "Lemon", "Pineapple"); 
+ * 
+ * otherwise, just push one at a time.
+ */
+
+const pushContactTag = async (req, res) => {
+
+	let newTag = req.body.tags;
+	try {
+		var contact = await Contact.findOne({ "_id": req.body._id })
+		contact.tags.push(newTag)
+		contact.save
+		console.log(contact)
+		res.send({ status: status.SUCCESS })
+	} catch (err) {
+		res.send({ status: status.FAILURE })
+	}
+	console.log(newTag)
+}
+
+/**
+ * deletes tags from a contact's tag array in the database
+ * @param {object} req takes contact information (see ../models/contact/contactSchema),
+ * and an ARRAY of tag ._ids
+ * @param {object} res responds with a status code
+ *
+ *https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array
+ *
+*/
+
+const deleteContactTag = async (req, res) => {
+
+	let deleteTag = [req.body.tags];
+
+	//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+
+	deleteTag.forEach(async (element) =>  {
+		try {
+			var contact = await Contact.findOne({ "_id": req.body._id })
+			console.log(contact)
+
+			//find the index of the tag you want to delete in the array
+			const tagIndex = contact.tags.indexOf(element);
+			//if the tag exists in the array, splice it out of the array
+			if (tagIndex > -1) {
+				// the one is because you're only removing one element
+				contact.tags.splice(tagIndex, 1);
+			}
+
+			contact.save
+			res.send({ status: status.SUCCESS })
+
+		} catch (err) {
+			res.send({ status: status.FAILURE })
+		}
+	} )
+	console.log(deleteTag)
+}
+
+
 
 /**
  * Deletes an existing contact from the database
@@ -387,6 +458,8 @@ module.exports = {
 	getOneContact,
 	addNewContact,
 	editContact,
+	pushContactTag,
+	deleteContactTag,
 	deleteContact,
 	addNote,
 	changeCategory,
