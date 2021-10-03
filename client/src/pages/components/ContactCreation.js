@@ -9,7 +9,7 @@ function ContactCreation() {
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
 	const [phoneNumber, setPhoneNumber] = useState("");
-	const [category, setCategory] = useState("");
+	const [category, setCategory] = useState("business");
 	const [notes, setNotes] = useState("");
 	// eslint-disable-next-line
 	const [photo, setPhoto] = useState("");
@@ -129,6 +129,7 @@ function ContactCreation() {
 					<RadioGroup
 						className="contact-form-category"
 						row
+						value={category}
 						onChange={(e) => setCategory(e.target.value)}
 					>
 						<FormControlLabel
@@ -141,7 +142,6 @@ function ContactCreation() {
 							}
 							style={{ fontSize: "22px" }}
 							// default to business unless changed
-							checked={true}
 						/>
 						<FormControlLabel
 							value="personal"
