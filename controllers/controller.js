@@ -19,7 +19,8 @@ const status = {
 	UNKNOWN_EMAIL: 11,
 	INCORRECT_CREDENTIALS: 12,
 	EMAIL_TAKEN: 13,
-	INVALID_PASSWORD: 14
+	INVALID_PASSWORD: 14,
+	INVALID_EMAIL: 15
 }
 
 
@@ -265,6 +266,11 @@ const changeCategory = async (req, res) => {
  */
 const newUser = async (req, res) => {
 	var pass = passportFunc.genPassword(req.body.password)
+
+	const regex = /\S+@\S+\.\S+/;
+    if (regex.test(String(req.body.email).toLowerCase()) == false) {
+		return res.send({status: status.UNKNOWN_EMAIL})
+	}
 	try {
 		const newUser = await User.create({
 			username: req.body.email,
@@ -280,6 +286,10 @@ const newUser = async (req, res) => {
 		res.send({ status: status.FAILURE, error: err })
 		console.log(err)
 	}
+}
+
+const changePassword = async (req, res) => {
+
 }
 
 /**
