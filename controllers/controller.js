@@ -292,7 +292,7 @@ const changePassword = async (req, res) => {
 	var pass = passportFunc.genPassword(req.body.password)
 	try {
 		await User.findOneAndUpdate({
-			"username": req.body.username,
+			"username": req.user
 		}, {
 			hash: pass.hash,
 			salt: pass.salt
@@ -302,6 +302,32 @@ const changePassword = async (req, res) => {
 		res.send({ status: status.FAILURE })
 	}
 	
+}
+
+const changeFirstName = async (req, res) => {
+	try {
+		await User.findOneAndUpdate({
+			"username": req.user
+		}, {
+			firstName: req.body.firstName
+		})
+		res.send({status: status.SUCCESS})
+	} catch (err) {
+		res.send({status: statud.FAILURE})
+	}
+}
+
+const changeLastName = async (req, res) => {
+	try {
+		await User.findOneAndUpdate({
+			"username": req.user
+		}, {
+			lastName: req.body.lastName
+		})
+		res.send({status: status.SUCCESS})
+	} catch (err) {
+		res.send({status: statud.FAILURE})
+	}
 }
 
 /**
@@ -419,5 +445,7 @@ module.exports = {
 	addNewTag,
 	editTag,
 	deleteTag,
-	changePassword
+	changePassword,
+	changeFirstName,
+	changeLastName
 };
