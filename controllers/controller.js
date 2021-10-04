@@ -252,7 +252,7 @@ const pushContactTag = async (req, res) => {
 	try {
 		var contact = await Contact.findOne({ "_id": req.body._id })
 		contact.tags.push(newTag)
-		contact.save
+		contact.save()
 		console.log(contact)
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
@@ -264,7 +264,7 @@ const pushContactTag = async (req, res) => {
 /**
  * deletes tags from a contact's tag array in the database
  * @param {object} req takes contact information (see ../models/contact/contactSchema),
- * and an ARRAY of tag ._ids
+ * and one of tag ._ids
  * @param {object} res responds with a status code
  *
  *https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array
@@ -273,11 +273,11 @@ const pushContactTag = async (req, res) => {
 
 const deleteContactTag = async (req, res) => {
 
-	let deleteTag = [req.body.tags];
+	let deleteTag = req.body.tags;
 
 	//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 
-	deleteTag.forEach(async (element) =>  {
+	[deleteTag].forEach(async (element) =>  {
 		try {
 			var contact = await Contact.findOne({ "_id": req.body._id })
 			
@@ -290,7 +290,7 @@ const deleteContactTag = async (req, res) => {
 				contact.tags.splice(tagIndex, 1);
 			}
 
-			contact.save
+			contact.save()
 			console.log(contact)
 			res.send({ status: status.SUCCESS })
 
@@ -311,7 +311,7 @@ const deleteContactTag = async (req, res) => {
 const deleteContact = async (req, res) => {
 	try {
 		await Contact.findOneAndDelete({
-			"contactId": req.body.contactId
+			"_id": req.body._id
 		})
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
@@ -325,17 +325,21 @@ const deleteContact = async (req, res) => {
  * @param {object} req takes a string
  * @param {object} res responds with a status code
  */
+
 const addNote = async (req, res) => {
 	let newNote = req.body.note
+	console.log(newNote)
 	try {
-		var contact = await Contact.findOne({ "contactId": req.body.contactId })
+		var contact = await Contact.findOne({"_id": req.body._id })
+		console.log(contact)
 		contact.notes.push(newNote)
-		contact.save
+		contact.save()
 		res.send({ status: status.SUCCESS })
+		console.log(newNote)
 	} catch (err) {
 		res.send({ status: status.FAILURE })
 	}
-	console.log(newNote)
+	
 }
 
 /**
@@ -349,7 +353,7 @@ const changeCategory = async (req, res) => {
 
 
 		await Contact.findOneAndUpdate({
-			"contactId": req.body.contactId
+			"_id": req.body._id
 		}, {
 			"category": req.body.category
 		})

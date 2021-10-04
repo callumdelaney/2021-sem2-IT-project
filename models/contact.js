@@ -8,7 +8,8 @@ const contactSchema = new mongoose.Schema({
     notes : {type : String, required : false},
     photo : {type : String, required : false},
     category : {type : String, required : false},
-    tags: {type: [mongoose.Schema.Types.ObjectId], required: false, ref:'Tag'},
+   // tags: {type: [mongoose.Schema.Types.ObjectId], required: false, ref:'Tag'},
+    tags: {type: [String], required: false},
     //for userid, for now, we are using username.
     userId : {type : String, required : true}
 })
