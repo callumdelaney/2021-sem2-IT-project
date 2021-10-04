@@ -39,7 +39,7 @@ router.post("/api/get-user-tags",  connectEnsureLogin.ensureLoggedIn(), controll
 
 ////////////  CONTACTS //////////////
 
-function getAllContacts() {
+export function getAllContacts() {
 	const endpoint = BASE_URL + "/api/get-contacts";
 	return fetch(endpoint).then((res) => res.json());
 }
