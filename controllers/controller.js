@@ -70,7 +70,6 @@ const getOneContact = async (req, res) => {
 		return res.send({ status: status.FAILURE })
 	}
 }
-
 /**
  * Gets all existing tags from the database
  * @param {object} req doesn't need anything in the request body

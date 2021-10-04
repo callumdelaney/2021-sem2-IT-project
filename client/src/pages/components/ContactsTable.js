@@ -5,6 +5,7 @@ import { MTableToolbar } from "material-table";
 import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useGlobalState } from "state-pool";
+import Tag from "./Tag"
 
 function ContactsTable(contactInfo) {
 	const [category, setCategory] = useState("");
@@ -29,6 +30,12 @@ function ContactsTable(contactInfo) {
 		{
 			title: "Name",
 			field: "firstName",
+			// width: "200%",
+			// for troubleshooting column width
+			cellStyle: {
+            backgroundColor: '#039be5',
+            color: '#FFF'
+          },
 			/*render a div in each cell so that name and tags can be displayed in one cell*/
 			render: (filteredData) => {
 				const taglist = filteredData.tag.map((tag) => <li>{tag}</li>);
@@ -38,7 +45,9 @@ function ContactsTable(contactInfo) {
 						<h4>
 							{filteredData.firstName} {filteredData.lastName}
 						</h4>
-						<ul>{taglist}</ul>
+						
+						<Tag/>
+						{/* <ul>{taglist}</ul> */}
 					</div>
 				);
 			},
@@ -46,8 +55,14 @@ function ContactsTable(contactInfo) {
 		{
 			title: "Category",
 			field: "category",
+			// width: "10%",
 			// hidden: true,
 		},
+		// {
+		// 	title:"tags",
+			
+		// }
+		
 	];
 	// color constants used in styles
 	const iconColor = "#83498A";
@@ -157,7 +172,7 @@ function ContactsTable(contactInfo) {
 				}}
 				// table options (stylings + layout)
 				options={{
-					tableLayout: "fixed",
+					tableLayout: "auto",
 					pageSize: filteredData.length,
 					// table size options
 					pageSizeOptions: [
@@ -169,6 +184,7 @@ function ContactsTable(contactInfo) {
 						top: 0,
 						backgroundColor: "#01579b",
 						color: whiteColor,
+						min_height: '5vh'
 					},
 					// styling for search bar
 					searchFieldStyle: {
