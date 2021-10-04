@@ -5,7 +5,7 @@ import { MTableToolbar } from "material-table";
 import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useGlobalState } from "state-pool";
-import Tag from "./Tag"
+import Tag from "./Tags"
 
 function ContactsTable(contactInfo) {
 	const [category, setCategory] = useState("");
@@ -22,7 +22,7 @@ function ContactsTable(contactInfo) {
 			category === ""
 				? tableDataCpy
 				: // filter data shown based on category equivalence
-				  tableDataCpy.filter((data) => data.category === category)
+				tableDataCpy.filter((data) => data.category === category)
 		);
 	}, [category, tableDataCpy]);
 
@@ -33,20 +33,20 @@ function ContactsTable(contactInfo) {
 			// width: "200%",
 			// for troubleshooting column width
 			cellStyle: {
-            backgroundColor: '#039be5',
-            color: '#FFF'
-          },
+				backgroundColor: '#039be5',
+				color: '#FFF'
+			},
 			/*render a div in each cell so that name and tags can be displayed in one cell*/
 			render: (filteredData) => {
-				const taglist = filteredData.tag.map((tag) => <li>{tag}</li>);
+				// const taglist = filteredData.tag.map((tag) => <li>{tag}</li>);
 				return (
 					<div>
 						{/* table contents */}
 						<h4>
 							{filteredData.firstName} {filteredData.lastName}
 						</h4>
-						
-						<Tag/>
+
+						<Tag />
 						{/* <ul>{taglist}</ul> */}
 					</div>
 				);
@@ -56,13 +56,13 @@ function ContactsTable(contactInfo) {
 			title: "Category",
 			field: "category",
 			// width: "10%",
-			// hidden: true,
+			hidden: true,
 		},
 		// {
 		// 	title:"tags",
-			
+
 		// }
-		
+
 	];
 	// color constants used in styles
 	const iconColor = "#83498A";
@@ -172,7 +172,7 @@ function ContactsTable(contactInfo) {
 				}}
 				// table options (stylings + layout)
 				options={{
-					tableLayout: "auto",
+					tableLayout: "fixed",
 					pageSize: filteredData.length,
 					// table size options
 					pageSizeOptions: [
@@ -191,7 +191,11 @@ function ContactsTable(contactInfo) {
 						color: whiteColor,
 					},
 					paging: false,
-					maxBodyHeight: "850px",
+					maxBodyHeight: "85vh",
+					fixedColumns: {
+						left: 2,
+						right: 0
+					},
 					// stylings for each individual row
 					rowStyle: (rowData) => {
 						if (selectedRow != null) {
@@ -199,7 +203,7 @@ function ContactsTable(contactInfo) {
 								// row colour changes to grey upon clicking it
 								backgroundColor:
 									selectedRow.tableData.id ===
-									rowData.tableData.id
+										rowData.tableData.id
 										? "#e6e6e6"
 										: whiteColor,
 								border: "2px solid black",

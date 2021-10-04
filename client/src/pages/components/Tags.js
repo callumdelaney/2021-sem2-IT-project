@@ -1,14 +1,13 @@
 import React from "react";
-// import LabelIcon from '@material-ui/icons/Label';
-import { Chip, Paper, ListItem } from "@material-ui/core";
+import { Chip, ListItem } from "@material-ui/core";
 
-function Tag(props) {
+function Tag() {
 	const [chipData, setChipData] = React.useState([
-		{ _id: 0, tagText: 'Angular', tagColour: '#'+Math.floor(Math.random() * 200).toString(16) },
-		{ _id: 1, tagText: 'jQuery', tagColour: '#'+Math.floor(Math.random() * 200).toString(16) },
-		{ _id: 2, tagText: 'Polymer', tagColour: '#'+Math.floor(Math.random() * 200).toString(16) },
-		{ _id: 3, tagText: 'React', tagColour: '#'+Math.floor(Math.random() * 200).toString(16) },
-		{ _id: 4, tagText: 'Vue.js', tagColour: '#'+Math.floor(Math.random() * 200).toString(16) },
+		{ _id: 0, tagText: 'dad', tagColour: '#'+Math.floor(Math.random() * 200).toString(16) },
+		{ _id: 1, tagText: 'uncle', tagColour: '#'+Math.floor(Math.random() * 200).toString(16) },
+		{ _id: 2, tagText: 'cousin', tagColour: '#'+Math.floor(Math.random() * 200).toString(16) },
+		{ _id: 3, tagText: 'brother', tagColour: '#'+Math.floor(Math.random() * 200).toString(16) },
+		{ _id: 4, tagText: 'niece', tagColour: '#'+Math.floor(Math.random() * 200).toString(16) },
 	]);
 
 	const handleDelete = (chipToDelete) => () => {
