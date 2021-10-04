@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-//import { tableData } from "./data";
+import { tableData } from "./data";
 import MaterialTable from "material-table";
 import { MTableToolbar } from "material-table";
 import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
@@ -10,8 +10,8 @@ import {getAllContacts, useAllContacts} from "../../api";
 
 
 function ContactsTable(contactInfo) {
-	const table = getAllContacts();
-	const tableData = table.contacts;
+	//const table = getAllContacts();
+	//const tableData = table.contacts;
 	const [category, setCategory] = useState("");
 	const [tableDataCpy, setTableDataCpy] = useState(tableData);
 	const [filteredData, setFilteredData] = useState(tableData);
