@@ -197,7 +197,8 @@ const addNewContact = async (req, res) => {
 			"email": req.body.email,
 			"category": req.body.category,
 			"photo": req.body.photo,
-			"notes": req.body.notes
+			"notes": req.body.notes,
+			"userId" : req.body.userId
 		})
 		res.send({ status: status.SUCCESS })
 		new Contact(newContact).save()
