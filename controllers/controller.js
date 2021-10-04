@@ -301,7 +301,6 @@ const changePassword = async (req, res) => {
 	} catch (err) {
 		res.send({ status: status.FAILURE })
 	}
-	
 }
 
 const changeFirstName = async (req, res) => {
@@ -313,7 +312,7 @@ const changeFirstName = async (req, res) => {
 		})
 		res.send({status: status.SUCCESS})
 	} catch (err) {
-		res.send({status: statud.FAILURE})
+		res.send({status: status.FAILURE})
 	}
 }
 
@@ -326,7 +325,7 @@ const changeLastName = async (req, res) => {
 		})
 		res.send({status: status.SUCCESS})
 	} catch (err) {
-		res.send({status: statud.FAILURE})
+		res.send({status: status.FAILURE})
 	}
 }
 
