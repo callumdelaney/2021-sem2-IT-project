@@ -28,6 +28,12 @@ router.get(
 	"/api/get-one-contact",
 	/*connectEnsureLogin.ensureLoggedIn(),*/ controller.getOneContact
 );
+
+router.get(
+	"/api/get-user-contacts",
+	/*connectEnsureLogin.ensureLoggedIn(),*/ controller.getUserContacts
+);
+
 router.post("/api/add-contact", controller.addNewContact);
 router.post("/api/update-contact", controller.editContact);
 router.post("/api/push-contact-tag", controller.pushContactTag);

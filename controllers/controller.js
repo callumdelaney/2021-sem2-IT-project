@@ -71,6 +71,34 @@ const getOneContact = async (req, res) => {
 }
 
 /**
+ * Gets all contacts from the database belonging to a specific user
+ * @param {object} req takes a unique user name
+ * @param {object} res responds with a status code and, if successful, a list of tags
+ * @returns 
+ */
+ const getUserContacts = async (req, res) => {
+	try {
+		let contacts = await Contact.find({
+			// searching for all contacts linked to one userId
+			'userId': req.body.userId
+
+		}).lean()
+
+		// if tag wass found, send success and log tag
+		res.send({
+			status: status.SUCCESS,
+			tags: JSON.stringify(contacts)
+		});
+
+		console.log(contacts)
+
+	} catch (err) {
+		console.log(err)
+		return res.send({ status: status.FAILURE })
+	}
+}
+
+/**
  * Gets all existing tags from the database
  * @param {object} req doesn't need anything in the request body
  * @param {object} res responds with a status code and, if successful, a list of tags
@@ -457,6 +485,7 @@ module.exports = {
 	login,
 	getContacts,
 	getOneContact,
+	getUserContacts,
 	addNewContact,
 	editContact,
 	pushContactTag,
