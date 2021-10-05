@@ -6,9 +6,7 @@ import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useGlobalState } from "state-pool";
 
-
 function ContactsTable(contactInfo) {
-
 	const [category, setCategory] = useState("");
 	const [tableDataCpy, setTableDataCpy] = useState(tableData);
 	const [filteredData, setFilteredData] = useState(tableData);

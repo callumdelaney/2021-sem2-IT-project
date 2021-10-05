@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import React from "react";
 
 //const BASE_URL = "https://duckroll-crm.herokuapp.com/";
-const BASE_URL = "http://localhost:3001";
+const BASE_URL = "http://localhost:3000";
 
 // code is based off foodbuddy-frontendW9 lecture demonstration files from
 // INFO30005_2021_SM1
@@ -39,7 +39,7 @@ router.post("/api/get-user-tags",  connectEnsureLogin.ensureLoggedIn(), controll
 
 ////////////  CONTACTS //////////////
 
-export function getAllContacts() {
+function getAllContacts() {
 	const endpoint = BASE_URL + "/api/get-contacts";
 	return fetch(endpoint).then((res) => res.json());
 }
@@ -79,7 +79,7 @@ export function useAllContacts() {
 // the id into the function...
 // note there's a chance we have to modify the backend url, so it's like
 // /api/get-one-contact/[put contact id here]
-export function getOneContact(id) {
+function getOneContact(id) {
 	const endpoint = BASE_URL + `/api/get-one-contact`;
 	return fetch(endpoint).then((res) => res.json());
 	//don't know if we're using axios/credential checking in this same manner
@@ -240,7 +240,7 @@ export async function updateContactCategory(contactDetails) {
 
 /////////// TAGS ///////////
 
-export function getAllTags() {
+function getAllTags() {
 	const endpoint = BASE_URL + "/api/get-tags";
 	return fetch(endpoint).then((res) => res.json());
 }
@@ -276,7 +276,7 @@ export function useAllTags() {
 }
 
 // getting one tag by tag's id
-export function getOneTag(id) {
+function getOneTag(id) {
 	const endpoint = BASE_URL + "/api/get-one-tag";
 	return fetch(endpoint).then((res) => res.json());
 }
@@ -312,7 +312,7 @@ export function useOneTag() {
 }
 
 //getting tags by user id
-export function getUserTags(id) {
+function getUserTags(id) {
 	const endpoint = BASE_URL + "/api/get-user-tag";
 	return fetch(endpoint).then((res) => res.json());
 }
