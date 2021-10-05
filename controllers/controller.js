@@ -36,7 +36,7 @@ const status = {
  */
 const getContacts = async (req, res) => {
 	try {
-		let contacts = await Contact.find({}).lean()
+		let contacts = await Contact.find({"userId": req.user.username}).lean()
 		res.send({
 			status: status.SUCCESS,
 			contacts: JSON.stringify(contacts)
@@ -170,7 +170,8 @@ const addNewContact = async (req, res) => {
 			"email": req.body.email,
 			"category": req.body.category,
 			"photo": req.body.photo,
-			"notes": req.body.notes
+			"notes": req.body.notes,
+			"userId": req.user.username
 		})
 		res.send({ status: status.SUCCESS })
 		new Contact(newContact).save()
