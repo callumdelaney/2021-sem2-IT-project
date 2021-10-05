@@ -4,10 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const passport = require("passport");
-const connectEnsureLogin = require("connect-ensure-login");
-const passportLocalMongoose = require("passport-local-mongoose");
-const mongoose = require("mongoose");
-const User = mongoose.model("User");
+const multer = require('multer');
 
 // by default the client-side runs on port 3000,
 // so they can't run on the same port
@@ -42,6 +39,19 @@ app.use(
 	})
 );
 app.use(express.json());
+
+
+ 
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+ 
+var upload = multer({ storage: storage });
 
 const router = require("./routes/route");
 

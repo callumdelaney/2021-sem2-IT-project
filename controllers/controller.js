@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
 
 const Contact = mongoose.model("Contact");
 const User = mongoose.model("User");
 const Tag = mongoose.model("Tag");
+const Image = mongoose.model("Image");
 
 
 const passport = require("passport");
@@ -70,6 +70,7 @@ const getOneContact = async (req, res) => {
 		return res.send({ status: status.FAILURE })
 	}
 }
+
 
 /**
  * Gets all existing tags from the database
@@ -428,6 +429,37 @@ const deleteTag = async (req, res) => {
 	}
 }
 
+const uploadImage = async (req, res) => {
+	var obj = {
+		img: {
+			data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+            contentType: 'image/png' 
+		}
+	}
+	await Image.create(obj, (err, item) => {
+		if (err) {
+			console.log(err)
+			res.send({status: status.FAILURE})
+		} else {
+			res.send({status: status.SUCCESS})
+		}
+	})
+}
+
+const getImage = async (req, res) => {
+	await Image.findOne({"_id": req.body._id}, (err, item) => {
+		if (err) {
+			console.log(err)
+			res.send({status: status.FAILURE})
+		} else {
+			res.send({
+				image: item,
+				status: status.SUCCESS
+			})
+		}
+	})
+}
+
 module.exports = {
 	status,
 	login,
@@ -447,5 +479,7 @@ module.exports = {
 	deleteTag,
 	changePassword,
 	changeFirstName,
-	changeLastName
+	changeLastName,
+	uploadImage,
+	getImage
 };
