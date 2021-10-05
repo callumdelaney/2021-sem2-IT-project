@@ -8,7 +8,7 @@ const contactSchema = new mongoose.Schema({
 	notes: { type: String, required: false },
 	photo: { type: String, required: false },
 	category: { type: String, required: false },
-	user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+	userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 })
 
 const CONTACT = mongoose.model('Contact', contactSchema)
