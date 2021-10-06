@@ -345,9 +345,8 @@ const changeLastName = async (req, res) => {
 
 const changeEmail = async (req, res) => {
 	try {
-		//_id is used since it seems emails are usernames
 		await User.findOneAndUpdate({
-			"_id": req.user._id
+			"username": req.user.username
 		}, {
 			username: req.body.username
 		})
