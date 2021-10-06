@@ -342,6 +342,22 @@ const changeLastName = async (req, res) => {
 	}
 }
 
+
+const changeEmail = async (req, res) => {
+	try {
+		//_id is used since it seems emails are usernames
+		await User.findOneAndUpdate({
+			"_id": req.user._id
+		}, {
+			username: req.body.username
+		})
+		res.send({status: status.SUCCESS})
+	} catch (err) {
+		res.send({status: status.FAILURE})
+	}
+}
+
+
 /**
  * Authenticates login details and, if valid, logs the user in
  * (i.e. starts a session)
@@ -490,6 +506,7 @@ module.exports = {
 	changePassword,
 	changeFirstName,
 	changeLastName,
+	changeEmail,
 	//uploadImage,
 	//getImage
 };

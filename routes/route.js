@@ -20,6 +20,7 @@ router.post("/api/signup", controller.newUser);
 router.post("/api/update-firstName", controller.changeFirstName);
 router.post("/api/update-lastName", controller.changeFirstName);
 router.post("/api/update-user-password", controller.changePassword);
+router.post("/api/update-email", controller.changeEmail);
 
 router.get(
 	"/api/get-contacts",
