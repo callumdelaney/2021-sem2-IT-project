@@ -174,12 +174,13 @@ function ContactUpdate(props) {
 											setInfo({
 												addContact: false,
 												editContact: false,
-												firstName: props.firstName,
-												category: props.category,
-												notes: props.notes,
-												phoneNumber: props.phoneNumber,
-												email: props.email,
-												photo: props.photo,
+												firstName: firstName,
+												lastName: lastName,
+												category: category,
+												notes: notes,
+												phoneNumber: phoneNumber,
+												email: email,
+												photo: photo,
 											});
 										}}
 									>

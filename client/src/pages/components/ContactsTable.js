@@ -5,7 +5,7 @@ import { MTableToolbar } from "material-table";
 import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useGlobalState } from "state-pool";
-import Tag from "./Tags"
+import Tag from "./Tags";
 
 function ContactsTable(contactInfo) {
 	const [category, setCategory] = useState("");
@@ -22,31 +22,40 @@ function ContactsTable(contactInfo) {
 			category === ""
 				? tableDataCpy
 				: // filter data shown based on category equivalence
-				tableDataCpy.filter((data) => data.category === category)
+				  tableDataCpy.filter((data) => data.category === category)
 		);
 	}, [category, tableDataCpy]);
 
 	const column = [
 		{
 			title: "Name",
-			field: "firstName",
+			field: "LastName",
 			// width: "200%",
 			// for troubleshooting column width
 			cellStyle: {
-				backgroundColor: '#039be5',
-				color: '#FFF'
+				backgroundColor: "#039be5",
+				color: "#FFF",
 			},
 			/*render a div in each cell so that name and tags can be displayed in one cell*/
 			render: (filteredData) => {
 				// const taglist = filteredData.tag.map((tag) => <li>{tag}</li>);
 				return (
-					<div>
+					<div
+						style={
+							{
+								/*width: "100%"*/
+							}
+						}
+					>
 						{/* table contents */}
 						<h4>
 							{filteredData.firstName} {filteredData.lastName}
 						</h4>
 
-						<Tag />
+						<Tag
+							contactId={filteredData.id}
+							tags={filteredData.tags}
+						/>
 						{/* <ul>{taglist}</ul> */}
 					</div>
 				);
@@ -55,14 +64,13 @@ function ContactsTable(contactInfo) {
 		{
 			title: "Category",
 			field: "category",
-			// width: "10%",
-			hidden: true,
+			width: "5%",
+			hidden: false,
 		},
 		// {
 		// 	title:"tags",
 
 		// }
-
 	];
 	// color constants used in styles
 	const iconColor = "#83498A";
@@ -79,7 +87,8 @@ function ContactsTable(contactInfo) {
 		phoneNumber,
 		email,
 		photo,
-		id
+		id,
+		tags
 	) => {
 		// set contact info to selected contact, with addContact and editContact flags being set to false
 		setInfo({
@@ -93,6 +102,7 @@ function ContactsTable(contactInfo) {
 			email: email,
 			photo: photo,
 			id: id,
+			tags: tags,
 		});
 	};
 
@@ -136,7 +146,8 @@ function ContactsTable(contactInfo) {
 						selectedRow.phoneNumber,
 						selectedRow.email,
 						selectedRow.photo,
-						selectedRow.id
+						selectedRow.id,
+						selectedRow.tags
 					);
 				}}
 				// Option for deleting rows/contacts
@@ -172,7 +183,7 @@ function ContactsTable(contactInfo) {
 				}}
 				// table options (stylings + layout)
 				options={{
-					tableLayout: "fixed",
+					tableLayout: "auto",
 					pageSize: filteredData.length,
 					// table size options
 					pageSizeOptions: [
@@ -184,7 +195,7 @@ function ContactsTable(contactInfo) {
 						top: 0,
 						backgroundColor: "#01579b",
 						color: whiteColor,
-						min_height: '5vh'
+						min_height: "5vh",
 					},
 					// styling for search bar
 					searchFieldStyle: {
@@ -192,10 +203,10 @@ function ContactsTable(contactInfo) {
 					},
 					paging: false,
 					maxBodyHeight: "85vh",
-					fixedColumns: {
-						left: 2,
-						right: 0
-					},
+					// fixedColumns: {
+					// 	left: 2,
+					// 	right: 0,
+					// },
 					// stylings for each individual row
 					rowStyle: (rowData) => {
 						if (selectedRow != null) {
@@ -203,7 +214,7 @@ function ContactsTable(contactInfo) {
 								// row colour changes to grey upon clicking it
 								backgroundColor:
 									selectedRow.tableData.id ===
-										rowData.tableData.id
+									rowData.tableData.id
 										? "#e6e6e6"
 										: whiteColor,
 								border: "2px solid black",
@@ -221,6 +232,7 @@ function ContactsTable(contactInfo) {
 						<div className="toolbar">
 							<div className="search">
 								<MTableToolbar {...props} />
+								<button>Create Tags</button>
 							</div>
 							<div className="toolbar-labels">
 								{/* business/personal filter */}
