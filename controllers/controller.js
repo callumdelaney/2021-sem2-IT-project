@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 
+//const Image = mongoose.model("Image");
 const Contact = mongoose.model("Contact");
 const User = mongoose.model("User");
 const Tag = mongoose.model("Tag");
-const Image = mongoose.model("Image");
+
 
 
 const passport = require("passport");
@@ -36,7 +37,7 @@ const status = {
  */
 const getContacts = async (req, res) => {
 	try {
-		let contacts = await Contact.find({"userId": req.user.username}).lean()
+		let contacts = await Contact.find({}).lean()
 		res.send({
 			status: status.SUCCESS,
 			contacts: JSON.stringify(contacts)
@@ -291,15 +292,25 @@ const newUser = async (req, res) => {
 }
 
 const changePassword = async (req, res) => {
-	var pass = passportFunc.genPassword(req.body.password)
+	var newPass = passportFunc.genPassword(req.body.newPassword)
+	var oldPass = req.body.oldPassword
+
 	try {
-		await User.findOneAndUpdate({
-			"username": req.user
-		}, {
-			hash: pass.hash,
-			salt: pass.salt
+		const user = await User.findOne({
+			"username": req.user.username
 		})
-		res.send({ status: status.SUCCESS })
+		console.log(user)
+
+		if (passportFunc.checkPassword(oldPass, user.hash, user.salt) == false) {
+			res.send({ status: status.FAILURE })
+		}  else {
+			user.set({
+				hash: newPass.hash,
+				salt: newPass.salt
+			})
+			await user.save()
+			res.send({ status: status.SUCCESS })
+		}
 	} catch (err) {
 		res.send({ status: status.FAILURE })
 	}
@@ -308,7 +319,7 @@ const changePassword = async (req, res) => {
 const changeFirstName = async (req, res) => {
 	try {
 		await User.findOneAndUpdate({
-			"username": req.user
+			"username": req.user.username
 		}, {
 			firstName: req.body.firstName
 		})
@@ -321,7 +332,7 @@ const changeFirstName = async (req, res) => {
 const changeLastName = async (req, res) => {
 	try {
 		await User.findOneAndUpdate({
-			"username": req.user
+			"username": req.user.username
 		}, {
 			lastName: req.body.lastName
 		})
@@ -428,13 +439,12 @@ const deleteTag = async (req, res) => {
 		res.send({ status: status.FAILURE })
 	}
 }
+//IMAGE STUFF NOT DONE YET
 
-const uploadImage = async (req, res) => {
+/**const uploadImage = async (req, res) => {
 	var obj = {
-		img: {
-			data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-            contentType: 'image/png' 
-		}
+		data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+        contentType: 'image/png' 
 	}
 	await Image.create(obj, (err, item) => {
 		if (err) {
@@ -458,7 +468,7 @@ const getImage = async (req, res) => {
 			})
 		}
 	})
-}
+}*/
 
 module.exports = {
 	status,
@@ -480,6 +490,6 @@ module.exports = {
 	changePassword,
 	changeFirstName,
 	changeLastName,
-	uploadImage,
-	getImage
+	//uploadImage,
+	//getImage
 };

@@ -8,7 +8,6 @@ const contactSchema = new mongoose.Schema({
     notes : {type : String, required : false},
     photo : {type : String, required : false},
     category : {type : String, required : false},
-    userId: {type: String, required : true}
 })
 
 const CONTACT = mongoose.model('Contact', contactSchema)
