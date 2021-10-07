@@ -19,8 +19,6 @@ function ContactsTable() {
 			console.log(error);
 		});
 
-	console.log(tableDataCpy)
-
 	const [category, setCategory] = useState("");
 	const [selectedRow, setSelectedRow] = useState(null);
 	// access the global variable contactInfo
@@ -43,14 +41,14 @@ function ContactsTable() {
 			field: "firstName",
 			/*render a div in each cell so that name and tags can be displayed in one cell*/
 			render: (filteredData) => {
-				const taglist = filteredData.tag.map((tag) => <li>{tag}</li>);
+
 				return (
 					<div>
 						{/* table contents */}
 						<h4>
 							{filteredData.firstName} {filteredData.lastName}
 						</h4>
-						{/* <ul>{taglist}</ul> */}
+
 					</div>
 				);
 			},
@@ -96,7 +94,7 @@ function ContactsTable() {
 		<div>
 			<MaterialTable
 				columns={column}
-				data={filteredData}
+				data={() => filteredData}
 				title=""
 				actions={[
 					{
@@ -137,18 +135,18 @@ function ContactsTable() {
 				}}
 				// Option for deleting rows/contacts
 				editable={{
-					onRowDelete: (oldData) =>
-						new Promise((resolve, reject) => {
-							setTimeout(() => {
-								const dataDelete = [...filteredData];
-								const index = oldData.tableData.id;
-								dataDelete.splice(index, 1);
-								setFilteredData([...dataDelete]);
-								setTableDataCpy([...dataDelete]);
+					// onRowDelete: (oldData) =>
+					// 	new Promise((resolve, reject) => {
+					// 		setTimeout(() => {
+					// 			const dataDelete = [...filteredData];
+					// 			const index = oldData.tableData.id;
+					// 			dataDelete.splice(index, 1);
+					// 			setFilteredData([...dataDelete]);
+					// 			setTableDataCpy([...dataDelete]);
 
-								resolve();
-							}, 1000);
-						}),
+					// 			resolve();
+					// 		}, 1000);
+					// 	}),
 				}}
 				// Customizable styling for delete message
 				localization={{
@@ -171,9 +169,8 @@ function ContactsTable() {
 					tableLayout: "fixed",
 					pageSize: filteredData.length,
 					// table size options
-					pageSizeOptions: [
-						filteredData.length, //label: "All",
-					],
+					// pageSizeOptions: [{ value: filteredData.length, label: "All" }],
+					pageSizeOptions: [filteredData.length],
 					// styings for header
 					headerStyle: {
 						position: "sticky",

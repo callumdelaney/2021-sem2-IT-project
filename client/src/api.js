@@ -41,8 +41,7 @@ router.post("/api/get-user-tags",  connectEnsureLogin.ensureLoggedIn(), controll
 
 export function getAllContacts() {
 	const endpoint = BASE_URL + "/api/get-contacts";
-	return fetch(endpoint).then((res) => res.json()).then(data => console.log(data));
-	
+	return fetch(endpoint).then((res) => res.json())//.then(data => console.log(data));
 }
 
 //  I think it's like the above, except it also has an error screen and a loading screen.

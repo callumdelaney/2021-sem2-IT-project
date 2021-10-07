@@ -3,11 +3,11 @@ import Pages from "./pages";
 
 function App() {
 	const [data, setData] = React.useState(null);
+
 	// runs on the first render of the page
 	React.useEffect(() => {
 		fetch("/api")
-			.then((res) => res.json())
-			.then((data) => setData(data.message));
+			.then((data) => setData("delete me"));
 		console.log(data);
 	}, [data]);
 
