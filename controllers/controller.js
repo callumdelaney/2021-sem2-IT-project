@@ -472,9 +472,9 @@ const changeProfilePic = async (req, res) => {
 		await User.findOneAndUpdate({
 			"username": req.user.username
 		}, {
-			photo: req.body//.Need to figure out the format
+			photo: req.body.image
 		})
-		res.send({status: status.SUCCESS})
+		res.send({status: status.SUCCESS, image: req.body.image})
 	} catch (err) {
 		res.send({status: status.FAILURE})
 	}
@@ -516,5 +516,6 @@ module.exports = {
 	changeLastName,
 	changeEmail,
 	uploadImage,
-	getImage
+	getImage,
+	changeProfilePic
 };
