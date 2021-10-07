@@ -1,3 +1,8 @@
+//Eimport {getAllContacts} from "../../api";
+
+//var tableData = getAllContacts();
+
+/*
 const tableData = [
 	{
 		id: "1",
@@ -184,5 +189,6 @@ const tableData = [
 	// { firstName: "Hulk", tag: ["buiness,mom's friend"], category: "business" },
 	// { firstName: "Hulk", tag: ["buiness,mom's friend"], category: "personal" },
 ];
+*/
 
-export { tableData };
+//export { tableData };

@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { tableData } from "./data";
+//import { tableData } from "./data";
 import MaterialTable from "material-table";
 import { MTableToolbar } from "material-table";
 import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useGlobalState } from "state-pool";
+import {getAllContacts} from "../../api";
 
 function ContactsTable(contactInfo) {
+
+	var tableData = getAllContacts();
+
+
+
 	const [category, setCategory] = useState("");
 	const [tableDataCpy, setTableDataCpy] = useState(tableData);
 	const [filteredData, setFilteredData] = useState(tableData);

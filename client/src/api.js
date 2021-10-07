@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import React from "react";
 
 //const BASE_URL = "https://duckroll-crm.herokuapp.com/";
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "http://localhost:3001";
 
 // code is based off foodbuddy-frontendW9 lecture demonstration files from
 // INFO30005_2021_SM1
@@ -39,9 +39,10 @@ router.post("/api/get-user-tags",  connectEnsureLogin.ensureLoggedIn(), controll
 
 ////////////  CONTACTS //////////////
 
-function getAllContacts() {
+export function getAllContacts() {
 	const endpoint = BASE_URL + "/api/get-contacts";
-	return fetch(endpoint).then((res) => res.json());
+	return fetch(endpoint).then((res) => res.json()).then(data => console.log(data));
+	
 }
 
 //  I think it's like the above, except it also has an error screen and a loading screen.
