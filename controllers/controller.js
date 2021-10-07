@@ -42,7 +42,6 @@ const getContacts = async (req, res) => {
 			status: status.SUCCESS,
 			contacts: JSON.stringify(contacts)
 		});
-		console.log(contacts)
 	} catch (err) {
 		console.log(err)
 		return res.send({ status: status.FAILURE })
@@ -271,8 +270,8 @@ const newUser = async (req, res) => {
 	var pass = passportFunc.genPassword(req.body.password)
 
 	const regex = /\S+@\S+\.\S+/;
-    if (regex.test(String(req.body.email).toLowerCase()) == false) {
-		return res.send({status: status.UNKNOWN_EMAIL})
+	if (regex.test(String(req.body.email).toLowerCase()) == false) {
+		return res.send({ status: status.UNKNOWN_EMAIL })
 	}
 	try {
 		const newUser = await User.create({
@@ -303,7 +302,7 @@ const changePassword = async (req, res) => {
 
 		if (passportFunc.checkPassword(oldPass, user.hash, user.salt) == false) {
 			res.send({ status: status.FAILURE })
-		}  else {
+		} else {
 			user.set({
 				hash: newPass.hash,
 				salt: newPass.salt
@@ -323,9 +322,9 @@ const changeFirstName = async (req, res) => {
 		}, {
 			firstName: req.body.firstName
 		})
-		res.send({status: status.SUCCESS})
+		res.send({ status: status.SUCCESS })
 	} catch (err) {
-		res.send({status: status.FAILURE})
+		res.send({ status: status.FAILURE })
 	}
 }
 
@@ -336,9 +335,9 @@ const changeLastName = async (req, res) => {
 		}, {
 			lastName: req.body.lastName
 		})
-		res.send({status: status.SUCCESS})
+		res.send({ status: status.SUCCESS })
 	} catch (err) {
-		res.send({status: status.FAILURE})
+		res.send({ status: status.FAILURE })
 	}
 }
 
@@ -350,9 +349,9 @@ const changeEmail = async (req, res) => {
 		}, {
 			username: req.body.username
 		})
-		res.send({status: status.SUCCESS})
+		res.send({ status: status.SUCCESS })
 	} catch (err) {
-		res.send({status: status.FAILURE})
+		res.send({ status: status.FAILURE })
 	}
 }
 
@@ -459,7 +458,7 @@ const deleteTag = async (req, res) => {
 /**const uploadImage = async (req, res) => {
 	var obj = {
 		data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-        contentType: 'image/png' 
+		contentType: 'image/png' 
 	}
 	await Image.create(obj, (err, item) => {
 		if (err) {

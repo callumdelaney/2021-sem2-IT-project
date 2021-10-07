@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from "react";
-//import { tableData } from "./data"; // sample data
 import MaterialTable from "material-table";
 import { MTableToolbar } from "material-table";
 import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useGlobalState } from "state-pool";
-import {getAllContacts} from "../../api";
 
-function ContactsTable(contactInfo) {
+function ContactsTable() {
+	const [tableDataCpy, setTableDataCpy] = useState([]);
+	const [filteredData, setFilteredData] = useState([]);
 
-	
-	var tableData = []; // if it's just an empty table. it can load
-	var tableData = getAllContacts(); // but not with this line!
+	fetch("/api/get-contacts", {})
+		.then((res) => res.json())
+		.then((data) => {
+			setTableDataCpy(data.contacts)
+			setFilteredData(data.contacts)
+		})
+		.catch((error) => {
+			console.log(error);
+		});
 
-
+	console.log(tableDataCpy)
 
 	const [category, setCategory] = useState("");
-	const [tableDataCpy, setTableDataCpy] = useState(tableData);
-	const [filteredData, setFilteredData] = useState(tableData);
 	const [selectedRow, setSelectedRow] = useState(null);
 	// access the global variable contactInfo
 	// eslint-disable-next-line
@@ -29,7 +33,7 @@ function ContactsTable(contactInfo) {
 			category === ""
 				? tableDataCpy
 				: // filter data shown based on category equivalence
-				  tableDataCpy.filter((data) => data.category === category)
+				tableDataCpy.filter((data) => data.category === category)
 		);
 	}, [category, tableDataCpy]);
 
@@ -46,7 +50,7 @@ function ContactsTable(contactInfo) {
 						<h4>
 							{filteredData.firstName} {filteredData.lastName}
 						</h4>
-						<ul>{taglist}</ul>
+						{/* <ul>{taglist}</ul> */}
 					</div>
 				);
 			},
@@ -64,7 +68,7 @@ function ContactsTable(contactInfo) {
 	const whiteColor = "white";
 
 	// update the selected contact information in a global variable
-	const updateSelectedContact = (
+	function updateSelectedContact(
 		fstName,
 		lstName,
 		cat,
@@ -72,8 +76,7 @@ function ContactsTable(contactInfo) {
 		phoneNumber,
 		email,
 		photo,
-		id
-	) => {
+		id) {
 		// set contact info to selected contact, with addContact and editContact flags being set to false
 		setInfo({
 			addContact: false,
@@ -129,7 +132,7 @@ function ContactsTable(contactInfo) {
 						selectedRow.phoneNumber,
 						selectedRow.email,
 						selectedRow.photo,
-						selectedRow.id
+						selectedRow._id
 					);
 				}}
 				// Option for deleting rows/contacts
@@ -169,7 +172,7 @@ function ContactsTable(contactInfo) {
 					pageSize: filteredData.length,
 					// table size options
 					pageSizeOptions: [
-						{ value: filteredData.length, label: "All" },
+						filteredData.length, //label: "All",
 					],
 					// styings for header
 					headerStyle: {
@@ -190,8 +193,8 @@ function ContactsTable(contactInfo) {
 							return {
 								// row colour changes to grey upon clicking it
 								backgroundColor:
-									selectedRow.tableData.id ===
-									rowData.tableData.id
+									selectedRow.tableData._id ===
+										rowData.tableData._did
 										? "#e6e6e6"
 										: whiteColor,
 								border: "2px solid black",
@@ -247,7 +250,7 @@ function ContactsTable(contactInfo) {
 					),
 				}}
 			></MaterialTable>
-		</div>
+		</div >
 	);
 }
 
