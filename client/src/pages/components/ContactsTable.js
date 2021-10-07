@@ -4,20 +4,24 @@ import { MTableToolbar } from "material-table";
 import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useGlobalState } from "state-pool";
+import { tableData } from "./data";
 
 function ContactsTable() {
 	const [tableDataCpy, setTableDataCpy] = useState([]);
 	const [filteredData, setFilteredData] = useState([]);
 
-	fetch("/api/get-contacts", {})
-		.then((res) => res.json())
-		.then((data) => {
-			setTableDataCpy(data.contacts)
-			setFilteredData(data.contacts)
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	useEffect(() => {
+		fetch("/api/get-contacts")
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(data);
+				setTableDataCpy(data.contacts);
+				setFilteredData(data.contacts);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}, []);
 
 	const [category, setCategory] = useState("");
 	const [selectedRow, setSelectedRow] = useState(null);
@@ -31,7 +35,7 @@ function ContactsTable() {
 			category === ""
 				? tableDataCpy
 				: // filter data shown based on category equivalence
-				tableDataCpy.filter((data) => data.category === category)
+				  tableDataCpy.filter((data) => data.category === category)
 		);
 	}, [category, tableDataCpy]);
 
@@ -41,14 +45,12 @@ function ContactsTable() {
 			field: "firstName",
 			/*render a div in each cell so that name and tags can be displayed in one cell*/
 			render: (filteredData) => {
-
 				return (
 					<div>
 						{/* table contents */}
 						<h4>
 							{filteredData.firstName} {filteredData.lastName}
 						</h4>
-
 					</div>
 				);
 			},
@@ -74,7 +76,8 @@ function ContactsTable() {
 		phoneNumber,
 		email,
 		photo,
-		id) {
+		id
+	) {
 		// set contact info to selected contact, with addContact and editContact flags being set to false
 		setInfo({
 			addContact: false,
@@ -88,13 +91,13 @@ function ContactsTable() {
 			photo: photo,
 			id: id,
 		});
-	};
+	}
 
 	return (
 		<div>
 			<MaterialTable
 				columns={column}
-				data={() => filteredData}
+				data={filteredData}
 				title=""
 				actions={[
 					{
@@ -134,20 +137,21 @@ function ContactsTable() {
 					);
 				}}
 				// Option for deleting rows/contacts
-				editable={{
-					// onRowDelete: (oldData) =>
-					// 	new Promise((resolve, reject) => {
-					// 		setTimeout(() => {
-					// 			const dataDelete = [...filteredData];
-					// 			const index = oldData.tableData.id;
-					// 			dataDelete.splice(index, 1);
-					// 			setFilteredData([...dataDelete]);
-					// 			setTableDataCpy([...dataDelete]);
-
-					// 			resolve();
-					// 		}, 1000);
-					// 	}),
-				}}
+				editable={
+					{
+						// onRowDelete: (oldData) =>
+						// 	new Promise((resolve, reject) => {
+						// 		setTimeout(() => {
+						// 			const dataDelete = [...filteredData];
+						// 			const index = oldData.tableData.id;
+						// 			dataDelete.splice(index, 1);
+						// 			setFilteredData([...dataDelete]);
+						// 			setTableDataCpy([...dataDelete]);
+						// 			resolve();
+						// 		}, 1000);
+						// 	}),
+					}
+				}
 				// Customizable styling for delete message
 				localization={{
 					body: {
@@ -191,7 +195,7 @@ function ContactsTable() {
 								// row colour changes to grey upon clicking it
 								backgroundColor:
 									selectedRow.tableData._id ===
-										rowData.tableData._did
+									rowData.tableData._did
 										? "#e6e6e6"
 										: whiteColor,
 								border: "2px solid black",
@@ -247,7 +251,7 @@ function ContactsTable() {
 					),
 				}}
 			></MaterialTable>
-		</div >
+		</div>
 	);
 }
 
