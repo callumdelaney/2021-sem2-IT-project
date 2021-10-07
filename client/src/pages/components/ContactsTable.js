@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-//import { tableData } from "./data";
+//import { tableData } from "./data"; // sample data
 import MaterialTable from "material-table";
 import { MTableToolbar } from "material-table";
 import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
@@ -9,7 +9,9 @@ import {getAllContacts} from "../../api";
 
 function ContactsTable(contactInfo) {
 
-	var tableData = getAllContacts();
+	
+	var tableData = []; // if it's just an empty table. it can load
+	var tableData = getAllContacts(); // but not with this line!
 
 
 
