@@ -1,14 +1,11 @@
 const mongoose = require("mongoose");
 
-//const Image = mongoose.model("Image");
+const Image = require('../models/image');
 const Contact = mongoose.model("Contact");
 const User = mongoose.model("User");
 const Tag = mongoose.model("Tag");
 
-
-
 const passport = require("passport");
-const LocalStrategy = require('passport-local').Strategy;
 
 const passportFunc = require('../passport');
 
@@ -454,9 +451,8 @@ const deleteTag = async (req, res) => {
 		res.send({ status: status.FAILURE })
 	}
 }
-//IMAGE STUFF NOT DONE YET
 
-/**const uploadImage = async (req, res) => {
+const uploadImage = async (req, res) => {
 	var obj = {
 		data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
         contentType: 'image/png' 
@@ -466,9 +462,22 @@ const deleteTag = async (req, res) => {
 			console.log(err)
 			res.send({status: status.FAILURE})
 		} else {
-			res.send({status: status.SUCCESS})
+			res.send({status: status.SUCCESS, image: obj})
 		}
 	})
+}
+
+const changeProfilePic = async (req, res) => {
+	try {
+		await User.findOneAndUpdate({
+			"username": req.user.username
+		}, {
+			photo: req.body//.Need to figure out the format
+		})
+		res.send({status: status.SUCCESS})
+	} catch (err) {
+		res.send({status: status.FAILURE})
+	}
 }
 
 const getImage = async (req, res) => {
@@ -483,7 +492,7 @@ const getImage = async (req, res) => {
 			})
 		}
 	})
-}*/
+}
 
 module.exports = {
 	status,
@@ -506,6 +515,6 @@ module.exports = {
 	changeFirstName,
 	changeLastName,
 	changeEmail,
-	//uploadImage,
-	//getImage
+	uploadImage,
+	getImage
 };
