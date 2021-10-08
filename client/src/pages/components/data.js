@@ -10,6 +10,26 @@ const tableData = [
 				tagColour:
 					"#" + Math.floor(Math.random() * 200000).toString(16),
 			},
+			{
+				_id: 1,
+				tagText: "America",
+				tagColour: "#" + Math.floor(Math.random() * 200).toString(16),
+			},
+			{
+				_id: 2,
+				tagText: "AmericanHero",
+				tagColour: "#" + Math.floor(Math.random() * 200).toString(16),
+			},
+			{
+				_id: 3,
+				tagText: "Chris",
+				tagColour: "#" + Math.floor(Math.random() * 200).toString(16),
+			},
+			{
+				_id: 4,
+				tagText: "Evans",
+				tagColour: "#" + Math.floor(Math.random() * 200).toString(16),
+			},
 		],
 		category: "business",
 		phoneNumber: "04010102",
