@@ -79,7 +79,7 @@ export function useAllContacts() {
 // the id into the function...
 // note there's a chance we have to modify the backend url, so it's like
 // /api/get-one-contact/[put contact id here]
-function getOneContact(id) {
+export function getOneContact(id) {
 	const endpoint = BASE_URL + `/api/get-one-contact`;
 	return fetch(endpoint).then((res) => res.json());
 	//don't know if we're using axios/credential checking in this same manner
@@ -240,7 +240,7 @@ export async function updateContactCategory(contactDetails) {
 
 /////////// TAGS ///////////
 
-function getAllTags() {
+export function getAllTags() {
 	const endpoint = BASE_URL + "/api/get-tags";
 	return fetch(endpoint).then((res) => res.json());
 }
@@ -276,7 +276,7 @@ export function useAllTags() {
 }
 
 // getting one tag by tag's id
-function getOneTag(id) {
+export function getOneTag(id) {
 	const endpoint = BASE_URL + "/api/get-one-tag";
 	return fetch(endpoint).then((res) => res.json());
 }
@@ -312,7 +312,7 @@ export function useOneTag() {
 }
 
 //getting tags by user id
-function getUserTags(id) {
+export function getUserTags(id) {
 	const endpoint = BASE_URL + "/api/get-user-tag";
 	return fetch(endpoint).then((res) => res.json());
 }
