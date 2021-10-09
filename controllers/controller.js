@@ -79,13 +79,14 @@ const getTags = async (req, res) => {
 		console.log("getting tags");
 		let tags = await Tag.find({}).lean();
 
-		res.send({
+		let sentTags = res.send({
 			tags: tags,
 			message: "tag got",
 			status: status.SUCCESS,
 		});
 
-		console.log(tags);
+		//console.log(tags);
+		console.log(sentTags);
 	} catch (err) {
 		console.log("tags get fail");
 		console.log(err);
