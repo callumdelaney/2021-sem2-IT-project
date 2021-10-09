@@ -1,5 +1,6 @@
 import {getAllTags, useAllTags} from "../api"
 import {useState, useEffect} from 'react';
+import MaterialTable from "material-table";
 
 function TestingGrounds() {
 
@@ -50,7 +51,7 @@ function TestingGrounds() {
 
     return (
 		<div>
-			
+			<MaterialTable
 				columns={column}
 				data={tableDataCpy}
 				title=""
@@ -60,7 +61,7 @@ function TestingGrounds() {
 
                 
 			
-		
+			></MaterialTable>
 		</div>
 	);
 }
