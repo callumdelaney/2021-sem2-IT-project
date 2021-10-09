@@ -69,8 +69,8 @@ const addNewContact = async (req, res) => {
     try {
         const newContact = await Contact.create({
             "contactId": req.body.contactId,
-            "firstName": req.body.first_name,
-            "lastName": req.body.last_name,
+            "firstName": req.body.firstName,
+            "lastName": req.body.lastName,
             "phone": req.body.phone,
             "email": req.body.email,
             "category": req.body.category
@@ -144,13 +144,22 @@ const changeCategory = async (req, res) => {
 
 const newUser = async (req, res) => {
     var pass = passportFunc.genPassword(req.body.password)
+
+    const regex = /\S+@\S+\.\S+/;
+    if (regex.test(String(req.body.email).toLowerCase()) == false) {
+		return res.send({status: status.UNKNOWN_EMAIL})
+	}
+
+    if (req.body.password == "") {
+        return res.send({status: status.INVALID_PASSWORD})
+    }
     try {
         const newUser = await User.create({
             username: req.body.email,
             hash: pass.hash,
             salt: pass.salt,
             firstName: req.body.firstName,
-            lastName: req.body.LastName
+            lastName: req.body.lastName
         })
         res.send({status: status.SUCCESS})
         new User(newUser).save();
