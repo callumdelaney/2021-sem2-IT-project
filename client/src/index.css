@@ -310,12 +310,14 @@ code {
 	/* display: inline-flexbox; */
 	display: flexbox;
 	margin-top: 10px;
+	width: 20%;
 	/* min-width: 100%;
   max-width: 100%; */
 }
 
 .search {
 	/* layout */
+	/* width: 60%; */
 	margin-right: 20px;
 	float: left;
 }

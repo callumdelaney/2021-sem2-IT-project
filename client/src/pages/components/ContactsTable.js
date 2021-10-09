@@ -314,6 +314,7 @@ function ContactsTable(contactInfo) {
 										</FormControl>
 									</Box>
 								</div>
+
 								{/* <ColorPicker /> */}
 							</div>
 							<div className="toolbar-labels">
@@ -348,6 +349,16 @@ function ContactsTable(contactInfo) {
 										style={{ color: personalColor }}
 									/>
 								</RadioGroup>
+								{/* button to reset toolbar filters */}
+								<button
+									onClick={() => {
+										setTagName("");
+										setCategory("");
+										setFilteredData(tableDataCpy);
+									}}
+								>
+									clear filters
+								</button>
 							</div>
 						</div>
 					),
