@@ -5,6 +5,7 @@ const controller = require("../controllers/controller");
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const Contact = mongoose.model("Contact");
+const Tag = mongoose.model("Tag");
 
 var server = request.agent('http://localhost:3001')
 
@@ -17,7 +18,6 @@ describe('Logging in', function () {
 			.send(user)
 			.then(response => {
 				console.log(response.body)
-				console.log("yeet")
 			})
 	}
 	context('with an empty request', function () {
@@ -303,18 +303,29 @@ describe('Adding contacts', function () {
 	   });
 })
 
-//EDIT CONTACT
-describe('Adding contacts', function () {
-	context('Successfully adding contact', function () {
+//ADD TAG
+describe('Adding tags', function () {
+	async function registerAndLogin() {
+		var user = { email: "mochatest@mochatest.com", password: "mochatest", firstName: "test", lastName: "test" }
+		await server
+			.post("/api/signup")
+			.send(user)
+			.then(response => {
+				console.log(response.body)
+			})
+		await server
+			.post("/api/login")
+			.send({email: user.email, password: user.password})
+			.then(response => {
+				console.log(response.body)
+			})
+	}
+	context('Successfully adding tag', function () {
+		it('registerAndLogin', registerAndLogin)
 		it('should return status code 1', function (done) {
 			server
-				.post('/api/add-contact')
-				.send({firstName: "test",
-				lastName: "test",
-				phone: "test",
-				email: "test@test.com",
-				category: "test"
-				})
+				.post('/api/add-tag')
+				.send({username: "mochatest@mochatest.com", tagText: "test"})
 				.then(response => {
 					if (response.body.status == controller.status.SUCCESS) {
 						done()
@@ -326,16 +337,12 @@ describe('Adding contacts', function () {
 		})
 	})
 	
-	context('Missing firstName', function () {
+	context('Missing tagText', function () {
+		it('registerAndLogin', registerAndLogin)
 		it('should return status code 0', function (done) {
 			server
 				.post('/api/add-contact')
-				.send({
-				lastName: "test",
-				phone: "test",
-				email: "test@test.com",
-				category: "test"
-				})
+				.send({username: "mochatest@mochatest.com"})
 				.then(response => {
 					if (response.body.status == controller.status.FAILURE) {
 						done()
@@ -347,18 +354,121 @@ describe('Adding contacts', function () {
 		})
 	})
 
-	context('Missing lastName', function () {
+	after(async function() {
+		await User.findOneAndDelete({username: "mochatest@mochatest.com"})
+		await Tag.findOneAndDelete({username: "mochatest@mochatest.com"})
+	   });
+})
+
+//GET TAGs
+describe('Get all user tags', function () {
+	async function registerAndLogin() {
+		var user = { email: "mochatest@mochatest.com", password: "mochatest", firstName: "test", lastName: "test" }
+		await server
+			.post("/api/signup")
+			.send(user)
+			.then(response => {
+				console.log(response.body)
+			})
+		await server
+			.post("/api/login")
+			.send({email: user.email, password: user.password})
+			.then(response => {
+				console.log(response.body)
+			})
+	}
+	context('Not logged in', function () {
 		it('should return status code 0', function (done) {
 			server
-				.post('/api/add-contact')
-				.send({
-				firstName: "test",
-				phone: "test",
-				email: "test@test.com",
-				category: "test"
-				})
+			.get('/api/get-tags')
+			.then(response => {
+				if (response.body.stringify == {}.stringify) {
+					done()
+				}
+				else {
+					done(new Error(JSON.stringify(response.body)))
+				}
+			})
+		})
+	})
+	
+	context('Successfully getting tags', function () {
+		it('registerAndLogin', registerAndLogin)
+		it('should return status code 1', function (done) {
+			server
+				.get('/api/get-tags')
 				.then(response => {
-					if (response.body.status == controller.status.FAILURE) {
+					if (response.body.status == controller.status.SUCCESS) {
+						done()
+					}
+					else {
+						done(new Error(JSON.stringify(response.body)))
+					}
+				})
+		})
+	})
+
+	after(async function() {
+		await User.findOneAndDelete({username: "mochatest@mochatest.com"})
+	   });
+})
+
+
+
+
+
+
+
+//DELETE CONTACT
+/** 
+describe('Delete a contact', function () {
+	async function addContact() {
+		var contact = {firstName: "test",
+		lastName: "test",
+		phone: "test",
+		email: "test@test.com",
+		category: "test"
+		}
+		await server
+			.post("/api/add-contact")
+			.send(contact)
+			.then(response => {
+				console.log(response.body)
+			})
+	}
+	async function registerAndLogin() {
+		var user = { email: "mochatest@mochatest.com", password: "mochatest", firstName: "test", lastName: "test" }
+		await server
+			.post("/api/signup")
+			.send(user)
+			.then(response => {
+				console.log(response.body)
+			})
+		await server
+			.post("/api/login")
+			.send({email: user.email, password: user.password})
+			.then(response => {
+				console.log(response.body)
+			})
+	}
+
+	context('Successfully deleting a contact', function () {
+		it('registerAndLogin', registerAndLogin)
+		it('addContact', addContact)
+		it('getId')
+		it('should return status code 1', function (done) {
+			server
+				.get('/api/get-contacts')
+				.then(response => {
+					var id
+					contacts = response.body.contacts
+					for (var i = 0; i < contacts.length; i++) {
+						if (contacts[i].email == "test@test.com") {
+							id = contacts[i]._id;
+						}
+					}
+					
+					if (response.body.status == controller.status.SUCCESS) {
 						done()
 					}
 					else {
@@ -368,6 +478,6 @@ describe('Adding contacts', function () {
 		})
 	})
 	after(async function() {
-		await Contact.findOneAndDelete({email: "test@test.com"})
+		await User.findOneAndDelete({email: "mochatest@mochatest.com"})
 	   });
-})
+})*/

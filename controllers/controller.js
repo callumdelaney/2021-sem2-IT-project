@@ -32,7 +32,7 @@ const getContacts = async (req, res) => {
         let contacts = await Contact.find({}).lean()
         res.send({
             status: status.SUCCESS,
-            contacts: JSON.stringify(contacts)
+            contacts: contacts
         });
         console.log(contacts)
     } catch (err) {
@@ -87,7 +87,7 @@ const addNewContact = async (req, res) => {
 const editContact = async (res, req) => {
     try {
         await Contact.findOneAndUpdate({
-            "contactId": req.body.contactId
+            "_id": req.body._id
         }, {
             "firstName": req.body.firstName,
             "lastName": req.body.lastName,
@@ -105,7 +105,7 @@ const editContact = async (res, req) => {
 const deleteContact = async (req, res) => {
     try {
         await Contact.findOneAndDelete({
-            "contactId": req.body.contactId
+            "_id": req.body._id
         })
         res.send({ status: status.SUCCESS })
     } catch (err) {
@@ -234,7 +234,7 @@ const getUserTags = async (req, res) => {
     try {
         let tags = await Tag.find({
             //searching for all tags linked to one userId
-            'userId': req.body.userId
+            'username': req.body.username
 
         }).lean()
 
@@ -283,7 +283,7 @@ const getUserTags = async (req, res) => {
         var randomColour = Math.floor(Math.random()*16777215).toString(16);
      
         const newTag = await Tag.create({
-            "userId" : req.body.userId,
+            "username" : req.body.username,
             "tagText" : req.body.tagText,
             //"tagColour" : req.body.tagColour
             //random generate tag's hex colour instead
