@@ -1,38 +1,42 @@
 import {getAllTags, useAllTags} from "../api"
+import {useState, useEffect} from 'react';
 
 function TestingGrounds() {
 
-    const allTags = getAllTags();
-    const usingAllTags = useAllTags();
-
     /*
+    const allTags = getAllTags();
+    console.log("loging get all tags");
+    console.log(allTags);
+    const usingAllTags = useAllTags();
+    */
+    
     const [tableDataCpy, setTableDataCpy] = useState([]);
 	const [filteredData, setFilteredData] = useState([]);
 
 	useEffect(() => {
-		fetch("/api/get-contacts")
+		fetch("/api/get-tags")
 			.then((res) => res.json())
 			.then((data) => {
 				console.log(data);
-				setTableDataCpy(data.contacts);
-				setFilteredData(data.contacts);
+				setTableDataCpy(data.tags);
+				//setFilteredData(data.contacts);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	}, []);
-    */
+
 
 
     return (
         <>
         <p> TEST PAGE!!!</p>
 
-        <p> {allTags} </p>
+        <p> {tableDataCpy}
+        </p>
 
         
-        <p>  </p>
-        <p> {usingAllTags} </p>
+        
 
         </>
 

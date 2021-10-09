@@ -80,7 +80,7 @@ const getTags = async (req, res) => {
 		let tags = await Tag.find({}).lean();
 
 		res.send({
-			tags: JSON.stringify(tags),
+			tags: tags,
 			message: "tag got",
 			status: status.SUCCESS,
 		});
