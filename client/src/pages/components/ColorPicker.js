@@ -1,66 +1,43 @@
 import React, { useState } from "react";
-import { SketchPicker } from "react-color";
-import { reactCSS } from "reactcss";
+import { ChromePicker } from "react-color";
 
-function ColorPicker() {
-    const [displayColor, setDisplayColor] = useState(false);
-    const [color, setColor] = useState("#ff0000");
-    const handleClick = () => {
-        setDisplayColor(!displayColor);
+import { Popover } from "@mui/material";
+
+// Component for color pallet when creating tags
+function ColorPicker(props) {
+    const [anchor, setAnchor] = useState(null);
+    const [color, setColor] = useState(props.color);
+    const [opacity, setOpacity] = useState(props.opacity);
+    const [bg, setBg] = useState(props.bg);
+
+    const openPopover = (e) => {
+        setAnchor(e.currentTarget);
+    };
+    const handleChange = (data) => {
+        // color has the hex code, bg(background) has the hsl code, opacity has the opacity value
+        setColor(data.hex);
+        setBg(data.hsl);
+        setOpacity(data.hsl.a);
     };
 
-    const handleClose = () => {
-        setDisplayColor(false);
-    };
-
-    const handleChange = (color) => {
-        this.setState({ color: color.rgb });
-    };
-
-    const styles = reactCSS({
-        default: {
-            color: {
-                width: "36px",
-                height: "14px",
-                borderRadius: "2px",
-                background: `rgba(${this.state.color.r}, ${this.state.color.g}, ${this.state.color.b}, ${this.state.color.a})`,
-            },
-            swatch: {
-                padding: "5px",
-                background: "#fff",
-                borderRadius: "1px",
-                boxShadow: "0 0 0 1px rgba(0,0,0,.1)",
-                display: "inline-block",
-                cursor: "pointer",
-            },
-            popover: {
-                position: "absolute",
-                zIndex: "2",
-            },
-            cover: {
-                position: "fixed",
-                top: "0px",
-                right: "0px",
-                bottom: "0px",
-                left: "0px",
-            },
-        },
-    });
-
+    //console.log(color);
     return (
         <div>
-            <div style={styles.swatch} onClick={this.handleClick}>
-                <div style={styles.color} />
-            </div>
-            {this.state.displayColorPicker ? (
-                <div style={styles.popover}>
-                    <div style={styles.cover} onClick={this.handleClose} />
-                    <SketchPicker
-                        color={this.state.color}
-                        onChange={this.handleChange}
-                    />
-                </div>
-            ) : null}
+            {/* Color Pallet included in popover, so it does not take space in the tool bar */}
+            <button onClick={openPopover}>Pick Color</button>
+            <Popover
+                open={Boolean(anchor)}
+                anchorEl={anchor}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                transformOrigin={{ vertical: "top", horizontal: "left" }}
+                onClose={() => {
+                    setAnchor(null);
+
+                    props.callBack(color, opacity, bg);
+                }}
+            >
+                <ChromePicker color={bg} onChange={handleChange}></ChromePicker>
+            </Popover>
         </div>
     );
 }
