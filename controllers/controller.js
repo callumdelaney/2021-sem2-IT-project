@@ -26,23 +26,23 @@ const status = {
 
 
 /**
- * Gets all existing contacts in the database
- * @todo only return contacts of the user that is currently logged in
+ * Gets all contacts belonging to the user that is currently logged in.
  * @param {object} req doesn't need anything in the request body
- * @param {object} res responds with a status code and, if successful, a list of contacts
- * @returns 
+ * @param {object} res responds with a status code and,
+ * 						if successful, a list of contacts
  */
 const getContacts = async (req, res) => {
 	try {
-		let contacts = await Contact.find({}).lean()
+		let contacts = await Contact.find({
+			"userId": req.session.passport.user
+		}).lean()
 		res.send({
 			status: status.SUCCESS,
 			contacts: JSON.stringify(contacts)
 		});
-		console.log(contacts)
 	} catch (err) {
 		console.log(err)
-		return res.send({ status: status.FAILURE })
+		res.send({ status: status.FAILURE })
 	}
 }
 
@@ -51,18 +51,20 @@ const getContacts = async (req, res) => {
  * @todo fail if the specified contact does not belong to the logged in user
  * @param {object} req takes a unique contact id
  * @param {object} res responds with a status code and, if successful, a contact
- * @returns 
  */
 const getOneContact = async (req, res) => {
 	try {
 		let contact = await Contact.findOne({
 			"_id": req.body._id
 		}).lean()
-		res.send({
-			status: status.SUCCESS,
-			contacts: JSON.stringify(contact)
-		});
-		console.log(contact)
+		if (contact.userId == req.session.passport.user) {
+			res.send({
+				status: status.SUCCESS,
+				contacts: JSON.stringify(contact)
+			});
+			console.log(contact)
+		}
+		else throw new Error("requested contact does not belong to user");
 	} catch (err) {
 		console.log(err)
 		return res.send({ status: status.FAILURE })
@@ -74,7 +76,6 @@ const getOneContact = async (req, res) => {
  * Gets all existing tags from the database
  * @param {object} req doesn't need anything in the request body
  * @param {object} res responds with a status code and, if successful, a list of tags
- * @returns 
  */
 const getTags = async (req, res) => {
 	try {
@@ -102,7 +103,6 @@ const getTags = async (req, res) => {
  * Gets all tags from the database belonging to a specific user
  * @param {object} req takes a unique user id
  * @param {object} res responds with a status code and, if successful, a list of tags
- * @returns 
  */
 const getUserTags = async (req, res) => {
 	try {
@@ -130,7 +130,6 @@ const getUserTags = async (req, res) => {
  * Gets one specific tag from the database
  * @param {object} req takes a unique tag id
  * @param {object} res responds with a status code and, if successful, a tag
- * @returns 
  */
 const getOneTag = async (req, res) => {
 	try {
@@ -157,7 +156,8 @@ const getOneTag = async (req, res) => {
 
 /**
  * Adds a new contact to the database
- * @param {object} req takes contact information (see ../models/contact/contactSchema)
+ * @param {object} req takes contact information
+ * 		(see ../models/contact/contactSchema)
  * @param {object} res responds with a status code
  */
 const addNewContact = async (req, res) => {
@@ -170,7 +170,7 @@ const addNewContact = async (req, res) => {
 			"category": req.body.category,
 			"photo": req.body.photo,
 			"notes": req.body.notes,
-			"userId": req.user.username
+			"userId": req.session.passport.user,
 		})
 		res.send({ status: status.SUCCESS })
 		new Contact(newContact).save()
@@ -182,13 +182,15 @@ const addNewContact = async (req, res) => {
 
 /**
  * Edits an existing contact in the database
- * @param {object} req takes contact information (see ../models/contact/contactSchema)
+ * @param {object} req takes contact information
+ * 		(see ../models/contact/contactSchema)
  * @param {object} res responds with a status code
  */
 const editContact = async (res, req) => {
 	try {
 		await Contact.findOneAndUpdate({
 			"_id": req.body._id
+			"userId": req.session.passport.user,
 		}, {
 			"firstName": req.body.firstName,
 			"lastName": req.body.lastName,
@@ -212,6 +214,7 @@ const deleteContact = async (req, res) => {
 	try {
 		await Contact.findOneAndDelete({
 			"_id": req.body._id
+			"userId": req.session.passport.user,
 		})
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
@@ -246,10 +249,9 @@ const addNote = async (req, res) => {
  */
 const changeCategory = async (req, res) => {
 	try {
-
-
 		await Contact.findOneAndUpdate({
 			"_id": req.body._id
+			"userId": req.session.passport.user,
 		}, {
 			"category": req.body.category
 		})
