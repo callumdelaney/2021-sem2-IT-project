@@ -10,26 +10,25 @@ import { userTags } from "./components/data";
 store.setState("contactInfo", { firstName: -1, tags: [] });
 // declare global userTags variable to keep track of user tags
 store.setState("userTags", userTags);
-// declare global color variable for tags
-store.setState("color", "");
+
 /*Contacts page main function*/
 function Contacts() {
-    return (
-        <>
-            <div className="flex-container">
-                <div className="flex-child">
-                    {/* Left-hand table showing records of user contacts */}
-                    <ContactsTable />
-                </div>
-                <div className="flex-child">
-                    {/* div displaying user information */}
-                    <UserInfo />
-                    {/* component displaying contact-info */}
-                    <Contact />
-                </div>
-            </div>
-        </>
-    );
+	return (
+		<>
+			<div className="flex-container">
+				<div className="flex-child">
+					{/* Left-hand table showing records of user contacts */}
+					<ContactsTable />
+				</div>
+				<div className="flex-child">
+					{/* div displaying user information */}
+					<UserInfo />
+					{/* component displaying contact-info */}
+					<Contact />
+				</div>
+			</div>
+		</>
+	);
 }
 
 export default Contacts;
