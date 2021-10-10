@@ -90,6 +90,7 @@ code {
 	margin: 0 auto;
 	margin-bottom: 4rem;
 	padding: 2rem 3rem;
+
 	/* look */
 	border: 2px solid black;
 	background: var(--clr-dark-blue);
@@ -153,10 +154,11 @@ code {
 /* styling for login/signup verification errors */
 .errorMessage {
 	/* layout */
-	margin-left: 2rem;
+	/* margin-left: 2rem; */
 	margin-top: 1.2rem;
 	padding: 0.2rem 0.5rem;
-	max-width: 255px;
+	/* max-width: 255px; */
+	min-width: 80%;
 	display: block;
 	/* look */
 	background: var(--clr-black);
@@ -345,12 +347,15 @@ code {
 
 .contact-form {
 	/* layout */
-	margin: 0 auto;
-	margin-bottom: 4rem;
-	padding: 2rem 3rem;
+	/* margin: 0 auto; */
+	/* margin-bottom: 4rem; */
+	/* padding: 2rem 1rem; */
+	margin-left: 2rem;
+	width: 60%;
+	display: inline-flex;
+	flex-wrap: wrap;
 	/* look */
-
-	text-align: center;
+	/* text-align: center; */
 }
 /* label stylings */
 .contact-form label {
@@ -378,6 +383,7 @@ code {
 	font-weight: bold;
 	font-size: 22px;
 	margin-top: 1rem;
+	/* margin-left: 3rem; */
 	letter-spacing: var(--spacing);
 	padding: 0.4rem 1rem;
 	cursor: pointer;
