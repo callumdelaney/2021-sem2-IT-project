@@ -36,6 +36,7 @@ const status = {
 const getContacts = async (req, res) => {
 	try {
 		let contacts = await Contact.find({}).lean()
+		.populate('tags')
 		res.send({
 			status: status.SUCCESS,
 			contacts: JSON.stringify(contacts)
@@ -59,6 +60,7 @@ const getOneContact = async (req, res) => {
 		let contact = await Contact.findOne({
 			"_id": req.body._id
 		}).lean()
+		.populate('tags')
 		res.send({
 			status: status.SUCCESS,
 			contacts: JSON.stringify(contact)
@@ -222,7 +224,7 @@ const pushContactTag = async (req, res) => {
 	let newTag = req.body.tags;
 	try {
 		var contact = await Contact.findOne({ "_id": req.body._id })
-		contact.tags.push(newTag)
+		await contact.tags.push(newTag)
 		contact.save()
 		console.log(contact)
 		res.send({ status: status.SUCCESS })
