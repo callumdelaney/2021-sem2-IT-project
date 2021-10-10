@@ -41,7 +41,10 @@ function ColorPicker(props) {
 					props.callBack(color, opacity, bg);
 				}}
 			>
-				<ChromePicker color={bg} onChange={handleChange}></ChromePicker>
+				<ChromePicker
+					color={bg}
+					onChangeComplete={handleChange}
+				></ChromePicker>
 			</Popover>
 		</div>
 	);

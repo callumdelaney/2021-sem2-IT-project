@@ -11,11 +11,15 @@ import {
 	MenuItem,
 	FormControl,
 	Select,
+	OutlinedInput,
+	Chip,
 } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useGlobalState } from "state-pool";
 import Tag from "./Tags";
 import ColorPicker from "./ColorPicker";
+import TagCreator from "./TagCreator";
+import TagCreatorDialog from "./TagCreatorDialog";
 
 function ContactsTable(contactInfo) {
 	const [category, setCategory] = useState("");
@@ -26,7 +30,8 @@ function ContactsTable(contactInfo) {
 	// access the global variable contactInfo
 	// eslint-disable-next-line
 	const [info, setInfo] = useGlobalState("contactInfo");
-	const [userTags, setUserTags] = useGlobalState("userTags");
+	const [userTags] = useGlobalState("userTags");
+	// useState hooks for color picker
 	const [color, setColor] = useState("#fff");
 	const [opacity, setOpacity] = useState("1");
 	const [bg, setBg] = useState({
@@ -38,7 +43,7 @@ function ContactsTable(contactInfo) {
 
 	// useState for selected tag to filter on
 	const [tagName, setTagName] = useState("");
-
+	const [tagNames, setTagNames] = useState([]);
 	// useEffect hook for dealing with tag filters
 	useEffect(() => {
 		function checkTagEquality(tag) {
@@ -54,6 +59,13 @@ function ContactsTable(contactInfo) {
 		);
 		// eslint-disable-next-line
 	}, [tagName]);
+
+	// toggle state for tag creation
+	const [isOpen, setIsOpen] = useState(false);
+	const togglePopup = () => {
+		setIsOpen(!isOpen);
+	};
+
 	// useEffect hook for dealing with category changes
 	useEffect(() => {
 		setFilteredData(
@@ -76,7 +88,6 @@ function ContactsTable(contactInfo) {
 			},
 			/*render a div in each cell so that name and tags can be displayed in one cell*/
 			render: (filteredData) => {
-				// const taglist = filteredData.tag.map((tag) => <li>{tag}</li>);
 				return (
 					<div
 						style={
@@ -90,7 +101,7 @@ function ContactsTable(contactInfo) {
 							{filteredData.firstName} {filteredData.lastName}
 						</h4>
 
-						<Tag doDelete={true} tags={filteredData.tags} />
+						<Tag tags={filteredData.tags} />
 						{/* <ul>{taglist}</ul> */}
 					</div>
 				);
@@ -311,11 +322,57 @@ function ContactsTable(contactInfo) {
 											<Select
 												labelId="select-label"
 												id="simple-select"
-												value={tagName}
+												value={tagNames}
 												label="Tag"
-												onChange={(e) =>
-													setTagName(e.target.value)
+												multiple
+												onChange={(e) => {
+													console.log(e.target.value);
+													if (
+														Array.isArray(
+															e.target.value
+														) &&
+														e.target.value[
+															e.target.value
+																.length - 1
+														] !== "create-tag"
+													) {
+														setTagName(
+															e.target.value[
+																e.target.value
+																	.length - 1
+															]
+														);
+														setTagNames(
+															e.target.value
+														);
+													}
+												}}
+												input={
+													<OutlinedInput
+														id="select-multiple-chip"
+														label="Chip"
+													/>
 												}
+												renderValue={(selected) => (
+													<Box
+														sx={{
+															display: "flex",
+															flexWrap: "wrap",
+															gap: 3.5,
+														}}
+													>
+														{selected.map(
+															(value) => (
+																<Chip
+																	key={value}
+																	label={
+																		value
+																	}
+																/>
+															)
+														)}
+													</Box>
+												)}
 												// MenuProps specifies the max height & width of the drop down menu with overflow
 												MenuProps={{
 													PaperProps: {
@@ -332,6 +389,8 @@ function ContactsTable(contactInfo) {
 													},
 												}}
 											>
+												{/* create contact button brings up a popup */}
+												<TagCreator />
 												{/* iterate over userTags and add them to list */}
 												{userTags.map((data) => {
 													return (
@@ -385,6 +444,7 @@ function ContactsTable(contactInfo) {
 								<button
 									onClick={() => {
 										setTagName("");
+										setTagNames([]);
 										setCategory("");
 										setFilteredData(tableDataCpy);
 									}}

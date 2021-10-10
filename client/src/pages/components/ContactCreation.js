@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import { useGlobalState } from "state-pool";
 import ErrorMessage from "./ErrorMessage";
-
+// ContactCreation is a child component of Contact()
 function ContactCreation() {
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
@@ -26,7 +26,6 @@ function ContactCreation() {
 	const [notes, setNotes] = useState("");
 	// eslint-disable-next-line
 	const [photo, setPhoto] = useState("");
-	// eslint-disable-next-line
 	const [tags, setTags] = useState({});
 	// eslint-disable-next-line
 	const [status, setStatus] = useState(statusCode.SUCCESS);
