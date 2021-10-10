@@ -1,14 +1,13 @@
 const request = require('supertest')
 const assert = require('assert')
-const app = require('../app');
-const controller = require('../controllers/controller');
-const mongoose = require('mongoose');
-const User = mongoose.model('User');
+const app = require("../app");
+const controller = require("../controllers/controller");
+const { userInfo } = require('os');
+const mongoose = require("mongoose");
+const User = mongoose.model("User");
 const Contact = mongoose.model('Contact');
 const Tag = mongoose.model('Tag');
-
 const data = require('./data')
-
 var server = request.agent('http://localhost:3001')
 
 describe('Duckroll', function () {
@@ -385,7 +384,6 @@ describe('Delete a contact', function () {
 				console.log(response.body)
 			})
 	}
-
 	context('Successfully deleting a contact', function () {
 		it('registerAndLogin', registerAndLogin)
 		it('addContact', addContact)
@@ -411,6 +409,124 @@ describe('Delete a contact', function () {
 				})
 		})
 	})
+})
+
+//CHANGING PASSWORD
+describe('Change Password', function () {
+	async function registerAndLogin() {
+		var user = { email: "mochatest@mochatest.com", password: "mochatest", firstName: "test", lastName: "test" }
+		await server
+			.post("/api/signup")
+			.send(user)
+			.then(response => {
+				console.log(response.body)
+			})
+		await server
+			.post("/api/login")
+			.send({email: user.email, password: user.password})
+			.then(response => {
+				console.log(response.body)
+			})
+	}
+
+	context('Successfully changing', function () {
+		it('registerAndLogin', registerAndLogin)
+		it('should return status code 1', function (done) {
+			server
+				.post("/api/update-user-password")
+				.send({oldPassword: "mochatest", newPassword: "mochatest2"})
+				.then(response => {
+					if (response.body.status == controller.status.SUCCESS) {
+						done()
+					}
+					else {
+						done(new Error(JSON.stringify(response.body)))
+					}
+				})
+		})
+		after(async function() {
+			await User.findOneAndDelete({username: "mochatest@mochatest.com"})
+		   });
+	})
+})
+
+//CHANGE FIRST NAME
+describe('Change First Name', function () {
+	async function registerAndLogin() {
+		var user = { email: "mochatest@mochatest.com", password: "mochatest", firstName: "test", lastName: "test" }
+		await server
+			.post("/api/signup")
+			.send(user)
+			.then(response => {
+				console.log(response.body)
+			})
+		await server
+			.post("/api/login")
+			.send({email: user.email, password: user.password})
+			.then(response => {
+				console.log(response.body)
+			})
+	}
+
+	context('Successfully changing', function () {
+		it('registerAndLogin', registerAndLogin)
+		it('should return status code 1', function (done) {
+			server
+				.post("/api/update-firstName")
+				.send({firstName: "Greg"})
+				.then(response => {
+					if (response.body.status == controller.status.SUCCESS) {
+						done()
+					}
+					else {
+						done(new Error(JSON.stringify(response.body)))
+					}
+				})
+		})
+		after(async function() {
+			await User.findOneAndDelete({username: "mochatest@mochatest.com"})
+		   });
+	})
+})
+
+//CHANGE LAST NAME
+describe('Change Last Name', function () {
+	async function registerAndLogin() {
+		var user = { email: "mochatest@mochatest.com", password: "mochatest", firstName: "test", lastName: "test" }
+		await server
+			.post("/api/signup")
+			.send(user)
+			.then(response => {
+				console.log(response.body)
+			})
+		await server
+			.post("/api/login")
+			.send({email: user.email, password: user.password})
+			.then(response => {
+				console.log(response.body)
+			})
+	}
+
+	context('Successfully changing', function () {
+		it('registerAndLogin', registerAndLogin)
+		it('should return status code 1', function (done) {
+			server
+				.post("/api/update-lastName")
+				.send({lastName: "Gregson"})
+				.then(response => {
+					if (response.body.status == controller.status.SUCCESS) {
+						done()
+					}
+					else {
+						done(new Error(JSON.stringify(response.body)))
+					}
+				})
+		})
+		after(async function() {
+			await User.findOneAndDelete({username: "mochatest@mochatest.com"})
+		   });
+	})
+})
 	after(async function() {
 		await User.findOneAndDelete({email: 'mochatest@mochatest.com'})
 	   });
