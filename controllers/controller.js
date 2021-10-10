@@ -1,13 +1,11 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
 
+const Image = require('../models/image');
 const Contact = mongoose.model("Contact");
 const User = mongoose.model("User");
 const Tag = mongoose.model("Tag");
 
-
 const passport = require("passport");
-const LocalStrategy = require('passport-local').Strategy;
 
 const passportFunc = require('../passport');
 
@@ -19,7 +17,8 @@ const status = {
 	UNKNOWN_EMAIL: 11,
 	INCORRECT_CREDENTIALS: 12,
 	EMAIL_TAKEN: 13,
-	INVALID_PASSWORD: 14
+	INVALID_PASSWORD: 14,
+	INVALID_EMAIL: 15
 }
 
 
@@ -71,6 +70,7 @@ const getOneContact = async (req, res) => {
 		return res.send({ status: status.FAILURE })
 	}
 }
+
 
 /**
  * Gets all existing tags from the database
@@ -189,7 +189,7 @@ const addNewContact = async (req, res) => {
 const editContact = async (res, req) => {
 	try {
 		await Contact.findOneAndUpdate({
-			"_id": req.body.id,
+			"_id": req.body._id
 			"userId": req.session.passport.user,
 		}, {
 			"firstName": req.body.firstName,
@@ -213,7 +213,7 @@ const editContact = async (res, req) => {
 const deleteContact = async (req, res) => {
 	try {
 		await Contact.findOneAndDelete({
-			"_id": req.body.id,
+			"_id": req.body._id
 			"userId": req.session.passport.user,
 		})
 		res.send({ status: status.SUCCESS })
@@ -231,7 +231,7 @@ const deleteContact = async (req, res) => {
 const addNote = async (req, res) => {
 	let newNote = req.body.note
 	try {
-		var contact = await Contact.findOne({ "contactId": req.body.contactId })
+		var contact = await Contact.findOne({ "_id": req.body._id })
 		contact.notes.push(newNote)
 		contact.save
 		res.send({ status: status.SUCCESS })
@@ -250,7 +250,7 @@ const addNote = async (req, res) => {
 const changeCategory = async (req, res) => {
 	try {
 		await Contact.findOneAndUpdate({
-			"contactId": req.body.contactId,
+			"_id": req.body._id
 			"userId": req.session.passport.user,
 		}, {
 			"category": req.body.category
@@ -268,6 +268,11 @@ const changeCategory = async (req, res) => {
  */
 const newUser = async (req, res) => {
 	var pass = passportFunc.genPassword(req.body.password)
+
+	const regex = /\S+@\S+\.\S+/;
+    if (regex.test(String(req.body.email).toLowerCase()) == false) {
+		return res.send({status: status.UNKNOWN_EMAIL})
+	}
 	try {
 		const newUser = await User.create({
 			username: req.body.email,
@@ -284,6 +289,72 @@ const newUser = async (req, res) => {
 		console.log(err)
 	}
 }
+
+const changePassword = async (req, res) => {
+	var newPass = passportFunc.genPassword(req.body.newPassword)
+	var oldPass = req.body.oldPassword
+
+	try {
+		const user = await User.findOne({
+			"username": req.user.username
+		})
+		console.log(user)
+
+		if (passportFunc.checkPassword(oldPass, user.hash, user.salt) == false) {
+			res.send({ status: status.FAILURE })
+		}  else {
+			user.set({
+				hash: newPass.hash,
+				salt: newPass.salt
+			})
+			await user.save()
+			res.send({ status: status.SUCCESS })
+		}
+	} catch (err) {
+		res.send({ status: status.FAILURE })
+	}
+}
+
+const changeFirstName = async (req, res) => {
+	try {
+		await User.findOneAndUpdate({
+			"username": req.user.username
+		}, {
+			firstName: req.body.firstName
+		})
+		res.send({status: status.SUCCESS})
+	} catch (err) {
+		res.send({status: status.FAILURE})
+	}
+}
+
+const changeLastName = async (req, res) => {
+	try {
+		await User.findOneAndUpdate({
+			"username": req.user.username
+		}, {
+			lastName: req.body.lastName
+		})
+		res.send({status: status.SUCCESS})
+	} catch (err) {
+		res.send({status: status.FAILURE})
+	}
+}
+
+
+const changeEmail = async (req, res) => {
+	try {
+		await User.findOneAndUpdate({
+			"username": req.user.username
+		}, {
+			username: req.body.username
+		})
+		res.send({status: status.SUCCESS})
+	} catch (err) {
+		res.send({status: status.FAILURE})
+	}
+}
+
 
 /**
  * Authenticates login details and, if valid, logs the user in
@@ -383,6 +454,48 @@ const deleteTag = async (req, res) => {
 	}
 }
 
+const uploadImage = async (req, res) => {
+	var obj = {
+		data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+        contentType: 'image/png' 
+	}
+	await Image.create(obj, (err, item) => {
+		if (err) {
+			console.log(err)
+			res.send({status: status.FAILURE})
+		} else {
+			res.send({status: status.SUCCESS, image: obj})
+		}
+	})
+}
+
+const changeProfilePic = async (req, res) => {
+	try {
+		await User.findOneAndUpdate({
+			"username": req.user.username
+		}, {
+			photo: req.body.image
+		})
+		res.send({status: status.SUCCESS, image: req.body.image})
+	} catch (err) {
+		res.send({status: status.FAILURE})
+	}
+}
+
+const getImage = async (req, res) => {
+	await Image.findOne({"_id": req.body._id}, (err, item) => {
+		if (err) {
+			console.log(err)
+			res.send({status: status.FAILURE})
+		} else {
+			res.send({
+				image: item,
+				status: status.SUCCESS
+			})
+		}
+	})
+}
+
 module.exports = {
 	status,
 	login,
@@ -399,5 +512,12 @@ module.exports = {
 	getOneTag,
 	addNewTag,
 	editTag,
-	deleteTag
+	deleteTag,
+	changePassword,
+	changeFirstName,
+	changeLastName,
+	changeEmail,
+	uploadImage,
+	getImage,
+	changeProfilePic
 };
