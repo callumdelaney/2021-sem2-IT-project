@@ -34,14 +34,13 @@ const status = {
 const getContacts = async (req, res) => {
 	try {
 		let contacts = await Contact.find({
-			"userId": req.session.passport.user
+			"user_id": req.session.passport.user
 		}).lean()
 		res.send({
 			status: status.SUCCESS,
 			contacts: JSON.stringify(contacts)
 		});
 	} catch (err) {
-		console.log(err)
 		res.send({ status: status.FAILURE })
 	}
 }
@@ -57,45 +56,15 @@ const getOneContact = async (req, res) => {
 		let contact = await Contact.findOne({
 			"_id": req.body._id
 		}).lean()
-		if (contact.userId == req.session.passport.user) {
+		if (contact.user_id == req.session.passport.user) {
 			res.send({
 				status: status.SUCCESS,
-				contacts: JSON.stringify(contact)
+				contacts: contact
 			});
-			console.log(contact)
 		}
 		else throw new Error("requested contact does not belong to user");
 	} catch (err) {
-		console.log(err)
 		return res.send({ status: status.FAILURE })
-	}
-}
-
-
-/**
- * Gets all existing tags from the database
- * @param {object} req doesn't need anything in the request body
- * @param {object} res responds with a status code and, if successful, a list of tags
- */
-const getTags = async (req, res) => {
-	try {
-		console.log("getting tags");
-		let tags = await Tag.find({}).lean()
-
-		res.send({
-			tags: JSON.stringify(tags),
-			message: "tag got",
-			status: status.SUCCESS
-		});
-
-		console.log(tags)
-
-
-	} catch (err) {
-		console.log("tags get fail");
-		console.log(err)
-		return res.send({ status: status.FAILURE })
-
 	}
 }
 
@@ -104,24 +73,18 @@ const getTags = async (req, res) => {
  * @param {object} req takes a unique user id
  * @param {object} res responds with a status code and, if successful, a list of tags
  */
-const getUserTags = async (req, res) => {
+const getTags = async (req, res) => {
 	try {
 		let tags = await Tag.find({
-			// searching for all tags linked to one userId
-			'userId': req.body.userId
-
+			// searching for all tags linked to one user_id
+			user_id: req.session.passport.user
 		}).lean()
-
 		// if tag wass found, send success and log tag
 		res.send({
 			status: status.SUCCESS,
-			tags: JSON.stringify(tags)
+			tags: tags
 		});
-
-		console.log(tags)
-
 	} catch (err) {
-		console.log(err)
 		return res.send({ status: status.FAILURE })
 	}
 }
@@ -135,19 +98,15 @@ const getOneTag = async (req, res) => {
 	try {
 		// try to find it
 		let tag = await Tag.findOne({
-			"_id": req.body._id
-
+			_id: req.body._id
 		}).lean()
 
 		// send it if found, and report success
 		res.send({
 			status: status.SUCCESS,
-			tags: JSON.stringify(tag)
+			tag: tag
 		});
-		console.log(tag)
-
 	} catch (err) {
-		console.log(err)
 		return res.send({ status: status.FAILURE })
 	}
 }
@@ -163,19 +122,18 @@ const getOneTag = async (req, res) => {
 const addNewContact = async (req, res) => {
 	try {
 		const newContact = await Contact.create({
-			"firstName": req.body.firstName,
-			"lastName": req.body.lastName,
-			"phone": req.body.phoneNumber,
-			"email": req.body.email,
-			"category": req.body.category,
-			"photo": req.body.photo,
-			"notes": req.body.notes,
-			"userId": req.session.passport.user,
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
+			phone: req.body.phoneNumber,
+			email: req.body.email,
+			category: req.body.category,
+			photo: req.body.photo,
+			notes: req.body.notes,
+			user_id: req.session.passport.user,
 		})
-		res.send({ status: status.SUCCESS })
 		new Contact(newContact).save()
+		res.send({ status: status.SUCCESS })
 	} catch (err) {
-		console.log(err)
 		res.send({ status: status.FAILURE })
 	}
 }
@@ -189,18 +147,17 @@ const addNewContact = async (req, res) => {
 const editContact = async (res, req) => {
 	try {
 		await Contact.findOneAndUpdate({
-			"_id": req.body._id
-			"userId": req.session.passport.user,
+			_id: req.body._id,
+			user_id: req.session.passport.user,
 		}, {
-			"firstName": req.body.firstName,
-			"lastName": req.body.lastName,
-			"phone": req.body.phone,
-			"email": req.body.email,
-			"category": req.body.category
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
+			phone: req.body.phone,
+			email: req.body.email,
+			category: req.body.category
 		})
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
-		console.log(err)
 		res.send({ status: status.FAILURE })
 	}
 }
@@ -213,8 +170,8 @@ const editContact = async (res, req) => {
 const deleteContact = async (req, res) => {
 	try {
 		await Contact.findOneAndDelete({
-			"_id": req.body._id
-			"userId": req.session.passport.user,
+			"_id": req.body._id,
+			"user_id": req.session.passport.user,
 		})
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
@@ -238,7 +195,6 @@ const addNote = async (req, res) => {
 	} catch (err) {
 		res.send({ status: status.FAILURE })
 	}
-	console.log(newNote)
 }
 
 /**
@@ -250,8 +206,8 @@ const addNote = async (req, res) => {
 const changeCategory = async (req, res) => {
 	try {
 		await Contact.findOneAndUpdate({
-			"_id": req.body._id
-			"userId": req.session.passport.user,
+			"_id": req.body._id,
+			"user_id": req.session.passport.user,
 		}, {
 			"category": req.body.category
 		})
@@ -260,22 +216,28 @@ const changeCategory = async (req, res) => {
 		res.send({ status: status.FAILURE })
 	}
 }
-
 /**
  * Adds a new user to the database
  * @param {object} req takes user information (see ../models/user/userSchema)
  * @param {object} res responds with a status code
  */
 const newUser = async (req, res) => {
-	var pass = passportFunc.genPassword(req.body.password)
-
-	const regex = /\S+@\S+\.\S+/;
-    if (regex.test(String(req.body.email).toLowerCase()) == false) {
-		return res.send({status: status.UNKNOWN_EMAIL})
-	}
+	// hashing password
+	var pass;
 	try {
+		pass = passportFunc.genPassword(req.body.password)
+	} catch (err) {
+		res.send({ status: status.INVALID_PASSWORD })
+	}
+
+	try {
+		// validating email
+		const regex = /\S+@\S+\.\S+/;
+		if (regex.test(String(req.body.username).toLowerCase()) == false) {
+			return res.send({status: status.INVALID_EMAIL})
+		}
 		const newUser = await User.create({
-			username: req.body.email,
+			username: req.body.username,
 			hash: pass.hash,
 			salt: pass.salt,
 			firstName: req.body.firstName,
@@ -286,7 +248,6 @@ const newUser = async (req, res) => {
 
 	} catch (err) {
 		res.send({ status: status.FAILURE, error: err })
-		console.log(err)
 	}
 }
 
@@ -298,8 +259,6 @@ const changePassword = async (req, res) => {
 		const user = await User.findOne({
 			"username": req.user.username
 		})
-		console.log(user)
-
 		if (passportFunc.checkPassword(oldPass, user.hash, user.salt) == false) {
 			res.send({ status: status.FAILURE })
 		}  else {
@@ -345,7 +304,7 @@ const changeLastName = async (req, res) => {
 const changeEmail = async (req, res) => {
 	try {
 		await User.findOneAndUpdate({
-			"username": req.user.username
+			user_id: req.session.passport.user
 		}, {
 			username: req.body.username
 		})
@@ -364,13 +323,14 @@ const changeEmail = async (req, res) => {
  */
 const login = async (req, res, next) => {
 
-	/* This is a work-around:
-	User schemas have 'email' but Passport needs req to have 'username' */
+	/* This was a work-around:
+	User schemas had 'email' but Passport needs req to have 'username'
 	var data = {
 		username: req.body.email,
 		password: req.body.password
 	}
 	req.body = data;
+	*/
 
 	passport.authenticate('local', (err, user, info) => {
 		if (err) {
@@ -394,24 +354,14 @@ const login = async (req, res, next) => {
  */
 const addNewTag = async (req, res) => {
 	try {
-		// Generate random hex colour from
-		// https://css-tricks.com/snippets/javascript/random-hex-color/
-		var randomColour = Math.floor(Math.random() * 16777215).toString(16);
-
 		const newTag = await Tag.create({
-			"userId": req.body.userId,
-			"tagText": req.body.tagText,
-			// "tagColour" : req.body.tagColour
-			// random generate tag's hex colour instead
-			"tagColour": randomColour
+			user_id: req.session.passport.user,
+			tagText: req.body.tagText,
+			tagColour: req.body.tagColour,
 		})
-
 		new Tag(newTag).save()
-		console.log(newTag)
 		res.send({ status: status.SUCCESS })
-
 	} catch (err) {
-		console.log(err)
 		res.send({ status: status.FAILURE })
 	}
 }
@@ -432,7 +382,6 @@ const editTag = async (req, res) => {
 		res.send({ status: status.SUCCESS })
 
 	} catch (err) {
-		console.log(err)
 		res.send({ status: status.FAILURE })
 	}
 }
@@ -461,7 +410,6 @@ const uploadImage = async (req, res) => {
 	}
 	await Image.create(obj, (err, item) => {
 		if (err) {
-			console.log(err)
 			res.send({status: status.FAILURE})
 		} else {
 			res.send({status: status.SUCCESS, image: obj})
@@ -485,7 +433,6 @@ const changeProfilePic = async (req, res) => {
 const getImage = async (req, res) => {
 	await Image.findOne({"_id": req.body._id}, (err, item) => {
 		if (err) {
-			console.log(err)
 			res.send({status: status.FAILURE})
 		} else {
 			res.send({
@@ -508,7 +455,6 @@ module.exports = {
 	changeCategory,
 	newUser,
 	getTags,
-	getUserTags,
 	getOneTag,
 	addNewTag,
 	editTag,

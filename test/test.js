@@ -1,16 +1,18 @@
 const request = require('supertest')
-const assert = require('assert')
-const app = require("../app");
+const app = require("../app"); // this is needed to register all the schemas
 const controller = require("../controllers/controller");
-const { userInfo } = require('os');
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const Contact = mongoose.model('Contact');
 const Tag = mongoose.model('Tag');
 const data = require('./data')
-var server = request.agent('http://localhost:3001')
+
+var server;
 
 describe('Duckroll', function () {
+	before(async function() {
+		server = await request.agent('http://localhost:3001')
+	})
 	context('Not logged in', function () {
 		describe('Getting contacts', function () {
 			it('should respond with status FAILURE', function (done) {
@@ -42,7 +44,7 @@ describe('Duckroll', function () {
 		})
 		describe('Signing up', function () {
 			context('Missing email', function () {
-				it('should respond with status FAILURE', function (done) {
+				it('should respond with status INVALID_EMAIL', function (done) {
 					server.post('/api/signup')
 						.send({
 							username: '',
@@ -52,7 +54,7 @@ describe('Duckroll', function () {
 						})
 						.then(response => {
 							if (response && response.body &&
-								response.body.status == controller.status.FAILURE) {
+								response.body.status == controller.status.INVALID_EMAIL) {
 								done()
 							}
 							else {
@@ -62,7 +64,7 @@ describe('Duckroll', function () {
 				})
 			})
 			context('Missing password', function () {
-				it('should respond with status FAILURE', function (done) {
+				it('should respond with status INVALID_PASSWORD', function (done) {
 					server.post('/api/signup')
 						.send({
 							username: data.user.username,
@@ -72,7 +74,7 @@ describe('Duckroll', function () {
 						})
 						.then(response => {
 							if (response && response.body &&
-								response.body.status == controller.status.FAILURE) {
+								response.body.status == controller.status.INVALID_PASSWORD) {
 								done()
 							}
 							else {
@@ -82,7 +84,7 @@ describe('Duckroll', function () {
 				})
 			})
 			context('Email in wrong format', function () {
-				it('should respond with status FAILURE', function (done) {
+				it('should respond with status INVALID_EMAIL', function (done) {
 					server.post('/api/signup')
 						.send({
 							username: data.user.firstName,
@@ -92,7 +94,7 @@ describe('Duckroll', function () {
 						})
 						.then(response => {
 							if (response && response.body &&
-								response.body.status == controller.status.FAILURE) {
+								response.body.status == controller.status.INVALID_EMAIL) {
 								done()
 							}
 							else {
@@ -195,8 +197,8 @@ describe('Duckroll', function () {
 				it('should respond with status SUCCESS', function (done) {
 					server.post('/api/login')
 						.send({
-							email: 'pekin_duck@duckpond.com',
-							password: 'quack',
+							username: data.user.username,
+							password: data.user.password,
 						})
 						.then(response => {
 							if (response && response.body &&
