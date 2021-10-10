@@ -1,25 +1,25 @@
 import React from "react";
 import TagCreatorDialog from "./TagCreatorDialog";
-import { Button } from "@mui/material";
+import { Button } from "@material-ui/core";
 function TagCreator() {
-	const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
 
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
-	const handleClose = () => {
-		setOpen(false);
-	};
+    const handleClose = () => {
+        setOpen(false);
+    };
 
-	return (
-		<div>
-			<Button variant="outlined" onClick={handleClickOpen}>
-				Create Tag
-			</Button>
-			<TagCreatorDialog open={open} onClose={handleClose} />
-		</div>
-	);
+    return (
+        <div>
+            <Button variant="outlined" onClick={handleClickOpen}>
+                Create Tag
+            </Button>
+            <TagCreatorDialog open={open} onClose={handleClose} />
+        </div>
+    );
 }
 
 export default TagCreator;

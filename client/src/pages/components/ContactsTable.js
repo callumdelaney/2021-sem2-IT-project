@@ -17,11 +17,9 @@ import {
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useGlobalState } from "state-pool";
 import Tag from "./Tags";
-import ColorPicker from "./ColorPicker";
 import TagCreator from "./TagCreator";
-import TagCreatorDialog from "./TagCreatorDialog";
 
-function ContactsTable(contactInfo) {
+function ContactsTable() {
     const [category, setCategory] = useState("");
     const [tableDataCpy, setTableDataCpy] = useState(tableData);
     const [filteredData, setFilteredData] = useState(tableData);
@@ -92,7 +90,7 @@ function ContactsTable(contactInfo) {
                             {filteredData.firstName} {filteredData.lastName}
                         </h4>
 
-                        <Tag tags={filteredData.tags} />
+                        <Tag tags={filteredData.tags} inTable={true} />
                         {/* <ul>{taglist}</ul> */}
                     </div>
                 );
@@ -277,27 +275,18 @@ function ContactsTable(contactInfo) {
                                         display: "flex",
                                     }}
                                 >
-                                    <input
-                                        style={{
-                                            width: "30%",
-                                            // display: "block",
-                                        }}
-                                    ></input>
-                                    <button
-                                        style={{
-                                            width: "20%",
-                                        }}
-                                    >
-                                        create tag
-                                    </button>
                                     {/* Tags drop down Select component */}
                                     <Box
                                         sx={{
                                             minWidth: 120,
                                         }}
+                                        marginLeft="1rem"
                                     >
                                         <FormControl fullWidth>
-                                            <InputLabel id="select-label">
+                                            <InputLabel
+                                                id="select-label"
+                                                style={{ color: whiteColor }}
+                                            >
                                                 Tags
                                             </InputLabel>
                                             <Select
@@ -349,6 +338,7 @@ function ContactsTable(contactInfo) {
                                                                     label={
                                                                         value
                                                                     }
+                                                                    size="small"
                                                                 />
                                                             )
                                                         )}

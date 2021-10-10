@@ -69,7 +69,7 @@ function Contact() {
                         style={{
                             display: "inline-flex",
                             width: "100%",
-                            marginLeft: "100px",
+                            marginLeft: "3rem",
                         }}
                     >
                         {/* phone number */}
@@ -82,7 +82,7 @@ function Contact() {
                         style={{
                             display: "inline-flex",
                             width: "100%",
-                            marginLeft: "100px",
+                            marginLeft: "3rem",
                         }}
                     >
                         {/* email */}
@@ -94,7 +94,7 @@ function Contact() {
                 </div>
                 {/* second half of this div is where the tags g */}
                 <div style={{ width: "50%" }}>
-                    <Tag doDelete={false} tags={info.tags}></Tag>
+                    <Tag inTable={false} tags={info.tags}></Tag>
                 </div>
             </div>
             <div

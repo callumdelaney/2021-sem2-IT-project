@@ -3,7 +3,6 @@ import { Chip, ListItem } from "@material-ui/core";
 import { useGlobalState } from "state-pool";
 // import { useGlobalState } from "state-pool";
 function Tag(props) {
-    const deletable = props.doDelete;
     var tagList = props.tags;
 
     const [info, setInfo] = useGlobalState("contactInfo");
@@ -14,10 +13,14 @@ function Tag(props) {
             chips.filter((chip) => chip._id !== chipToDelete._id)
         );
         tagList = chipData;
-        // tagList = tagList.filter((data) => data._id !== chipToDelete._id);
 
+        // tagList = tagList.filter((data) => data._id !== chipToDelete._id);
+        tagList = props.inTable ? tagList.slice(0, 5) : tagList;
         // axios post with contact id and tag id to delete from database
     };
+    // take first 5 elements only if displaying tags in table
+    tagList = props.inTable ? tagList.slice(0, 5) : tagList;
+
     return (
         <div className="listTags">
             {tagList.map((data) => {
