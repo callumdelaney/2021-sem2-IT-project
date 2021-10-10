@@ -189,7 +189,7 @@ const addNewContact = async (req, res) => {
 const editContact = async (res, req) => {
 	try {
 		await Contact.findOneAndUpdate({
-			"_Id": req.body.id,
+			"_id": req.body.id,
 			"userId": req.session.passport.user,
 		}, {
 			"firstName": req.body.firstName,
@@ -213,7 +213,7 @@ const editContact = async (res, req) => {
 const deleteContact = async (req, res) => {
 	try {
 		await Contact.findOneAndDelete({
-			"_Id": req.body.id,
+			"_id": req.body.id,
 			"userId": req.session.passport.user,
 		})
 		res.send({ status: status.SUCCESS })
