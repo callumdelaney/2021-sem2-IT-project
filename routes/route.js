@@ -17,8 +17,10 @@ router.use(bodyParser.json());
 // .post method receives data 'posted' by client-side
 router.post("/api/login", controller.login);
 router.post("/api/signup", controller.newUser);
-//router.post("/api/update-user", controller.editUser);
-//router.post("/api/update-user-password", controller.changePassword);
+router.post("/api/update-firstName", controller.changeFirstName);
+router.post("/api/update-lastName", controller.changeFirstName);
+router.post("/api/update-user-password", controller.changePassword);
+router.post("/api/update-email", controller.changeEmail);
 
 router.get(
 	"/api/get-contacts",
@@ -30,8 +32,6 @@ router.get(
 );
 router.post("/api/add-contact", controller.addNewContact);
 router.post("/api/update-contact", controller.editContact);
-router.post("/api/push-contact-tag", controller.pushContactTag);
-router.post("/api/delete-contact-tag", controller.deleteContactTag);
 router.post("/api/delete-contact", controller.deleteContact);
 router.post("/api/add-note", controller.addNote);
 router.post("/api/change-category", controller.changeCategory);
@@ -43,10 +43,6 @@ router.get(
 router.get(
 	"/api/get-one-tag",
 	/*connectEnsureLogin.ensureLoggedIn(),*/ controller.getOneTag
-);
-router.post(
-	"/api/get-user-tags",
-	/*connectEnsureLogin.ensureLoggedIn(),*/ controller.getUserTags
 );
 router.post("/api/add-tag", controller.addNewTag);
 router.post("/api/update-tag", controller.editTag);
