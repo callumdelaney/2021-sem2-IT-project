@@ -38,7 +38,7 @@ const getContacts = async (req, res) => {
 		}).lean()
 		res.send({
 			status: status.SUCCESS,
-			contacts: JSON.stringify(contacts)
+			contacts: contacts
 		});
 	} catch (err) {
 		res.send({ status: status.FAILURE })
@@ -144,7 +144,7 @@ const addNewContact = async (req, res) => {
  * 		(see ../models/contact/contactSchema)
  * @param {object} res responds with a status code
  */
-const editContact = async (res, req) => {
+const editContact = async (req, res) => {
 	try {
 		await Contact.findOneAndUpdate({
 			_id: req.body._id,
