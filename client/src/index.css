@@ -1,74 +1,74 @@
 /* project styling sheet */
 
 :root {
-	/* dark shades of primary color*/
-	--clr-primary-1: hsl(205, 86%, 17%);
-	--clr-primary-2: hsl(205, 77%, 27%);
-	--clr-primary-3: hsl(205, 72%, 37%);
-	--clr-primary-4: hsl(205, 63%, 48%);
-	/* primary/main color */
-	--clr-primary-5: hsl(205, 78%, 60%);
-	/* lighter shades of primary color */
-	--clr-primary-6: hsl(205, 89%, 70%);
-	--clr-primary-7: hsl(205, 90%, 76%);
-	--clr-primary-8: hsl(205, 86%, 81%);
-	--clr-primary-9: hsl(205, 90%, 88%);
-	--clr-primary-10: hsl(205, 100%, 96%);
-	/* darkest grey - used for headings */
-	--clr-grey-1: hsl(209, 61%, 16%);
-	--clr-grey-2: hsl(211, 39%, 23%);
-	--clr-grey-3: hsl(209, 34%, 30%);
-	--clr-grey-4: hsl(209, 28%, 39%);
-	/* grey used for paragraphs */
-	--clr-grey-5: hsl(210, 22%, 49%);
-	--clr-grey-6: hsl(209, 23%, 60%);
-	--clr-grey-7: hsl(211, 27%, 70%);
-	--clr-grey-8: hsl(210, 31%, 80%);
-	--clr-grey-9: hsl(212, 33%, 89%);
-	--clr-grey-10: hsl(210, 36%, 96%);
-	--clr-white: #fff;
-	--clr-red-dark: hsl(360, 67%, 44%);
-	--clr-red-light: hsl(360, 71%, 66%);
-	--clr-green-dark: hsl(125, 67%, 44%);
-	--clr-green-light: hsl(125, 71%, 66%);
-	--clr-black: #222;
-	--transition: all 0.3s linear;
-	--spacing: 0.05rem;
-	--radius: 0.25rem;
-	--light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-	--dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-	--max-width: 1170px;
-	--fixed-width: 350px;
-	--clr-orange-1: hsl(12, 83%, 98%);
-	--clr-orange-2: hsl(14, 91%, 95%);
-	--clr-orange-3: hsl(12, 89%, 89%);
-	--clr-orange-4: hsl(13, 87%, 82%);
-	--clr-orange-5: hsl(13, 88%, 68%);
-	--clr-orange-6: hsl(13, 88%, 55%);
-	--clr-orange-7: hsl(13, 74%, 49%);
-	--clr-orange-8: hsl(13, 74%, 33%);
-	--clr-orange-9: hsl(13, 73%, 25%);
-	--clr-orange-10: hsl(13, 73%, 16%);
-	--clr-purple-1: hsl(293, 53%, 56%);
-	--clr-light-blue: hsl(184, 71%, 47%);
-	--clr-blue: hsl(184, 73%, 30%);
-	--clr-dark-blue: #01579b;
+    /* dark shades of primary color*/
+    --clr-primary-1: hsl(205, 86%, 17%);
+    --clr-primary-2: hsl(205, 77%, 27%);
+    --clr-primary-3: hsl(205, 72%, 37%);
+    --clr-primary-4: hsl(205, 63%, 48%);
+    /* primary/main color */
+    --clr-primary-5: hsl(205, 78%, 60%);
+    /* lighter shades of primary color */
+    --clr-primary-6: hsl(205, 89%, 70%);
+    --clr-primary-7: hsl(205, 90%, 76%);
+    --clr-primary-8: hsl(205, 86%, 81%);
+    --clr-primary-9: hsl(205, 90%, 88%);
+    --clr-primary-10: hsl(205, 100%, 96%);
+    /* darkest grey - used for headings */
+    --clr-grey-1: hsl(209, 61%, 16%);
+    --clr-grey-2: hsl(211, 39%, 23%);
+    --clr-grey-3: hsl(209, 34%, 30%);
+    --clr-grey-4: hsl(209, 28%, 39%);
+    /* grey used for paragraphs */
+    --clr-grey-5: hsl(210, 22%, 49%);
+    --clr-grey-6: hsl(209, 23%, 60%);
+    --clr-grey-7: hsl(211, 27%, 70%);
+    --clr-grey-8: hsl(210, 31%, 80%);
+    --clr-grey-9: hsl(212, 33%, 89%);
+    --clr-grey-10: hsl(210, 36%, 96%);
+    --clr-white: #fff;
+    --clr-red-dark: hsl(360, 67%, 44%);
+    --clr-red-light: hsl(360, 71%, 66%);
+    --clr-green-dark: hsl(125, 67%, 44%);
+    --clr-green-light: hsl(125, 71%, 66%);
+    --clr-black: #222;
+    --transition: all 0.3s linear;
+    --spacing: 0.05rem;
+    --radius: 0.25rem;
+    --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    --max-width: 1170px;
+    --fixed-width: 350px;
+    --clr-orange-1: hsl(12, 83%, 98%);
+    --clr-orange-2: hsl(14, 91%, 95%);
+    --clr-orange-3: hsl(12, 89%, 89%);
+    --clr-orange-4: hsl(13, 87%, 82%);
+    --clr-orange-5: hsl(13, 88%, 68%);
+    --clr-orange-6: hsl(13, 88%, 55%);
+    --clr-orange-7: hsl(13, 74%, 49%);
+    --clr-orange-8: hsl(13, 74%, 33%);
+    --clr-orange-9: hsl(13, 73%, 25%);
+    --clr-orange-10: hsl(13, 73%, 16%);
+    --clr-purple-1: hsl(293, 53%, 56%);
+    --clr-light-blue: hsl(184, 71%, 47%);
+    --clr-blue: hsl(184, 73%, 30%);
+    --clr-dark-blue: #01579b;
 }
 /* dressing */
 body {
-	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-		"Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-		"Helvetica Neue", sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	/* set scroll to be invisible */
-	overflow: hidden;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+        "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* set scroll to be invisible */
+    overflow: hidden;
 }
 
 code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-		monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
 }
 
 /* global styles: currently none */
@@ -76,389 +76,389 @@ code {
 } */
 /* different offsets for login and signup */
 .articleSignup {
-	margin-top: 5%;
+    margin-top: 5%;
 }
 
 .articleLogin {
-	margin-top: 10%;
+    margin-top: 10%;
 }
 
 /* form stylings */
 .form {
-	/* layout */
-	max-width: var(--fixed-width);
-	margin: 0 auto;
-	margin-bottom: 4rem;
-	padding: 2rem 3rem;
-	/* look */
-	border: 2px solid black;
-	background: var(--clr-dark-blue);
-	border-radius: var(--radius);
+    /* layout */
+    max-width: var(--fixed-width);
+    margin: 0 auto;
+    margin-bottom: 4rem;
+    padding: 2rem 3rem;
+    /* look */
+    border: 2px solid black;
+    background: var(--clr-dark-blue);
+    border-radius: var(--radius);
 }
 /* label stylings */
 .form label {
-	/* layout */
-	cursor: auto;
-	display: block;
-	margin-bottom: 0.5rem;
-	/* look */
-	font-family: "Roboto", sans-serif;
-	font-size: 19px;
+    /* layout */
+    cursor: auto;
+    display: block;
+    margin-bottom: 0.5rem;
+    /* look */
+    font-family: "Roboto", sans-serif;
+    font-size: 19px;
 }
 /* miscellaneous layout stylings for form */
 .form-control {
-	margin: 0.5rem 2rem;
-	display: block;
-	grid-template-columns: 100px 1fr;
-	align-items: center;
+    margin: 0.5rem 2rem;
+    display: block;
+    grid-template-columns: 100px 1fr;
+    align-items: center;
 }
 /* stylings for form buttons */
 .form button {
-	/* layout */
-	font-weight: bold;
-	font-size: 15px;
-	margin-top: 1rem;
-	letter-spacing: var(--spacing);
-	padding: 0.15rem 0.4rem;
-	cursor: pointer;
-	margin-right: 76px;
-	margin-left: 2rem;
-	/* look */
-	font-family: "Teko", sans-serif;
-	background: var(--clr-primary-4);
-	color: var(--clr-white);
-	border-color: transparent;
-	text-transform: capitalize;
-	border-radius: var(--radius);
-	transition: var(--transition);
-	box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
-		0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+    /* layout */
+    font-weight: bold;
+    font-size: 15px;
+    margin-top: 1rem;
+    letter-spacing: var(--spacing);
+    padding: 0.15rem 0.4rem;
+    cursor: pointer;
+    margin-right: 76px;
+    margin-left: 2rem;
+    /* look */
+    font-family: "Teko", sans-serif;
+    background: var(--clr-primary-4);
+    color: var(--clr-white);
+    border-color: transparent;
+    text-transform: capitalize;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+        0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
 }
 /* colour change on mouse hover for form buttons */
 .form button:hover {
-	background: var(--clr-primary-3);
-	color: var(--clr-primary-5);
+    background: var(--clr-primary-3);
+    color: var(--clr-primary-5);
 }
 /* stylings for form input fields */
 .form input {
-	/* layout */
-	padding: 0.25rem 0.5rem;
-	min-width: 250px;
-	/* look */
-	background: var(--clr-grey-10);
-	border-color: transparent;
-	border-radius: var(--radius);
+    /* layout */
+    padding: 0.25rem 0.5rem;
+    min-width: 250px;
+    /* look */
+    background: var(--clr-grey-10);
+    border-color: transparent;
+    border-radius: var(--radius);
 }
 
 /* styling for login/signup verification errors */
 .errorMessage {
-	/* layout */
-	margin-left: 2rem;
-	margin-top: 1.2rem;
-	padding: 0.2rem 0.5rem;
-	max-width: 255px;
-	display: block;
-	/* look */
-	background: var(--clr-black);
-	color: red;
-	font-size: 14px;
-	box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
-		0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+    /* layout */
+    margin-left: 2rem;
+    margin-top: 1.2rem;
+    padding: 0.2rem 0.5rem;
+    max-width: 255px;
+    display: block;
+    /* look */
+    background: var(--clr-black);
+    color: red;
+    font-size: 14px;
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+        0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
 }
 /* layout stylings for custom error message */
 .errorText {
-	margin-left: 10px;
-	display: inline;
+    margin-left: 10px;
+    display: inline;
 }
 
 /* Register Confirmation styling */
 .popup-box {
-	/* layout */
-	position: fixed;
-	width: 100%;
-	height: 100vh;
-	top: 0;
-	left: 0;
-	/* look */
-	background: #00000050;
+    /* layout */
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    /* look */
+    background: #00000050;
 }
 
 .box {
-	/* layout */
-	position: relative;
-	width: 30%;
-	margin: 0 auto;
-	height: auto;
-	max-height: 70vh;
-	margin-top: calc(100vh - 85vh + 120px);
-	padding: 20px;
-	overflow: auto;
-	/* look */
-	background: #fff;
-	border-radius: 4px;
-	border: 1px solid #999;
+    /* layout */
+    position: relative;
+    width: 30%;
+    margin: 0 auto;
+    height: auto;
+    max-height: 70vh;
+    margin-top: calc(100vh - 85vh + 120px);
+    padding: 20px;
+    overflow: auto;
+    /* look */
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #999;
 }
 
 .popup-button {
-	/* layout */
-	font-weight: bold;
-	font-size: 15px;
-	margin-top: 0.5rem;
-	letter-spacing: var(--spacing);
-	padding: 0.15rem 0.4rem;
-	cursor: pointer;
-	margin-right: 75px;
-	margin-left: 43%;
-	/* look */
-	font-family: "Teko", sans-serif;
-	background: var(--clr-light-blue);
-	color: var(--clr-primary-1);
-	border-color: transparent;
-	text-transform: capitalize;
-	border-radius: var(--radius);
-	transition: var(--transition);
-	box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
-		0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+    /* layout */
+    font-weight: bold;
+    font-size: 15px;
+    margin-top: 0.5rem;
+    letter-spacing: var(--spacing);
+    padding: 0.15rem 0.4rem;
+    cursor: pointer;
+    margin-right: 75px;
+    margin-left: 43%;
+    /* look */
+    font-family: "Teko", sans-serif;
+    background: var(--clr-light-blue);
+    color: var(--clr-primary-1);
+    border-color: transparent;
+    text-transform: capitalize;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+        0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
 }
 
 /* colour change on mouse hover for popup buttons */
 .popup-button:hover {
-	background: var(--clr-blue);
-	color: var(--clr-primary-5);
+    background: var(--clr-blue);
+    color: var(--clr-primary-5);
 }
 
 .header {
-	text-align: center;
+    text-align: center;
 }
 
 /* CONTACTS PAGE CSS */
 
 .user-info {
-	/* layout */
-	display: inline-block;
-	min-width: 100%;
-	/* height should be 25% of the RHS of screen */
-	min-height: 25%;
-	/* look */
-	border: 2px solid black;
+    /* layout */
+    display: inline-block;
+    min-width: 100%;
+    /* height should be 25% of the RHS of screen */
+    min-height: 25%;
+    /* look */
+    border: 2px solid black;
 }
 .user-info img {
-	/* layout */
-	float: right;
+    /* layout */
+    float: right;
 
-	margin-right: 5px;
-	margin-top: 5px;
-	max-width: 100%;
-	max-height: 100%;
-	/* look */
-	border-radius: 50%;
+    margin-right: 5px;
+    margin-top: 5px;
+    max-width: 100%;
+    max-height: 100%;
+    /* look */
+    border-radius: 50%;
 }
 
 .user-info h1 {
-	/* layout */
-	display: inline-flex;
+    /* layout */
+    display: inline-flex;
 }
 
 /* flex-container is the parent element, the whole page from which children are specified */
 .flex-container {
-	/* layout */
-	display: flex;
+    /* layout */
+    display: flex;
 }
 /* flex-child properties */
 .flex-child {
-	/* layout */
-	flex: 1;
-	/* look */
-	/* border: 2px solid black; */
+    /* layout */
+    flex: 1;
+    /* look */
+    /* border: 2px solid black; */
 }
 
 /* table properties  */
 .flex-child:nth-child(1) {
-	/* layout */
-	height: 100vh;
-	/* max-width: 30%; */
-	/* max-width: 40%; */
-	max-width: 40%;
-	margin-right: 0px;
-	/* overflow allows the scrolling through selected content */
-	overflow-x: hidden;
-	overflow-y: hidden;
+    /* layout */
+    height: 100vh;
+    /* max-width: 30%; */
+    /* max-width: 40%; */
+    max-width: 40%;
+    margin-right: 0px;
+    /* overflow allows the scrolling through selected content */
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 /* right-side properties  */
 .flex-child:nth-child(2) {
-	/* layout */
-	height: 100vh;
-	/* can't scroll horizontally, but can vertically */
-	overflow-x: hidden;
-	overflow-y: auto;
+    /* layout */
+    height: 100vh;
+    /* can't scroll horizontally, but can vertically */
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 /* CSS for toolbars */
 .toolbar {
-	/* layout */
-	display: inline-flex;
-	min-width: 100%;
-	max-width: 100%;
-	/* look */
-	background: var(--clr-dark-blue);
+    /* layout */
+    display: inline-flex;
+    min-width: 100%;
+    max-width: 100%;
+    /* look */
+    background: var(--clr-dark-blue);
 }
 
 .toolbar-labels {
-	/* layout */
-	/* display: inline-flexbox; */
-	display: flexbox;
-	margin-top: 10px;
-	/* min-width: 100%;
+    /* layout */
+    /* display: inline-flexbox; */
+    display: flexbox;
+    margin-top: 10px;
+    /* min-width: 100%;
   max-width: 100%; */
 }
 
 .search {
-	/* layout */
-	margin-right: 20px;
-	float: left;
+    /* layout */
+    margin-right: 20px;
+    float: left;
 }
 
 /* contacts popup box */
 .contact-popup-box {
-	text-align: center;
+    text-align: center;
 }
 
 .contact-popup-button {
-	text-align: center;
-	margin-left: 45px;
+    text-align: center;
+    margin-left: 45px;
 }
 
 /* contact form stylings */
 
 .contact-article {
-	/* border: 2px solid black; */
-	margin-top: -20px;
-	min-height: 75%;
-	max-height: 100%;
-	max-width: 100%;
-	background: var(--clr-dark-blue);
+    /* border: 2px solid black; */
+    margin-top: -20px;
+    min-height: 75%;
+    max-height: 100%;
+    max-width: 100%;
+    background: var(--clr-dark-blue);
 }
 
 .contact-form {
-	/* layout */
-	margin: 0 auto;
-	margin-bottom: 4rem;
-	padding: 2rem 3rem;
-	/* look */
+    /* layout */
+    margin: 0 auto;
+    margin-bottom: 4rem;
+    padding: 2rem 3rem;
+    /* look */
 
-	text-align: center;
+    text-align: center;
 }
 /* label stylings */
 .contact-form label {
-	/* layout */
-	cursor: auto;
-	display: inline-block;
-	margin-bottom: 0.5rem;
-	/* look */
-	font-family: "Roboto", sans-serif;
-	font-size: 22px;
-	width: 150px;
-	text-align: left;
-	vertical-align: top;
+    /* layout */
+    cursor: auto;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    /* look */
+    font-family: "Roboto", sans-serif;
+    font-size: 22px;
+    width: 150px;
+    text-align: left;
+    vertical-align: top;
 }
 /* miscellaneous layout stylings for contact form */
 .contact-form-control {
-	margin: 0.5rem 2rem;
-	display: block;
-	grid-template-columns: 100px 1fr;
-	align-items: center;
+    margin: 0.5rem 2rem;
+    display: block;
+    grid-template-columns: 100px 1fr;
+    align-items: center;
 }
 /* stylings for form buttons */
 .contact-form button {
-	/* layout */
-	font-weight: bold;
-	font-size: 22px;
-	margin-top: 1rem;
-	letter-spacing: var(--spacing);
-	padding: 0.4rem 1rem;
-	cursor: pointer;
-	margin-right: 76px;
-	margin-left: 2rem;
-	/* look */
-	font-family: "Teko", sans-serif;
-	background: var(--clr-primary-4);
-	color: var(--clr-white);
-	border-color: transparent;
-	text-transform: capitalize;
-	border-radius: var(--radius);
-	transition: var(--transition);
-	box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
-		0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+    /* layout */
+    font-weight: bold;
+    font-size: 22px;
+    margin-top: 1rem;
+    letter-spacing: var(--spacing);
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    margin-right: 76px;
+    margin-left: 2rem;
+    /* look */
+    font-family: "Teko", sans-serif;
+    background: var(--clr-primary-4);
+    color: var(--clr-white);
+    border-color: transparent;
+    text-transform: capitalize;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+        0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
 }
 /* colour change on mouse hover for form buttons */
 .contact-form button:hover {
-	background: var(--clr-primary-3);
-	color: var(--clr-primary-5);
+    background: var(--clr-primary-3);
+    color: var(--clr-primary-5);
 }
 /* stylings for form input fields */
 .contact-form input {
-	/* layout */
-	padding: 0.25rem 0.5rem;
-	min-width: 250px;
-	/* look */
-	background: var(--clr-grey-10);
-	border-color: transparent;
-	border-radius: var(--radius);
+    /* layout */
+    padding: 0.25rem 0.5rem;
+    min-width: 250px;
+    /* look */
+    background: var(--clr-grey-10);
+    border-color: transparent;
+    border-radius: var(--radius);
 }
 .contact-form-notes {
-	/* layout */
-	padding: 0.25rem 0.5rem;
-	min-width: 250px;
-	/* look */
-	background: var(--clr-grey-10);
-	border-color: transparent;
-	border-radius: var(--radius);
+    /* layout */
+    padding: 0.25rem 0.5rem;
+    min-width: 250px;
+    /* look */
+    background: var(--clr-grey-10);
+    border-color: transparent;
+    border-radius: var(--radius);
 }
 
 .contact-form-category {
-	justify-content: center;
+    justify-content: center;
 }
 
 /* stylings for contact info space */
 .contact-info {
-	/* layout */
-	display: block;
-	/* look */
-	border: 2px solid black;
+    /* layout */
+    display: block;
+    /* look */
+    border: 2px solid black;
 }
 .contact-info img {
-	max-width: 230px;
-	min-height: 200px;
-	max-height: 230px;
-	/* margin-top: 2rem; */
-	/* margin-left: 1rem; */
-	padding: 20px 20px;
+    max-width: 230px;
+    min-height: 200px;
+    max-height: 230px;
+    /* margin-top: 2rem; */
+    /* margin-left: 1rem; */
+    padding: 20px 20px;
 
-	float: left;
+    float: left;
 }
 
 .contact-info-details {
-	border: solid 2px black;
-	max-width: 50%;
+    border: solid 2px black;
+    max-width: 50%;
 }
 
 .contact-info-notes {
-	border: solid 2px black;
+    border: solid 2px black;
 }
 .contact-info-name {
-	display: inline-block;
-	border: steelblue 2px solid;
-	width: 100%;
+    display: inline-block;
+    border: steelblue 2px solid;
+    width: 100%;
 }
 .contact-info h1 {
-	display: inline-flex;
-	font-size: 300%;
-	padding-top: 75px;
+    display: inline-flex;
+    font-size: 300%;
+    padding-top: 75px;
 }
 
 .contact-info h2 {
-	display: inline;
-	border: 2px solid black;
+    display: inline;
+    border: 2px solid black;
 
-	max-width: 100%;
+    max-width: 100%;
 }
