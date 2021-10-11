@@ -434,8 +434,18 @@ describe('Duckroll', function () {
 			})
 		})
 	})
+	describe('Logging out', function () {
+		it('should redirect to /login', function (done) {
+			Server
+				.get('/api/logout')
+				.expect('Location', '/login')
+				.end(done)
+		})
+	})
 	// TODO: proper log-out and delete user functionality
 	after(async function() {
 		await User.findOneAndDelete({username: 'pekin_duck@duckpond.com'})
 	})
+
+	
 })

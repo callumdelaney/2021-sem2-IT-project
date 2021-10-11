@@ -16,6 +16,7 @@ router.use(
 router.use(bodyParser.json());
 // .post method receives data 'posted' by client-side
 router.post("/api/login", controller.login);
+router.get("/api/logout", controller.logout);
 router.post("/api/signup", controller.newUser);
 router.post("/api/update-firstName", controller.changeFirstName);
 router.post("/api/update-lastName", controller.changeFirstName);
