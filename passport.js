@@ -13,6 +13,8 @@ function checkPassword(password, hash, salt) {
     }
 }
 function genPassword(password) {
+	if(!password) throw new Error("invalid password")
+	
     var salt = crypto.randomBytes(32).toString('hex');
     var hash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
     

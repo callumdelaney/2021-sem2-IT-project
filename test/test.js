@@ -1,23 +1,30 @@
-const request = require('supertest')
-const assert = require('assert')
-const app = require("../app");
-const controller = require("../controllers/controller");
-const { userInfo } = require('os');
-const mongoose = require("mongoose");
-const User = mongoose.model("User");
-const Contact = mongoose.model('Contact');
-const Tag = mongoose.model('Tag');
-const data = require('./data')
-var server = request.agent('http://localhost:3001')
+// this generates proper http requests for our tests
+const Server = require('supertest').agent('http://localhost:3001')
 
+// this connects to the Database and register all the schemas
+require("../app")
+
+// this lets us delete the test user. TODO: make a proper deleteUser function
+const User = require("mongoose").model("User");
+
+// this has all the test data
+const Data = require('./data')
+
+const Status = require('../controllers/controller').status
+
+before(async function() {
+	// wait for the database connection
+	await new Promise(resolve => setTimeout(resolve, 1000))
+})
 describe('Duckroll', function () {
+	
 	context('Not logged in', function () {
 		describe('Getting contacts', function () {
 			it('should respond with status FAILURE', function (done) {
-				server.get('/api/get-contacts')
+				Server.get('/api/get-contacts')
 					.then(response => {
 						if (response && response.body &&
-							response.body.status == controller.status.FAILURE) {
+							response.body.status == Status.FAILURE) {
 							done()
 						}
 						else {
@@ -28,10 +35,10 @@ describe('Duckroll', function () {
 		})
 		describe('Getting tags', function () {
 			it('should respond with status FAILURE', function (done) {
-				server.get('/api/get-tags')
+				Server.get('/api/get-tags')
 					.then(response => {
 						if (response && response.body &&
-							response.body.status == controller.status.FAILURE) {
+							response.body.status == Status.FAILURE) {
 							done()
 						}
 						else {
@@ -42,17 +49,17 @@ describe('Duckroll', function () {
 		})
 		describe('Signing up', function () {
 			context('Missing email', function () {
-				it('should respond with status FAILURE', function (done) {
-					server.post('/api/signup')
+				it('should respond with status INVALID_EMAIL', function (done) {
+					Server.post('/api/signup')
 						.send({
 							username: '',
-							password: data.user.password,
-							firstName: data.user.firstName,
-							lastName: data.user.lastName,
+							password: Data.user.password,
+							firstName: Data.user.firstName,
+							lastName: Data.user.lastName,
 						})
 						.then(response => {
 							if (response && response.body &&
-								response.body.status == controller.status.FAILURE) {
+								response.body.status == Status.INVALID_EMAIL) {
 								done()
 							}
 							else {
@@ -62,17 +69,17 @@ describe('Duckroll', function () {
 				})
 			})
 			context('Missing password', function () {
-				it('should respond with status FAILURE', function (done) {
-					server.post('/api/signup')
+				it('should respond with status INVALID_PASSWORD', function (done) {
+					Server.post('/api/signup')
 						.send({
-							username: data.user.username,
+							username: Data.user.username,
 							password: '',
-							firstName: data.user.firstName,
-							lastName: data.user.lastName,
+							firstName: Data.user.firstName,
+							lastName: Data.user.lastName,
 						})
 						.then(response => {
 							if (response && response.body &&
-								response.body.status == controller.status.FAILURE) {
+								response.body.status == Status.INVALID_PASSWORD) {
 								done()
 							}
 							else {
@@ -82,17 +89,17 @@ describe('Duckroll', function () {
 				})
 			})
 			context('Email in wrong format', function () {
-				it('should respond with status FAILURE', function (done) {
-					server.post('/api/signup')
+				it('should respond with status INVALID_EMAIL', function (done) {
+					Server.post('/api/signup')
 						.send({
-							username: data.user.firstName,
-							password: data.user.password,
-							firstName: data.user.firstName,
-							lastName: data.user.lastName,
+							username: Data.user.firstName,
+							password: Data.user.password,
+							firstName: Data.user.firstName,
+							lastName: Data.user.lastName,
 						})
 						.then(response => {
 							if (response && response.body &&
-								response.body.status == controller.status.FAILURE) {
+								response.body.status == Status.INVALID_EMAIL) {
 								done()
 							}
 							else {
@@ -103,16 +110,16 @@ describe('Duckroll', function () {
 			})
 			context('Missing firstName', function () {
 				it('should respond with status FAILURE', function (done) {
-					server.post('/api/signup')
+					Server.post('/api/signup')
 						.send({
-							username: data.user.username,
-							password: data.user.password,
+							username: Data.user.username,
+							password: Data.user.password,
 							firstName: '',
-							lastName: data.user.lastName,
+							lastName: Data.user.lastName,
 						})
 						.then(response => {
 							if (response && response.body &&
-								response.body.status == controller.status.FAILURE) {
+								response.body.status == Status.FAILURE) {
 								done()
 							}
 							else {
@@ -123,16 +130,16 @@ describe('Duckroll', function () {
 			})
 			context('Missing lastName', function () {
 				it('should respond with status FAILURE', function (done) {
-					server.post('/api/signup')
+					Server.post('/api/signup')
 						.send({
-							username: data.user.username,
-							password: data.user.password,
-							firstName: data.user.firstName,
+							username: Data.user.username,
+							password: Data.user.password,
+							firstName: Data.user.firstName,
 							lastName: '',
 						})
 						.then(response => {
 							if (response && response.body &&
-								response.body.status == controller.status.FAILURE) {
+								response.body.status == Status.FAILURE) {
 								done()
 							}
 							else {
@@ -143,16 +150,16 @@ describe('Duckroll', function () {
 			})
 			context('With valid information', function () {
 				it('should responde with status SUCCESS', function(done) {
-					server.post('/api/signup')
+					Server.post('/api/signup')
 						.send({
-							username: data.user.username,
-							password: data.user.password,
-							firstName: data.user.firstName,
-							lastName: data.user.lastName,
+							username: Data.user.username,
+							password: Data.user.password,
+							firstName: Data.user.firstName,
+							lastName: Data.user.lastName,
 						})
 						.then(response => {
 							if (response && response.body &&
-								response.body.status == controller.status.SUCCESS) {
+								response.body.status == Status.SUCCESS) {
 								done()
 							}
 							else {
@@ -166,23 +173,23 @@ describe('Duckroll', function () {
 			/* for now, passport handles empty requests for us
 			context('with an empty request', function () {
 				it('should respond with status FAILURE', function (done) {
-					server.post('/api/login')
+					Server.post('/api/login')
 						//.send({})
 						.then(response => testStatus(done, response,
-							controller.status.FAILURE))
+							Status.FAILURE))
 				})
 			})
 			*/
 			context('with incorrect credentials', function () {
 				it('should respond with status INCORRECT_CREDENTIALS', function (done) {
-					server.post('/api/login')
+					Server.post('/api/login')
 						.send({
 							email: 'impossible_username_noone_will_ever_have@test.com',
 							password: '3.14159265358979323846264338327950288419716939',
 						})
 						.then(response => {
 							if (response && response.body &&
-								response.body.status == controller.status.INCORRECT_CREDENTIALS) {
+								response.body.status == Status.INCORRECT_CREDENTIALS) {
 								done()
 							}
 							else {
@@ -193,14 +200,14 @@ describe('Duckroll', function () {
 			})
 			context('with correct credentials', function () {
 				it('should respond with status SUCCESS', function (done) {
-					server.post('/api/login')
+					Server.post('/api/login')
 						.send({
-							email: 'pekin_duck@duckpond.com',
-							password: 'quack',
+							username: Data.user.username,
+							password: Data.user.password,
 						})
 						.then(response => {
 							if (response && response.body &&
-								response.body.status == controller.status.SUCCESS) {
+								response.body.status == Status.SUCCESS) {
 								done()
 							}
 							else {
@@ -214,12 +221,12 @@ describe('Duckroll', function () {
 	context("Logged in", function () {
 		describe('Getting contacts', function () {
 			it('should respond with status SUCCESS and a list of contacts', function (done) {
-				server
+				Server
 					.get('/api/get-contacts')
 					.then(response => {
 						if (response && response.body &&
-							response.body.status == controller.status.SUCCESS) {
-							// TODO: compare response.body.contacts to contacts in the test data
+							response.body.status == Status.SUCCESS) {
+							// TODO: compare response.body.contacts to contacts in the test Data
 							done()
 						}
 						else {
@@ -231,17 +238,17 @@ describe('Duckroll', function () {
 		describe('Adding contacts', function () {
 			context('Missing firstName', function () {
 				it('should respond with status FAILURE', function (done) {
-					server.post('/api/add-contact')
+					Server.post('/api/add-contact')
 						.send({
 							firstName: '',
-							lastName: data.contacts[0].lastName,
-							phone: data.contacts[0].phone,
-							email: data.contacts[0].email,
-							category: data.contacts[0].category,
+							lastName: Data.contacts[0].lastName,
+							phone: Data.contacts[0].phone,
+							email: Data.contacts[0].email,
+							category: Data.contacts[0].category,
 						})
 						.then(response => {
 							if (response && response.body &&
-								response.body.status == controller.status.FAILURE) {
+								response.body.status == Status.FAILURE) {
 								done()
 							}
 							else {
@@ -252,17 +259,17 @@ describe('Duckroll', function () {
 			})
 			context('Missing lastName', function () {
 				it('should respond with status FAILURE', function (done) {
-					server.post('/api/add-contact')
+					Server.post('/api/add-contact')
 						.send({
-							firstName: data.contacts[0].firstName,
+							firstName: Data.contacts[0].firstName,
 							lastName: '',
-							phone: data.contacts[0].phone,
-							email: data.contacts[0].email,
-							category: data.contacts[0].category,
+							phone: Data.contacts[0].phone,
+							email: Data.contacts[0].email,
+							category: Data.contacts[0].category,
 						})
 						.then(response => {
 							if (response && response.body &&
-								response.body.status == controller.status.FAILURE) {
+								response.body.status == Status.FAILURE) {
 								done()
 							}
 							else {
@@ -273,17 +280,17 @@ describe('Duckroll', function () {
 			})
 			context('With valid information', function () {
 				it('should respond with status SUCCESS', function (done) {
-					server.post('/api/add-contact')
+					Server.post('/api/add-contact')
 						.send({
-							firstName: data.contacts[0].firstName,
-							lastName: data.contacts[0].lastName,
-							phone: data.contacts[0].phone,
-							email: data.contacts[0].email,
-							category: data.contacts[0].category,
+							firstName: Data.contacts[0].firstName,
+							lastName: Data.contacts[0].lastName,
+							phone: Data.contacts[0].phone,
+							email: Data.contacts[0].email,
+							category: Data.contacts[0].category,
 						})
 						.then(response => {
 							if (response && response.body &&
-								response.body.status == controller.status.SUCCESS) {
+								response.body.status == Status.SUCCESS) {
 								done()
 							}
 							else {
@@ -296,14 +303,14 @@ describe('Duckroll', function () {
 		describe('Making new tags', function () {
 			context('Missing tagText', function () {
 				it('should respond with status FAILURE', function (done) {
-					server.post('/api/add-tag')
+					Server.post('/api/add-tag')
 						.send({
 							tagText: '',
-							tagColour: data.tags[0].tagColour,
+							tagColour: Data.tags[0].tagColour,
 						})
 						.then(response => {
 							if (response && response.body &&
-								response.body.status == controller.status.FAILURE) {
+								response.body.status == Status.FAILURE) {
 								done()
 							}
 							else {
@@ -314,14 +321,14 @@ describe('Duckroll', function () {
 			})
 			context('With valid information', function () {
 				it('should respond with status SUCCESS', function (done) {
-					server.post('/api/add-tag')
+					Server.post('/api/add-tag')
 						.send({
-							tagText: data.tags[0].tagText,
-							tagColour: data.tags[0].tagColour,
+							tagText: Data.tags[0].tagText,
+							tagColour: Data.tags[0].tagColour,
 						})
 						.then(response => {
 							if (response && response.body &&
-								response.body.status == controller.status.SUCCESS) {
+								response.body.status == Status.SUCCESS) {
 								done()
 							}
 							else {
@@ -333,10 +340,10 @@ describe('Duckroll', function () {
 		})
 		describe('Getting user tags', function () {
 			it('should return status SUCCESS', function (done) {
-				server.get('/api/get-tags')
+				Server.get('/api/get-tags')
 					.then(response => {
 						if (response && response.body &&
-							response.body.status == controller.status.SUCCESS) {
+							response.body.status == Status.SUCCESS) {
 							done()
 						}
 						else {
@@ -345,189 +352,90 @@ describe('Duckroll', function () {
 					})
 			})
 		})
+		describe('Deleting a contact', function () {
+			it('should respond with status SUCCESS', function (done) {
+				// first we need to get the _id of a contact
+				Server.get('/api/get-contacts')
+				.then(response => {
+				if (
+				response && response.body &&
+				response.body.status == Status.SUCCESS &&
+				response.body.contacts &&
+				response.body.contacts[0] &&
+				response.body.contacts[0]._id
+				) {
+					// now we can delete that contact
+					Server.post('/api/delete-contact')
+					.send({_id: response.body.contacts[0]._id})
+					.then(response => {
+					if (response && response.body &&
+						response.body.status == Status.SUCCESS) {
+						done()
+					}
+					else {
+						done(new Error(JSON.stringify(response.body)))
+					}
+					}) // deleteContact call ends here
+				} else {
+					done(new Error(JSON.stringify(response.body)))
+				}
+				}) // getContacts call ends here
+			})
+		})
+		describe('Changing Password', function () {
+			context('With valid information', function () {
+				it('should respond with status SUCCESS', function (done) {
+					Server.post("/api/update-user-password")
+					.send({
+						oldPassword: Data.user.password,
+						newPassword: Data.changedUser.password,
+					})
+					.then(response => {
+						if (response.body.status == Status.SUCCESS) {
+							done()
+						}
+						else {
+							done(new Error(JSON.stringify(response.body)))
+						}
+					})
+				})
+			})
+		})
+		describe('Changing First Name', function () {
+			context('With valid information', function () {
+				it('should respond with status SUCCESS', function (done) {
+					Server.post("/api/update-firstName")
+					.send({firstName: Data.changedUser.firstName})
+					.then(response => {
+						if (response.body.status == Status.SUCCESS) {
+							done()
+						}
+						else {
+							done(new Error(JSON.stringify(response.body)))
+						}
+					})
+				})
+			})
+		})
+		describe('Changing Last Name', function () {
+			context('With valid information', function () {
+				it('should respond with status SUCCESS', function (done) {
+					Server.post("/api/update-lastName")
+					.send({lastName: Data.changedUser.lastName})
+					.then(response => {
+						if (response.body.status == Status.SUCCESS) {
+							done()
+						}
+						else {
+							done(new Error(JSON.stringify(response.body)))
+						}
+					})
+				})
+			})
+		})
 	})
 	// TODO: proper log-out and delete user functionality
 	after(async function() {
 		await User.findOneAndDelete({username: 'pekin_duck@duckpond.com'})
 	})
 })
-
-//DELETE CONTACT
-/** 
-describe('Delete a contact', function () {
-	async function addContact() {
-		var contact = {firstName: 'test',
-		lastName: 'test',
-		phone: 'test',
-		email: 'test@test.com',
-		category: 'test'
-		}
-		await server
-			.post('/api/add-contact')
-			.send(contact)
-			.then(response => {
-				console.log(response.body)
-			})
-	}
-	async function registerAndLogin() {
-		var user = { email: 'mochatest@mochatest.com', password: 'mochatest', firstName: 'test', lastName: 'test' }
-		await server
-			.post('/api/signup')
-			.send(user)
-			.then(response => {
-				console.log(response.body)
-			})
-		await server
-			.post('/api/login')
-			.send({email: user.email, password: user.password})
-			.then(response => {
-				console.log(response.body)
-			})
-	}
-	context('Successfully deleting a contact', function () {
-		it('registerAndLogin', registerAndLogin)
-		it('addContact', addContact)
-		it('getId')
-		it('should return status code 1', function (done) {
-			server
-				.get('/api/get-contacts')
-				.then(response => {
-					var id
-					contacts = response.body.contacts
-					for (var i = 0; i < contacts.length; i++) {
-						if (contacts[i].email == 'test@test.com') {
-							id = contacts[i]._id;
-						}
-					}
-					
-					if (response.body.status == controller.status.SUCCESS) {
-						done()
-					}
-					else {
-						done(new Error(JSON.stringify(response.body)))
-					}
-				})
-		})
-	})
-})
-
-//CHANGING PASSWORD
-describe('Change Password', function () {
-	async function registerAndLogin() {
-		var user = { email: "mochatest@mochatest.com", password: "mochatest", firstName: "test", lastName: "test" }
-		await server
-			.post("/api/signup")
-			.send(user)
-			.then(response => {
-				console.log(response.body)
-			})
-		await server
-			.post("/api/login")
-			.send({email: user.email, password: user.password})
-			.then(response => {
-				console.log(response.body)
-			})
-	}
-
-	context('Successfully changing', function () {
-		it('registerAndLogin', registerAndLogin)
-		it('should return status code 1', function (done) {
-			server
-				.post("/api/update-user-password")
-				.send({oldPassword: "mochatest", newPassword: "mochatest2"})
-				.then(response => {
-					if (response.body.status == controller.status.SUCCESS) {
-						done()
-					}
-					else {
-						done(new Error(JSON.stringify(response.body)))
-					}
-				})
-		})
-		after(async function() {
-			await User.findOneAndDelete({username: "mochatest@mochatest.com"})
-		   });
-	})
-})
-
-//CHANGE FIRST NAME
-describe('Change First Name', function () {
-	async function registerAndLogin() {
-		var user = { email: "mochatest@mochatest.com", password: "mochatest", firstName: "test", lastName: "test" }
-		await server
-			.post("/api/signup")
-			.send(user)
-			.then(response => {
-				console.log(response.body)
-			})
-		await server
-			.post("/api/login")
-			.send({email: user.email, password: user.password})
-			.then(response => {
-				console.log(response.body)
-			})
-	}
-
-	context('Successfully changing', function () {
-		it('registerAndLogin', registerAndLogin)
-		it('should return status code 1', function (done) {
-			server
-				.post("/api/update-firstName")
-				.send({firstName: "Greg"})
-				.then(response => {
-					if (response.body.status == controller.status.SUCCESS) {
-						done()
-					}
-					else {
-						done(new Error(JSON.stringify(response.body)))
-					}
-				})
-		})
-		after(async function() {
-			await User.findOneAndDelete({username: "mochatest@mochatest.com"})
-		   });
-	})
-})
-
-//CHANGE LAST NAME
-describe('Change Last Name', function () {
-	async function registerAndLogin() {
-		var user = { email: "mochatest@mochatest.com", password: "mochatest", firstName: "test", lastName: "test" }
-		await server
-			.post("/api/signup")
-			.send(user)
-			.then(response => {
-				console.log(response.body)
-			})
-		await server
-			.post("/api/login")
-			.send({email: user.email, password: user.password})
-			.then(response => {
-				console.log(response.body)
-			})
-	}
-
-	context('Successfully changing', function () {
-		it('registerAndLogin', registerAndLogin)
-		it('should return status code 1', function (done) {
-			server
-				.post("/api/update-lastName")
-				.send({lastName: "Gregson"})
-				.then(response => {
-					if (response.body.status == controller.status.SUCCESS) {
-						done()
-					}
-					else {
-						done(new Error(JSON.stringify(response.body)))
-					}
-				})
-		})
-		after(async function() {
-			await User.findOneAndDelete({username: "mochatest@mochatest.com"})
-		   });
-	})
-})
-	after(async function() {
-		await User.findOneAndDelete({email: 'mochatest@mochatest.com'})
-	   });
-})*/
