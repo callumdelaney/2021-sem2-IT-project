@@ -347,6 +347,11 @@ const login = async (req, res, next) => {
 	})(req, res, next);
 }
 
+const logout = async (req, res) => {
+	req.logout()
+	res.redirect('/login')
+}
+
 /**
  * Adds a new tag to the database
  * @param {object} req takes tag information (see ../models/tag/tagSchema)
@@ -465,5 +470,6 @@ module.exports = {
 	changeEmail,
 	uploadImage,
 	getImage,
-	changeProfilePic
+	changeProfilePic,
+	logout
 };
