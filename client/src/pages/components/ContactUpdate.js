@@ -180,7 +180,7 @@ function ContactUpdate(props) {
 					></textarea>
 				</div>
 				{/* category labels */}
-				<div style={{ marginLeft: "20px" }}>
+				<div style={{ width: "100%" }}>
 					<RadioGroup
 						className="contact-form-category"
 						row

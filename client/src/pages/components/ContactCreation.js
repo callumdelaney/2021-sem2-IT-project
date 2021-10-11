@@ -175,7 +175,7 @@ function ContactCreation() {
 					></textarea>
 				</div>
 				{/* category labels */}
-				<div style={{ marginLeft: "20px", width: "100%" }}>
+				<div style={{ width: "100%" }}>
 					<RadioGroup
 						className="contact-form-category"
 						row
