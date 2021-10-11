@@ -2,7 +2,7 @@
 const Server = require('supertest').agent('http://localhost:3001')
 
 // this connects to the Database and register all the schemas
-require("../App")
+require("../app")
 
 // this lets us delete the test user. TODO: make a proper deleteUser function
 const User = require("mongoose").model("User");
