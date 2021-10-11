@@ -160,7 +160,7 @@ const editContact = async (req, res) => {
 			category: req.body.category
 		})
 		res.send({ status: status.SUCCESS })
-	} catch (err) {I
+	} catch (err) {
 		console.log(err)
 		res.send({ status: status.FAILURE })
 	}
