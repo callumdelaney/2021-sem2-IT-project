@@ -382,134 +382,60 @@ describe('Duckroll', function () {
 				}) // getContacts call ends here
 			})
 		})
+		describe('Changing Password', function () {
+			context('With valid information', function () {
+				it('should respond with status SUCCESS', function (done) {
+					Server.post("/api/update-user-password")
+					.send({
+						oldPassword: Data.user.password,
+						newPassword: Data.changedUser.password,
+					})
+					.then(response => {
+						if (response.body.status == Status.SUCCESS) {
+							done()
+						}
+						else {
+							done(new Error(JSON.stringify(response.body)))
+						}
+					})
+				})
+			})
+		})
+		describe('Changing First Name', function () {
+			context('With valid information', function () {
+				it('should respond with status SUCCESS', function (done) {
+					Server.post("/api/update-firstName")
+					.send({firstName: Data.changedUser.firstName})
+					.then(response => {
+						if (response.body.status == Status.SUCCESS) {
+							done()
+						}
+						else {
+							done(new Error(JSON.stringify(response.body)))
+						}
+					})
+				})
+			})
+		})
+		describe('Changing Last Name', function () {
+			context('With valid information', function () {
+				it('should respond with status SUCCESS', function (done) {
+					Server.post("/api/update-lastName")
+					.send({lastName: Data.changedUser.lastName})
+					.then(response => {
+						if (response.body.status == Status.SUCCESS) {
+							done()
+						}
+						else {
+							done(new Error(JSON.stringify(response.body)))
+						}
+					})
+				})
+			})
+		})
 	})
 	// TODO: proper log-out and delete user functionality
 	after(async function() {
 		await User.findOneAndDelete({username: 'pekin_duck@duckpond.com'})
 	})
 })
-
-/** 
-
-})
-
-//CHANGING PASSWORD
-describe('Change Password', function () {
-	async function registerAndLogin() {
-		var user = { email: "mochatest@mochatest.com", password: "mochatest", firstName: "test", lastName: "test" }
-		await Server
-			.post("/api/signup")
-			.send(user)
-			.then(response => {
-				console.log(response.body)
-			})
-		await Server
-			.post("/api/login")
-			.send({email: user.email, password: user.password})
-			.then(response => {
-				console.log(response.body)
-			})
-	}
-
-	context('Successfully changing', function () {
-		it('registerAndLogin', registerAndLogin)
-		it('should return status code 1', function (done) {
-			Server
-				.post("/api/update-user-password")
-				.send({oldPassword: "mochatest", newPassword: "mochatest2"})
-				.then(response => {
-					if (response.body.status == Status.SUCCESS) {
-						done()
-					}
-					else {
-						done(new Error(JSON.stringify(response.body)))
-					}
-				})
-		})
-		after(async function() {
-			await User.findOneAndDelete({username: "mochatest@mochatest.com"})
-		   });
-	})
-})
-
-//CHANGE FIRST NAME
-describe('Change First Name', function () {
-	async function registerAndLogin() {
-		var user = { email: "mochatest@mochatest.com", password: "mochatest", firstName: "test", lastName: "test" }
-		await Server
-			.post("/api/signup")
-			.send(user)
-			.then(response => {
-				console.log(response.body)
-			})
-		await Server
-			.post("/api/login")
-			.send({email: user.email, password: user.password})
-			.then(response => {
-				console.log(response.body)
-			})
-	}
-
-	context('Successfully changing', function () {
-		it('registerAndLogin', registerAndLogin)
-		it('should return status code 1', function (done) {
-			Server
-				.post("/api/update-firstName")
-				.send({firstName: "Greg"})
-				.then(response => {
-					if (response.body.status == Status.SUCCESS) {
-						done()
-					}
-					else {
-						done(new Error(JSON.stringify(response.body)))
-					}
-				})
-		})
-		after(async function() {
-			await User.findOneAndDelete({username: "mochatest@mochatest.com"})
-		   });
-	})
-})
-
-//CHANGE LAST NAME
-describe('Change Last Name', function () {
-	async function registerAndLogin() {
-		var user = { email: "mochatest@mochatest.com", password: "mochatest", firstName: "test", lastName: "test" }
-		await Server
-			.post("/api/signup")
-			.send(user)
-			.then(response => {
-				console.log(response.body)
-			})
-		await Server
-			.post("/api/login")
-			.send({email: user.email, password: user.password})
-			.then(response => {
-				console.log(response.body)
-			})
-	}
-
-	context('Successfully changing', function () {
-		it('registerAndLogin', registerAndLogin)
-		it('should return status code 1', function (done) {
-			Server
-				.post("/api/update-lastName")
-				.send({lastName: "Gregson"})
-				.then(response => {
-					if (response.body.status == Status.SUCCESS) {
-						done()
-					}
-					else {
-						done(new Error(JSON.stringify(response.body)))
-					}
-				})
-		})
-		after(async function() {
-			await User.findOneAndDelete({username: "mochatest@mochatest.com"})
-		   });
-	})
-})
-	after(async function() {
-		await User.findOneAndDelete({email: 'mochatest@mochatest.com'})
-	   });
-})*/

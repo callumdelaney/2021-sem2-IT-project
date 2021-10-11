@@ -5,6 +5,13 @@ exports.user = {
     lastName: 'duck',
 }
 
+exports.changedUser = {
+	username: 'barn_owl@forest.com',
+	password: 'hoot',
+    firstName: 'barn',
+    lastName: 'owl',
+}
+
 exports.contacts = [
 	{
 		firstName: 'mallard',
