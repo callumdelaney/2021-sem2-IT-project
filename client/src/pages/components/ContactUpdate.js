@@ -2,8 +2,17 @@ import React, { useState } from "react";
 import axios from "axios";
 import statusCode from "./Status";
 import Popup from "./Popup";
-import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
+import {
+    FormControlLabel,
+    Radio,
+    RadioGroup,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+} from "@material-ui/core";
 import { useGlobalState } from "state-pool";
+import StyledCropper from "./crop/CropperEz";
+import defaultUser from "../../images/default-user.png";
 
 function ContactUpdate(props) {
     // set state variables (default to contact details)
@@ -16,8 +25,8 @@ function ContactUpdate(props) {
     const [category, setCategory] = useState(props.category);
     const [notes, setNotes] = useState(props.notes);
     // eslint-disable-next-line
-    const [photo, setPhoto] = useState(props.photo);
-    const [preview, setPreview] = useState(props.photo);
+    const [photo, setPhoto] = useState(null /* set to props.photo later */);
+    const [preview, setPreview] = useState(defaultUser);
     // eslint-disable-next-line
     const [status, setStatus] = useState(statusCode.SUCCESS);
 
@@ -27,10 +36,17 @@ function ContactUpdate(props) {
             e.target.files.length > 0 &&
             e.target.files[0].type.includes("image")
         ) {
-            setPhoto(e.target.files[0]);
+            // setPhoto(e.target.files[0]);
             setPreview(URL.createObjectURL(e.target.files[0]));
         }
-        console.log(e.target.files[0].type);
+    };
+    const handleCallBack = (croppedImage) => {
+        setPhoto(croppedImage);
+        console.log(croppedImage);
+    };
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const handleDialog = () => {
+        setDialogOpen(!dialogOpen);
     };
 
     // toggle state for confirmation popup
@@ -168,18 +184,29 @@ function ContactUpdate(props) {
                         />
                     </RadioGroup>
                     {/* div for photo upload */}
+                    {photo != null && <img src={URL.createObjectURL(photo)} />}
                     <div>
                         <label htmlFor="photo" style={{ fontSize: "15px" }}>
                             Upload Photo
                         </label>
-                        <input type="file" onChange={fileSelectedHandler} />
+                        <input
+                            type="file"
+                            onClick={handleDialog}
+                            onChange={fileSelectedHandler}
+                            accept="image/*"
+                        />
                     </div>
-                    <img
-                        src={preview}
-                        alt="contactPhoto"
-                        width="230px"
-                        height="230px"
-                    />
+
+                    <Dialog open={dialogOpen} onClose={handleDialog} fullWidth>
+                        <DialogTitle>Crop Image</DialogTitle>
+                        <DialogContent fullWidth>
+                            <button>Confirm</button>
+                            <StyledCropper
+                                img={preview}
+                                callBack={handleCallBack}
+                            />
+                        </DialogContent>
+                    </Dialog>
                 </div>
 
                 {/* changes contact info onClick */}
