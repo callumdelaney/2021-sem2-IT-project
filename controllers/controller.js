@@ -389,7 +389,6 @@ const changeEmail = async (req, res) => {
 	}
 }
 
-
 /**
  * Authenticates login details and, if valid, logs the user in
  * (i.e. starts a session)
@@ -525,7 +524,7 @@ module.exports = {
 	getOneContact,
 	addNewContact,
 	editContact,
-  	pushContactTag,
+  pushContactTag,
 	deleteContactTag,
 	deleteContact,
 	addNote,
@@ -544,3 +543,4 @@ module.exports = {
 	getImage,
 	changeProfilePic
 };
+

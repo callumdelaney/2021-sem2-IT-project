@@ -7,6 +7,7 @@ const status = {
 	EMAIL_TAKEN: 13,
 	INVALID_PASSWORD: 14,
 	MISMATCHED_PASSWORDS: 15,
+	TOO_MANY_TAGS: 16,
 };
 
 export default status;

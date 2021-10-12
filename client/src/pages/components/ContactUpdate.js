@@ -2,9 +2,22 @@ import React, { useState } from "react";
 import axios from "axios";
 import statusCode from "./Status";
 import Popup from "./Popup";
-import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
+import {
+	FormControlLabel,
+	Radio,
+	RadioGroup,
+	Box,
+	OutlinedInput,
+	InputLabel,
+	MenuItem,
+	FormControl,
+	Select,
+	Chip,
+} from "@material-ui/core";
 import { useGlobalState } from "state-pool";
+import ErrorMessage from "./ErrorMessage";
 
+// ContactUpdate is a child component of Contact()
 function ContactUpdate(props) {
 	// set state variables (default to contact details)
 	// eslint-disable-next-line
@@ -17,8 +30,10 @@ function ContactUpdate(props) {
 	const [notes, setNotes] = useState(props.notes);
 	// eslint-disable-next-line
 	const [photo, setPhoto] = useState(props.photo);
+	const [tags, setTags] = useState(props.tags);
 	// eslint-disable-next-line
 	const [status, setStatus] = useState(statusCode.SUCCESS);
+	const [userTags] = useGlobalState("userTags");
 
 	// toggle state for confirmation popup
 	const [isOpen, setIsOpen] = useState(false);
@@ -26,11 +41,51 @@ function ContactUpdate(props) {
 		setIsOpen(!isOpen);
 	};
 
+	// initialize tagNames with the names of all tags associated with this contact upon going
+	// into edit mode
+	const [tagNames, setTagNames] = useState(
+		props.tags.map((tag) => tag.tagText)
+	);
+	// handle change function for tags, searches through userTags and creates a list
+	// of all tags based on selected names
+	const handleChange = (event) => {
+		const {
+			target: { value },
+		} = event;
+		// set tagNames to a list of all selected tag names
+		var localTagNames =
+			typeof value === "string" ? value.split(",") : value;
+		setTagNames(localTagNames);
+
+		var tagList = [];
+		userTags.forEach((tag) => {
+			// if the tag name is in our list of selected tag names, push it to tagList
+			// use localTagNames as it is immediately updated
+			if (localTagNames.includes(tag.tagText)) {
+				tagList.push(tag);
+			}
+		});
+		// set contact tags to our tagList
+		setTags(tagList);
+	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		var localStatus = statusCode.SUCCESS;
-		setStatus(statusCode.SUCCESS);
+		console.log(tags);
+		var localStatus = status;
+
+		// if more than 5 tags are selected, display error message
+		if (tags.length > 5) {
+			setStatus(statusCode.TOO_MANY_TAGS);
+			localStatus = statusCode.TOO_MANY_TAGS;
+			// don't post data
+			return;
+		} else {
+			setStatus(statusCode.SUCCESS);
+			localStatus = statusCode.SUCCESS;
+		}
+
 		// contact details
 		var userData = {
 			firstName: firstName,
@@ -125,7 +180,7 @@ function ContactUpdate(props) {
 					></textarea>
 				</div>
 				{/* category labels */}
-				<div style={{ marginLeft: "20px" }}>
+				<div style={{ width: "100%" }}>
 					<RadioGroup
 						className="contact-form-category"
 						row
@@ -174,12 +229,14 @@ function ContactUpdate(props) {
 											setInfo({
 												addContact: false,
 												editContact: false,
-												firstName: props.firstName,
-												category: props.category,
-												notes: props.notes,
-												phoneNumber: props.phoneNumber,
-												email: props.email,
-												photo: props.photo,
+												firstName: firstName,
+												lastName: lastName,
+												category: category,
+												notes: notes,
+												phoneNumber: phoneNumber,
+												email: email,
+												photo: photo,
+												tags: tags,
 											});
 										}}
 									>
@@ -191,6 +248,75 @@ function ContactUpdate(props) {
 					/>
 				)}
 			</form>
+			{/* div for tag selection */}
+			<div
+				style={{
+					display: "inline-flex",
+					width: "20%",
+					flexWrap: "wrap",
+				}}
+			>
+				{/* select menu for tags */}
+				<Box sx={{ minWidth: "100%", maxWidth: "100%" }}>
+					<FormControl fullWidth>
+						<InputLabel id="multiple-chip-label">Tags</InputLabel>
+						<Select
+							labelId="multiple-chip-label"
+							id="multiple-chip"
+							multiple
+							// initial value will be current contact tags
+							value={tagNames}
+							onChange={handleChange}
+							input={
+								<OutlinedInput
+									id="select-multiple-chip"
+									label="Chip"
+								/>
+							}
+							renderValue={(selected) => (
+								<Box
+									sx={{
+										display: "flex",
+										flexWrap: "wrap",
+										gap: 3.5,
+									}}
+								>
+									{selected.map((value) => (
+										<Chip key={value} label={value} />
+									))}
+								</Box>
+							)}
+							MenuProps={{
+								PaperProps: {
+									style: {
+										maxHeight: 48 * 4.5 + 8,
+										width: 180,
+									},
+								},
+								getContentAnchorEl: null,
+								anchorOrigin: {
+									vertical: "bottom",
+									horizontal: "left",
+								},
+							}}
+						>
+							{/* available options */}
+							{userTags.map((data) => {
+								return (
+									<MenuItem
+										key={data._id}
+										value={data.tagText}
+									>
+										{data.tagText}
+									</MenuItem>
+								);
+							})}
+						</Select>
+					</FormControl>
+				</Box>
+				{/* error message for too many tags */}
+				<ErrorMessage statusCode={status} />
+			</div>
 		</article>
 	);
 }
