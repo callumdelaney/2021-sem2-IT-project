@@ -90,7 +90,6 @@ code {
     margin: 0 auto;
     margin-bottom: 4rem;
     padding: 2rem 3rem;
-
     /* look */
     border: 2px solid black;
     background: var(--clr-dark-blue);
@@ -473,7 +472,6 @@ code {
 
     max-width: 100%;
 }
-
 .listTags {
     display: flex;
     /* display: inline-block; */

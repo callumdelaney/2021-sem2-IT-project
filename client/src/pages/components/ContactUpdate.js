@@ -13,9 +13,14 @@ import {
 	FormControl,
 	Select,
 	Chip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
 } from "@material-ui/core";
 import { useGlobalState } from "state-pool";
 import ErrorMessage from "./ErrorMessage";
+import StyledCropper from "./crop/CropperEz";
+import defaultUser from "../../images/default-user.png";
 
 // ContactUpdate is a child component of Contact()
 function ContactUpdate(props) {
@@ -29,18 +34,39 @@ function ContactUpdate(props) {
 	const [category, setCategory] = useState(props.category);
 	const [notes, setNotes] = useState(props.notes);
 	// eslint-disable-next-line
-	const [photo, setPhoto] = useState(props.photo);
+
 	const [tags, setTags] = useState(props.tags);
 	// eslint-disable-next-line
 	const [status, setStatus] = useState(statusCode.SUCCESS);
 	const [userTags] = useGlobalState("userTags");
+  
+  const [photo, setPhoto] = useState(null /* set to props.photo later */);
+  const [preview, setPreview] = useState(defaultUser);
 
-	// toggle state for confirmation popup
-	const [isOpen, setIsOpen] = useState(false);
-	const togglePopup = () => {
-		setIsOpen(!isOpen);
-	};
+    const fileSelectedHandler = (e) => {
+        console.log(e.target.files[0]);
+        if (
+            e.target.files.length > 0 &&
+            e.target.files[0].type.includes("image")
+        ) {
+            // setPhoto(e.target.files[0]);
+            setPreview(URL.createObjectURL(e.target.files[0]));
+        }
+    };
+    const handleCallBack = (croppedImage) => {
+        setPhoto(croppedImage);
+        console.log(croppedImage);
+    };
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const handleDialog = () => {
+        setDialogOpen(!dialogOpen);
+    };
 
+  // toggle state for confirmation popup
+  const [isOpen, setIsOpen] = useState(false);
+  const togglePopup = () => {
+      setIsOpen(!isOpen);
+    };
 	// initialize tagNames with the names of all tags associated with this contact upon going
 	// into edit mode
 	const [tagNames, setTagNames] = useState(
@@ -111,10 +137,6 @@ function ContactUpdate(props) {
 			togglePopup();
 		}
 	};
-
-	// color constants used in styles
-	const businessColor = "orange";
-	const personalColor = "yellow";
 
 	return (
 		// Contents of the page, each seperated by a div
@@ -208,7 +230,32 @@ function ContactUpdate(props) {
 							checked={category === "personal"}
 						/>
 					</RadioGroup>
+          {/* div for photo upload */}
+          {photo != null && <img src={URL.createObjectURL(photo)} />}
+          <div>
+              <label htmlFor="photo" style={{ fontSize: "15px" }}>
+                  Upload Photo
+              </label>
+              <input
+                  type="file"
+                  onClick={handleDialog}
+                  onChange={fileSelectedHandler}
+                  accept="image/*"
+              />
+          </div>
+
+          <Dialog open={dialogOpen} onClose={handleDialog} fullWidth>
+              <DialogTitle>Crop Image</DialogTitle>
+              <DialogContent fullWidth>
+                  <button>Confirm</button>
+                  <StyledCropper
+                      img={preview}
+                      callBack={handleCallBack}
+                  />
+              </DialogContent>
+          </Dialog>
 				</div>
+        
 
 				{/* changes contact info onClick */}
 				<button type="submit">Save</button>

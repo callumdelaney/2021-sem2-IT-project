@@ -23,7 +23,6 @@ function Signup() {
 	// handleSubmit is executed when the submit button is clicked
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
 		// setError based on feedback from back-end
 		var localStatus = status;
 		// if the two password fields don't match, can't move forward
@@ -43,7 +42,7 @@ function Signup() {
 		var userData = {
 			firstName: firstName,
 			lastName: lastName,
-			email: email,
+			username: email,
 			password: password,
 			phoneNumber: phoneNumber,
 		};
@@ -56,15 +55,16 @@ function Signup() {
 				// check if data was saved successfully
 				localStatus = response.data.status;
 				setStatus(localStatus);
+				// since status won't change until the end of this function, need local status
+				// to keep track of the actual value
+				if (localStatus === statusCode.SUCCESS) {
+					togglePopup();
+				}
 			})
 			.catch((error) => {
 				console.log(error);
 			});
-		// since status won't change until the end of this function, need local status
-		// to keep track of the actual value
-		if (localStatus === statusCode.SUCCESS) {
-			togglePopup();
-		}
+		console.log(localStatus);
 	};
 
 	return (
