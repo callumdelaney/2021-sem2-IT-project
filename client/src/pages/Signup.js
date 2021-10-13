@@ -35,6 +35,7 @@ function Signup() {
 			// change status code accordingly
 			localStatus = statusCode.MISMATCHED_PASSWORDS;
 			setStatus(statusCode.MISMATCHED_PASSWORDS);
+			// don't post
 			return;
 		}
 		// registration details

@@ -36,6 +36,7 @@ const getContacts = async (req, res) => {
 		let contacts = await Contact.find({
 			"user_id": req.session.passport.user
 		}).lean()
+    .populate('tags')
 		res.send({
 			status: status.SUCCESS,
 			contacts: contacts
@@ -56,6 +57,7 @@ const getOneContact = async (req, res) => {
 		let contact = await Contact.findOne({
 			"_id": req.body._id
 		}).lean()
+    .populate('tags')
 		if (contact.user_id == req.session.passport.user) {
 			res.send({
 				status: status.SUCCESS,
@@ -130,6 +132,7 @@ const addNewContact = async (req, res) => {
 			photo: req.body.photo,
 			notes: req.body.notes,
 			user_id: req.session.passport.user,
+
 		})
 		new Contact(newContact).save()
 		res.send({ status: status.SUCCESS })
@@ -158,9 +161,81 @@ const editContact = async (req, res) => {
 		})
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
+		console.log(err)
 		res.send({ status: status.FAILURE })
 	}
 }
+
+/**
+ * Appends a tag to a contact's tag array in the database
+ * @param {object} req takes contact information (see ../models/contact/contactSchema),
+ * and tag id/ids
+ * @param {object} res responds with a status code
+ * 
+ * https://www.w3schools.com/jsref/jsref_push.asp
+ * If pushing multiple to the list, it looks like:
+ * const fruits = ["Banana", "Orange", "Apple", "Mango"];
+ * fruits.push("Kiwi", "Lemon", "Pineapple"); 
+ * 
+ * otherwise, just push one at a time.
+ */
+
+const pushContactTag = async (req, res) => {
+
+	let newTag = req.body.tags;
+	try {
+		var contact = await Contact.findOne({ "_id": req.body._id })
+		await contact.tags.push(newTag)
+		contact.save()
+		console.log(contact)
+		res.send({ status: status.SUCCESS })
+	} catch (err) {
+		res.send({ status: status.FAILURE })
+	}
+}
+
+
+/**
+ * deletes tags from a contact's tag array in the database
+ * @param {object} req takes contact information (see ../models/contact/contactSchema),
+ * and one of tag ._ids
+ * @param {object} res responds with a status code
+ *
+ *https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array
+ *
+*/
+
+const deleteContactTag = async (req, res) => {
+
+	let deleteTag = req.body.tags;
+
+	//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+
+	[deleteTag].forEach(async (element) =>  {
+		try {
+			var contact = await Contact.findOne({ "_id": req.body._id })
+			
+
+			//find the index of the tag you want to delete in the array
+			const tagIndex = contact.tags.indexOf(element);
+			//if the tag exists in the array, splice it out of the array
+			if (tagIndex > -1) {
+				// the one is because you're only removing one element
+				contact.tags.splice(tagIndex, 1);
+			}
+
+			contact.save()
+			console.log(contact)
+			res.send({ status: status.SUCCESS })
+
+		} catch (err) {
+			res.send({ status: status.FAILURE })
+		}
+	} )
+	console.log(deleteTag)
+}
+
+
 
 /**
  * Deletes an existing contact from the database
@@ -314,7 +389,6 @@ const changeEmail = async (req, res) => {
 	}
 }
 
-
 /**
  * Authenticates login details and, if valid, logs the user in
  * (i.e. starts a session)
@@ -450,6 +524,8 @@ module.exports = {
 	getOneContact,
 	addNewContact,
 	editContact,
+  pushContactTag,
+	deleteContactTag,
 	deleteContact,
 	addNote,
 	changeCategory,
@@ -467,3 +543,4 @@ module.exports = {
 	getImage,
 	changeProfilePic
 };
+
