@@ -49,12 +49,6 @@ function ContactsTable() {
         // eslint-disable-next-line
     }, [tagName]);
 
-    // toggle state for tag creation
-    const [isOpen, setIsOpen] = useState(false);
-    const togglePopup = () => {
-        setIsOpen(!isOpen);
-    };
-
     // useEffect hook for dealing with category changes
     useEffect(() => {
         setFilteredData(
@@ -216,9 +210,7 @@ function ContactsTable() {
                     tableLayout: "auto",
                     pageSize: filteredData.length,
                     // table size options
-                    pageSizeOptions: [
-                        { value: filteredData.length, label: "All" },
-                    ],
+                    pageSizeOptions: [filteredData.length],
                     // styings for header
                     headerStyle: {
                         position: "sticky",

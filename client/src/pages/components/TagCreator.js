@@ -12,12 +12,19 @@ function TagCreator() {
         setOpen(false);
     };
 
+    const handleCallBack = () => {
+        handleClose();
+    };
+
     return (
         <div>
             <Button variant="outlined" onClick={handleClickOpen}>
                 Create Tag
             </Button>
-            <TagCreatorDialog open={open} onClose={handleClose} />
+            <TagCreatorDialog
+                open={open}
+                callBack={handleCallBack} /*onClose={handleClose}*/
+            />
         </div>
     );
 }

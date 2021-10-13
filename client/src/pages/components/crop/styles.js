@@ -22,23 +22,23 @@ export const styles = (theme) => ({
             alignItems: "center",
         },
     },
-    sliderContainer: {
-        display: "flex",
-        flex: "1",
-        alignItems: "center",
-    },
-    sliderLabel: {
-        [theme.breakpoints.down("xs")]: {
-            minWidth: 65,
-        },
-    },
-    slider: {
-        padding: "22px 0px",
-        marginLeft: 16,
-        [theme.breakpoints.up("sm")]: {
-            flexDirection: "row",
-            alignItems: "center",
-            margin: "0 16px",
-        },
-    },
+    // sliderContainer: {
+    //     display: "flex",
+    //     flex: "1",
+    //     alignItems: "center",
+    // },
+    // sliderLabel: {
+    //     [theme.breakpoints.down("xs")]: {
+    //         minWidth: 65,
+    //     },
+    // },
+    // slider: {
+    //     padding: "22px 0px",
+    //     marginLeft: 16,
+    //     [theme.breakpoints.up("sm")]: {
+    //         flexDirection: "row",
+    //         alignItems: "center",
+    //         margin: "0 16px",
+    //     },
+    // },
 });

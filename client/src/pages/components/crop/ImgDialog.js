@@ -6,7 +6,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import Slide from "@material-ui/core/Slide";
 
 const styles = {
     appBar: {
@@ -29,9 +28,9 @@ const styles = {
     },
 };
 
-function Transition(props) {
-    return <Slide direction="up" {...props} />;
-}
+// function Transition(props) {
+//     return <Slide direction="up" {...props} />;
+// }
 
 class ImgDialog extends React.Component {
     state = {
@@ -53,7 +52,7 @@ class ImgDialog extends React.Component {
                 fullScreen
                 open={!!this.props.img}
                 onClose={this.props.onClose}
-                TransitionComponent={Transition}
+                // TransitionComponent={Transition}
             >
                 <AppBar className={classes.appBar}>
                     <Toolbar>
@@ -65,7 +64,7 @@ class ImgDialog extends React.Component {
                             <CloseIcon />
                         </IconButton>
                         <Typography
-                            variant="title"
+                            variant="h4"
                             color="inherit"
                             className={classes.flex}
                         >
