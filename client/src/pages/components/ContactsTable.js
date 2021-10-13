@@ -98,10 +98,12 @@ function ContactsTable() {
         },
     ];
     // color constants used in styles
-    const iconColor = "#83498A";
-    const businessColor = "orange";
-    const personalColor = "yellow";
+    const iconColor = "#3cb196";
+    const businessColor = "#9F684A";
+    const personalColor = "#83498A";
     const whiteColor = "white";
+    const duckBlue = "hsl(200,56%,28%, 0.877)";
+    // const iconColor = "#83498A";
 
     // update the selected contact information in a global variable
     const updateSelectedContact = (
@@ -215,20 +217,17 @@ function ContactsTable() {
                     headerStyle: {
                         position: "sticky",
                         top: 0,
-                        backgroundColor: "#01579b",
+                        backgroundColor: "#5AC161",
                         color: whiteColor,
                         min_height: "5vh",
                     },
                     // styling for search bar
                     searchFieldStyle: {
-                        color: whiteColor,
+                        color: "#363636",
                     },
                     paging: false,
                     maxBodyHeight: "85vh",
-                    // fixedColumns: {
-                    // 	left: 2,
-                    // 	right: 0,
-                    // },
+
                     // stylings for each individual row
                     rowStyle: (rowData) => {
                         if (selectedRow != null) {

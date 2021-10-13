@@ -17,7 +17,7 @@ const tableData = [
             {
                 _id: 2,
                 tagText: "AmericanHero",
-                tagColour: "#" + Math.floor(Math.random() * 200).toString(16),
+                tagColour: "hsl(206, 99%, 31%)",
             },
             {
                 _id: 3,

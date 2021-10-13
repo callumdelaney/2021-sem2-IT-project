@@ -29,6 +29,7 @@ function Tag(props) {
                     >
                         <Chip
                             label={data.tagText}
+                            variant="outlined"
                             style={{
                                 backgroundColor: data.tagColour,
                                 fontSize: "12px",

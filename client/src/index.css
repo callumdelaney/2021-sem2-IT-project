@@ -52,13 +52,17 @@
     --clr-purple-1: hsl(293, 53%, 56%);
     --clr-light-blue: hsl(184, 71%, 47%);
     --clr-blue: hsl(184, 73%, 30%);
-    --clr-dark-blue: #01579b;
+    --clr-dark-blue: hsl(206, 99%, 31%);
+    --duck-blue: hsla(200, 56%, 28%, 0.877);
+    --dark-slate-gray: hsla(159, 30%, 27%, 0.753);
+    --gray-transparent: rgba(41, 36, 36, 0.432);
+    --duck-light-blue: #3cb196;
 }
 /* dressing */
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    font-family: -apple-system, BlinkMacSystemFont, "Oswald", "Segoe UI",
+        "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
         "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -72,15 +76,15 @@ code {
 }
 
 /* global styles: currently none */
-/* .container {
-} */
+.container {
+}
 /* different offsets for login and signup */
 .articleSignup {
     margin-top: 5%;
 }
 
 .articleLogin {
-    margin-top: 10%;
+    /* margin-top: 10%; */
 }
 
 /* form stylings */
@@ -90,9 +94,10 @@ code {
     margin: 0 auto;
     margin-bottom: 4rem;
     padding: 2rem 3rem;
+    height: fit-content;
     /* look */
-    border: 2px solid black;
-    background: var(--clr-dark-blue);
+    border: 2px solid var(--gray-transparent);
+    background: var(--dark-slate-gray);
     border-radius: var(--radius);
 }
 /* label stylings */
@@ -102,8 +107,11 @@ code {
     display: block;
     margin-bottom: 0.5rem;
     /* look */
-    font-family: "Roboto", sans-serif;
-    font-size: 19px;
+    color: white;
+    font-family: "Oswald", sans-serif;
+    font-weight: bold;
+    font-size: 24px;
+    letter-spacing: 2px;
 }
 /* miscellaneous layout stylings for form */
 .form-control {
@@ -115,18 +123,18 @@ code {
 /* stylings for form buttons */
 .form button {
     /* layout */
-    font-weight: bold;
-    font-size: 15px;
     margin-top: 1rem;
-    letter-spacing: var(--spacing);
     padding: 0.15rem 0.4rem;
     cursor: pointer;
     margin-right: 76px;
     margin-left: 2rem;
     /* look */
-    font-family: "Teko", sans-serif;
+    font-family: "Oswald", sans-serif;
     background: var(--clr-primary-4);
     color: var(--clr-white);
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 2px;
     border-color: transparent;
     text-transform: capitalize;
     border-radius: var(--radius);
@@ -162,7 +170,8 @@ code {
     /* look */
     background: var(--clr-black);
     color: red;
-    font-size: 14px;
+    font-size: 16px;
+    letter-spacing: 1.5px;
     box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
         0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
 }
@@ -260,6 +269,16 @@ code {
 .user-info h1 {
     /* layout */
     display: inline-flex;
+    margin-left: 1rem;
+}
+.user-info h4 {
+    /* layout */
+    margin-left: 1rem;
+}
+
+.user-info button {
+    /* layout */
+    margin-left: 1rem;
 }
 
 /* flex-container is the parent element, the whole page from which children are specified */
@@ -303,7 +322,8 @@ code {
     min-width: 100%;
     max-width: 100%;
     /* look */
-    background: var(--clr-dark-blue);
+    /* background: var(--clr-dark-blue); */
+    background: #b8f479;
 }
 
 .toolbar-labels {
@@ -341,7 +361,8 @@ code {
     min-height: 75%;
     max-height: 100%;
     max-width: 100%;
-    background: var(--clr-dark-blue);
+    /* background: #7a4e36; */
+    background: #52a594;
 }
 
 .contact-form {
