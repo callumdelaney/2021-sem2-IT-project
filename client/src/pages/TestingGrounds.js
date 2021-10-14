@@ -3,15 +3,10 @@ import { useState, useEffect } from "react";
 //import MaterialTable from "material-table";
 
 function TestingGrounds() {
-	/*
-    const allTags = getAllTags();
-    console.log("loging get all tags");
-    console.log(allTags);
-    const usingAllTags = useAllTags();
-    */
+	
 
-	//const [tableDataCpy, setTableDataCpy] = useState([]);
-	//const [filteredData, setFilteredData] = useState([]);
+	const [tableDataCpy, setTableDataCpy] = useState([]);
+	
 
 	useEffect(() => {
 		fetch("/api/get-tags")
@@ -19,7 +14,7 @@ function TestingGrounds() {
 			.then((data) => {
 				console.log(data);
 				setTableDataCpy(data.tags);
-				//setFilteredData(data.contacts);
+				
 			})
 			.catch((error) => {
 				console.log(error);
