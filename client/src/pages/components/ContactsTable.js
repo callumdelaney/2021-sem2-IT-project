@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { tableData } from "./data";
 import MaterialTable from "material-table";
 import { MTableToolbar } from "material-table";
 import {
@@ -16,19 +15,40 @@ import {
 } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useGlobalState } from "state-pool";
+
+//import { tableData } from "./data";
 import Tag from "./Tags";
 import TagCreator from "./TagCreator";
 
+
 function ContactsTable() {
-    const [category, setCategory] = useState("");
-    const [tableDataCpy, setTableDataCpy] = useState(tableData);
-    const [filteredData, setFilteredData] = useState(tableData);
-    const [selectedRow, setSelectedRow] = useState(null);
+	const [tableDataCpy, setTableDataCpy] = useState([]);
+	const [filteredData, setFilteredData] = useState([]);
+
+	useEffect(() => {
+		fetch("/api/get-contacts")
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(data);
+				setTableDataCpy(data.contacts);
+				setFilteredData(data.contacts);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}, []);
+
+	const [category, setCategory] = useState("");
+	const [selectedRow, setSelectedRow] = useState(null);
+	// access the global variable contactInfo
+	// eslint-disable-next-line
+	const [info, setInfo] = useGlobalState("contactInfo");
+
 
     // access the global variable contactInfo
     // eslint-disable-next-line
-    const [info, setInfo] = useGlobalState("contactInfo");
     const [userTags] = useGlobalState("userTags");
+
 
     // useState for selected tag to filter on
     const [tagName, setTagName] = useState("");
