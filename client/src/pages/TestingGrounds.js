@@ -1,6 +1,6 @@
-import { getAllTags, useAllTags } from "../api";
+//import { getAllTags, useAllTags } from "../api";
 import { useState, useEffect } from "react";
-import MaterialTable from "material-table";
+//import MaterialTable from "material-table";
 
 function TestingGrounds() {
 	/*
@@ -10,8 +10,8 @@ function TestingGrounds() {
     const usingAllTags = useAllTags();
     */
 
-	const [tableDataCpy, setTableDataCpy] = useState([]);
-	const [filteredData, setFilteredData] = useState([]);
+	//const [tableDataCpy, setTableDataCpy] = useState([]);
+	//const [filteredData, setFilteredData] = useState([]);
 
 	useEffect(() => {
 		fetch("/api/get-tags")
@@ -26,6 +26,7 @@ function TestingGrounds() {
 			});
 	}, []);
 
+	/**
 	const column = [
 		{
 			title: "tag",
@@ -41,6 +42,7 @@ function TestingGrounds() {
 			},
 		},
 	];
+**/
 
 	return (
 		<div>
