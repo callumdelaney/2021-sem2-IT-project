@@ -47,7 +47,6 @@ function ContactsTable() {
 
     // access the global variable contactInfo
     // eslint-disable-next-line
-    const [info, setInfo] = useGlobalState("contactInfo");
     const [userTags] = useGlobalState("userTags");
 
 
