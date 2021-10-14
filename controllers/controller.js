@@ -84,6 +84,7 @@ const getTags = async (req, res) => {
 			status: status.SUCCESS,
 			tags: tags
 		});
+		console.log(tags)
 	} catch (err) {
 		return res.send({ status: status.FAILURE })
 	}
