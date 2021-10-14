@@ -26,23 +26,6 @@ function TestingGrounds() {
 			});
 	}, []);
 
-	/**
-	const column = [
-		{
-			title: "tag",
-			field: "tag text",
-			/*render a div in each cell so that name and tags can be displayed in one cell*/
-			render: (tableDataCpy) => {
-				return (
-					<div>
-						{/* table contents */}
-						<h4>{tableDataCpy.tagText}</h4>
-					</div>
-				);
-			},
-		},
-	];
-**/
 
 	return (
 		<div>
