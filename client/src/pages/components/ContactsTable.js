@@ -16,7 +16,7 @@ import {
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useGlobalState } from "state-pool";
 
-import { tableData } from "./data";
+//import { tableData } from "./data";
 import Tag from "./Tags";
 import TagCreator from "./TagCreator";
 
