@@ -44,10 +44,6 @@ router.get(
 	"/api/get-one-tag",
 	/*connectEnsureLogin.ensureLoggedIn(),*/ controller.getOneTag
 );
-router.post(
-	"/api/get-user-tags",
-	/*connectEnsureLogin.ensureLoggedIn(),*/ controller.getUserTags
-);
 router.post("/api/add-tag", controller.addNewTag);
 router.post("/api/update-tag", controller.editTag);
 router.post("/api/delete-tag", controller.deleteTag);

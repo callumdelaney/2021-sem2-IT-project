@@ -35,7 +35,7 @@ function Login() {
 
 		// registration details
 		var userData = {
-			email: email,
+			username: email,
 			password: password,
 		};
 		console.log(userData);
