@@ -27,6 +27,7 @@ function ContactUpdate(props) {
     // set state variables (default to contact details)
     // eslint-disable-next-line
     const [info, setInfo] = useGlobalState("contactInfo");
+    const [_id, set_id] = useState(props._id);
     const [firstName, setFirstName] = useState(props.firstName);
     const [lastName, setLastName] = useState(props.lastName);
     const [email, setEmail] = useState(props.email);
@@ -114,6 +115,7 @@ function ContactUpdate(props) {
 
         // contact details
         var userData = {
+            _id: _id,
             firstName: firstName,
             lastName: lastName,
             email: email,
@@ -124,7 +126,7 @@ function ContactUpdate(props) {
         // use axios to post user data to back end for processing, use
         // response to test for validity
         axios
-            .post("/api/editContact", userData)
+            .post("/api/update-contact", userData)
             .then((response) => {
                 console.log(response.data);
             })

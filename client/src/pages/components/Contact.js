@@ -3,6 +3,9 @@ import ContactCreation from "./ContactCreation";
 import { useGlobalState } from "state-pool";
 import ContactUpdate from "./ContactUpdate";
 import Tag from "./Tags";
+import axios from "axios";
+import { deleteContact, updateContact } from "../../api";
+
 // contact-info content
 function Contact() {
     const [info, setInfo] = useGlobalState("contactInfo");
@@ -23,13 +26,33 @@ function Contact() {
             phoneNumber: info.phoneNumber,
             email: info.email,
             photo: info.photo,
-            id: info.id,
-            tags: info.tags,
+            _id: info._id,
+            tags: info.tags
         });
+
+
+
     };
     // function for handling delete contact button
-    const handleDeleteClick = () => {
+    const handleDeleteClick = (contact_id) => {
         console.log("delete");
+        console.log(contact_id)
+        console.log(info._id)
+
+        var toDelete = { 
+            _id: contact_id 
+            
+        }
+
+        axios
+            .post("/api/delete-contact", toDelete)
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
     };
     // display contact creation area if no contact is selected or user presses add contact button
     if (info.firstName === -1 || info.addContact) {
@@ -45,7 +68,7 @@ function Contact() {
                 phoneNumber={info.phoneNumber}
                 email={info.email}
                 photo={info.photo}
-                id={info.id}
+                _id={info._id}
                 tags={info.tags}
             />
         );
@@ -129,7 +152,7 @@ function Contact() {
             <button
                 style={{ color: "red" }}
                 onClick={() => {
-                    handleDeleteClick();
+                    handleDeleteClick(info._id);
                 }}
             >
                 Delete

@@ -146,7 +146,7 @@ function ContactsTable() {
             phoneNumber: phoneNumber,
             email: email,
             photo: photo,
-            id: id,
+            _id: id,
             tags: tgs,
         });
     };
@@ -191,7 +191,7 @@ function ContactsTable() {
                         selectedRow.phoneNumber,
                         selectedRow.email,
                         selectedRow.photo,
-                        selectedRow.id,
+                        selectedRow._id,
                         selectedRow.tags
                     );
                 }}

@@ -246,7 +246,8 @@ const deleteContact = async (req, res) => {
 			"_id": req.body._id,
 			"user_id": req.session.passport.user,
 		})
-		res.send({ status: status.SUCCESS })
+		console.log(req.body)
+		res.send({ status: status.SUCCESS, msg: "contact deleted" })
 	} catch (err) {
 		res.send({ status: status.FAILURE });
 	}
