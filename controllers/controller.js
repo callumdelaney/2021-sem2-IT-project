@@ -159,7 +159,7 @@ const editContact = async (req, res) => {
 			tags: req.body.tags,
 			notes: req.body.notes
 		})
-		conaole.log(req.body)
+		console.log(req.body)
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
 		console.log(err);

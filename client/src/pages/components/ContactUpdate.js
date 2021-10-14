@@ -31,7 +31,7 @@ function ContactUpdate(props) {
     const [firstName, setFirstName] = useState(props.firstName);
     const [lastName, setLastName] = useState(props.lastName);
     const [email, setEmail] = useState(props.email);
-    const [phoneNumber, setPhoneNumber] = useState(props.phoneNumber);
+    const [phone, setPhone] = useState(props.phone);
     const [category, setCategory] = useState(props.category);
     const [notes, setNotes] = useState(props.notes);
     // eslint-disable-next-line
@@ -120,8 +120,9 @@ function ContactUpdate(props) {
             lastName: lastName,
             email: email,
             category: category,
-            phoneNumber: phoneNumber,
-            notes: notes,
+            phone: phone,
+            tags: tags,
+            notes: notes
         };
         // use axios to post user data to back end for processing, use
         // response to test for validity
@@ -186,8 +187,8 @@ function ContactUpdate(props) {
                         type="number"
                         id="phone"
                         name="phone"
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
                     />
                 </div>
                 <div className="contact-form-control">
@@ -284,14 +285,15 @@ function ContactUpdate(props) {
                                             setInfo({
                                                 addContact: false,
                                                 editContact: false,
+                                                _id: _id,
                                                 firstName: firstName,
                                                 lastName: lastName,
                                                 category: category,
                                                 notes: notes,
-                                                phoneNumber: phoneNumber,
+                                                phone: phone,
                                                 email: email,
                                                 photo: photo,
-                                                tags: tags,
+                                                tags: tags
                                             });
                                         }}
                                     >
