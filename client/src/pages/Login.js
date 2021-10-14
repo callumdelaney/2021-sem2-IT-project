@@ -35,7 +35,7 @@ function Login() {
 
 		// registration details
 		var userData = {
-			email: email,
+			username: email,
 			password: password,
 		};
 		console.log(userData);
@@ -53,7 +53,10 @@ function Login() {
 					console.log("login successful!");
 					fetch("/api/user-info", userData)
 						.then((res) => res.json())
-						.then((data) => setUserInfo(data))
+						.then((data) => {
+							setUserInfo(data);
+							console.log(data);
+						})
 						.catch((error) => {
 							console.log(error);
 						});

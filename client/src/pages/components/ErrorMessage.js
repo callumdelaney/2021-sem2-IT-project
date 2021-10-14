@@ -17,6 +17,8 @@ function ErrorMessage(props) {
 		text = "password is too short (must be at least 5 characters)";
 	} else if (code === status.MISMATCHED_PASSWORDS) {
 		text = "passwords don't match";
+	} else if (code === status.TOO_MANY_TAGS) {
+		text = "please choose up to 5 tags for each contact";
 	}
 	// return error if status is not a SUCCESS
 	if (code !== status.SUCCESS) {

@@ -10,7 +10,7 @@ function UserInfo() {
 				Hello, {userInfo.firstName} {userInfo.lastName}
 			</h1>
 			<div>
-				<button>Profile Setting</button>
+				<button>Profile Settings</button>
 			</div>
 			<h4>{userInfo.email}</h4>
 		</div>

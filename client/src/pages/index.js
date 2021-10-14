@@ -10,6 +10,8 @@ import Signup from "./Signup";
 
 import Contact from "./components/Contact";
 
+import TestingGrounds from "./TestingGrounds";
+
 const ReactRouterSetup = () => {
 	return (
 		<Router>
@@ -26,7 +28,11 @@ const ReactRouterSetup = () => {
 				<Route path="/contacts">
 					<Contacts />
 				</Route>
-				<Route path="/contacts/:id" children={<Contact />}></Route>
+				<Route path="/contacts/:id" children={<Contact />}>
+				</Route>
+				<Route path="/TESTINGGROUNDS">
+					<TestingGrounds/>
+				</Route>
 			</Switch>
 		</Router>
 	);

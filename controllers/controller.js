@@ -18,12 +18,10 @@ const status = {
 	INCORRECT_CREDENTIALS: 12,
 	EMAIL_TAKEN: 13,
 	INVALID_PASSWORD: 14,
-	INVALID_EMAIL: 15
-}
-
+	INVALID_EMAIL: 15,
+};
 
 /******************* outgoing (backend -> frontend) ***************************/
-
 
 /**
  * Gets all contacts belonging to the user that is currently logged in.
@@ -36,6 +34,7 @@ const getContacts = async (req, res) => {
 		let contacts = await Contact.find({
 			"user_id": req.session.passport.user
 		}).lean()
+    .populate('tags')
 		res.send({
 			status: status.SUCCESS,
 			contacts: contacts
@@ -43,7 +42,7 @@ const getContacts = async (req, res) => {
 	} catch (err) {
 		res.send({ status: status.FAILURE })
 	}
-}
+};
 
 /**
  * Gets one specific contact from the database
@@ -56,6 +55,7 @@ const getOneContact = async (req, res) => {
 		let contact = await Contact.findOne({
 			"_id": req.body._id
 		}).lean()
+    .populate('tags')
 		if (contact.user_id == req.session.passport.user) {
 			res.send({
 				status: status.SUCCESS,
@@ -66,7 +66,7 @@ const getOneContact = async (req, res) => {
 	} catch (err) {
 		return res.send({ status: status.FAILURE })
 	}
-}
+};
 
 /**
  * Gets all tags from the database belonging to a specific user
@@ -87,7 +87,7 @@ const getTags = async (req, res) => {
 	} catch (err) {
 		return res.send({ status: status.FAILURE })
 	}
-}
+};
 
 /**
  * Gets one specific tag from the database
@@ -109,7 +109,7 @@ const getOneTag = async (req, res) => {
 	} catch (err) {
 		return res.send({ status: status.FAILURE })
 	}
-}
+};
 
 /******************* incoming (frontend -> backend) ***************************/
 
@@ -130,13 +130,14 @@ const addNewContact = async (req, res) => {
 			photo: req.body.photo,
 			notes: req.body.notes,
 			user_id: req.session.passport.user,
+
 		})
 		new Contact(newContact).save()
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
 		res.send({ status: status.FAILURE })
 	}
-}
+};
 
 /**
  * Edits an existing contact in the database
@@ -158,9 +159,81 @@ const editContact = async (req, res) => {
 		})
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
+		console.log(err);
+		res.send({ status: status.FAILURE });
+	}
+};
+
+/**
+ * Appends a tag to a contact's tag array in the database
+ * @param {object} req takes contact information (see ../models/contact/contactSchema),
+ * and tag id/ids
+ * @param {object} res responds with a status code
+ * 
+ * https://www.w3schools.com/jsref/jsref_push.asp
+ * If pushing multiple to the list, it looks like:
+ * const fruits = ["Banana", "Orange", "Apple", "Mango"];
+ * fruits.push("Kiwi", "Lemon", "Pineapple"); 
+ * 
+ * otherwise, just push one at a time.
+ */
+
+const pushContactTag = async (req, res) => {
+
+	let newTag = req.body.tags;
+	try {
+		var contact = await Contact.findOne({ "_id": req.body._id })
+		await contact.tags.push(newTag)
+		contact.save()
+		console.log(contact)
+		res.send({ status: status.SUCCESS })
+	} catch (err) {
 		res.send({ status: status.FAILURE })
 	}
 }
+
+
+/**
+ * deletes tags from a contact's tag array in the database
+ * @param {object} req takes contact information (see ../models/contact/contactSchema),
+ * and one of tag ._ids
+ * @param {object} res responds with a status code
+ *
+ *https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array
+ *
+*/
+
+const deleteContactTag = async (req, res) => {
+
+	let deleteTag = req.body.tags;
+
+	//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+
+	[deleteTag].forEach(async (element) =>  {
+		try {
+			var contact = await Contact.findOne({ "_id": req.body._id })
+			
+
+			//find the index of the tag you want to delete in the array
+			const tagIndex = contact.tags.indexOf(element);
+			//if the tag exists in the array, splice it out of the array
+			if (tagIndex > -1) {
+				// the one is because you're only removing one element
+				contact.tags.splice(tagIndex, 1);
+			}
+
+			contact.save()
+			console.log(contact)
+			res.send({ status: status.SUCCESS })
+
+		} catch (err) {
+			res.send({ status: status.FAILURE })
+		}
+	} )
+	console.log(deleteTag)
+}
+
+
 
 /**
  * Deletes an existing contact from the database
@@ -175,9 +248,9 @@ const deleteContact = async (req, res) => {
 		})
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
-		res.send({ status: status.FAILURE })
+		res.send({ status: status.FAILURE });
 	}
-}
+};
 
 /**
  * Adds a note to an existing contact in the database
@@ -186,16 +259,17 @@ const deleteContact = async (req, res) => {
  * @param {object} res responds with a status code
  */
 const addNote = async (req, res) => {
-	let newNote = req.body.note
+	let newNote = req.body.note;
 	try {
-		var contact = await Contact.findOne({ "_id": req.body._id })
-		contact.notes.push(newNote)
-		contact.save
-		res.send({ status: status.SUCCESS })
+		var contact = await Contact.findOne({ _id: req.body._id });
+		contact.notes.push(newNote);
+		contact.save;
+		res.send({ status: status.SUCCESS });
 	} catch (err) {
-		res.send({ status: status.FAILURE })
+		res.send({ status: status.FAILURE });
 	}
 }
+
 
 /**
  * Changes the category of an existing contact
@@ -213,15 +287,23 @@ const changeCategory = async (req, res) => {
 		})
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
-		res.send({ status: status.FAILURE })
+		res.send({ status: status.FAILURE });
 	}
 }
+
 /**
  * Adds a new user to the database
  * @param {object} req takes user information (see ../models/user/userSchema)
  * @param {object} res responds with a status code
  */
 const newUser = async (req, res) => {
+  
+/**	var pass = passportFunc.genPassword(req.body.password);
+	const regex = /\S+@\S+\.\S+/;
+	if (regex.test(String(req.body.email).toLowerCase()) == false) {
+		return res.send({ status: status.UNKNOWN_EMAIL }); 
+    **/
+  
 	// hashing password
 	var pass;
 	try {
@@ -241,19 +323,18 @@ const newUser = async (req, res) => {
 			hash: pass.hash,
 			salt: pass.salt,
 			firstName: req.body.firstName,
-			lastName: req.body.lastName
-		})
-		res.send({ status: status.SUCCESS })
+			lastName: req.body.lastName,
+		});
+		res.send({ status: status.SUCCESS });
 		new User(newUser).save();
-
 	} catch (err) {
 		res.send({ status: status.FAILURE, error: err })
 	}
-}
+};
 
 const changePassword = async (req, res) => {
-	var newPass = passportFunc.genPassword(req.body.newPassword)
-	var oldPass = req.body.oldPassword
+	var newPass = passportFunc.genPassword(req.body.newPassword);
+	var oldPass = req.body.oldPassword;
 
 	try {
 		const user = await User.findOne({
@@ -264,42 +345,47 @@ const changePassword = async (req, res) => {
 		}  else {
 			user.set({
 				hash: newPass.hash,
-				salt: newPass.salt
-			})
-			await user.save()
-			res.send({ status: status.SUCCESS })
+				salt: newPass.salt,
+			});
+			await user.save();
+			res.send({ status: status.SUCCESS });
 		}
 	} catch (err) {
-		res.send({ status: status.FAILURE })
+		res.send({ status: status.FAILURE });
 	}
-}
+};
 
 const changeFirstName = async (req, res) => {
 	try {
-		await User.findOneAndUpdate({
-			"username": req.user.username
-		}, {
-			firstName: req.body.firstName
-		})
-		res.send({status: status.SUCCESS})
+		await User.findOneAndUpdate(
+			{
+				username: req.user.username,
+			},
+			{
+				firstName: req.body.firstName,
+			}
+		);
+		res.send({ status: status.SUCCESS });
 	} catch (err) {
-		res.send({status: status.FAILURE})
+		res.send({ status: status.FAILURE });
 	}
-}
+};
 
 const changeLastName = async (req, res) => {
 	try {
-		await User.findOneAndUpdate({
-			"username": req.user.username
-		}, {
-			lastName: req.body.lastName
-		})
-		res.send({status: status.SUCCESS})
+		await User.findOneAndUpdate(
+			{
+				username: req.user.username,
+			},
+			{
+				lastName: req.body.lastName,
+			}
+		);
+		res.send({ status: status.SUCCESS });
 	} catch (err) {
-		res.send({status: status.FAILURE})
+		res.send({ status: status.FAILURE });
 	}
-}
-
+};
 
 const changeEmail = async (req, res) => {
 	try {
@@ -310,7 +396,7 @@ const changeEmail = async (req, res) => {
 		})
 		res.send({status: status.SUCCESS})
 	} catch (err) {
-		res.send({status: status.FAILURE})
+		res.send({ status: status.FAILURE });
 	}
 }
 
@@ -322,30 +408,28 @@ const changeEmail = async (req, res) => {
  * @param res responds with a status code
  */
 const login = async (req, res, next) => {
-
 	/* This was a work-around:
 	User schemas had 'email' but Passport needs req to have 'username'
 	var data = {
 		username: req.body.email,
-		password: req.body.password
-	}
+		password: req.body.password,
+	};
 	req.body = data;
 	*/
 
-	passport.authenticate('local', (err, user, info) => {
+	passport.authenticate("local", (err, user, info) => {
 		if (err) {
-			res.send({ status: status.FAILURE, error: err })
+			res.send({ status: status.FAILURE, error: err });
 			return next(err);
 		} else if (!user) {
-			res.send({ status: status.INCORRECT_CREDENTIALS })
+			res.send({ status: status.INCORRECT_CREDENTIALS });
 		} else {
 			req.logIn(user, function (err) {
-				res.send({ status: status.SUCCESS })
-			})
+				res.send({ status: status.SUCCESS });
+			});
 		}
-
 	})(req, res, next);
-}
+};
 
 const logout = async (req, res) => {
 	req.logout()
@@ -369,7 +453,7 @@ const addNewTag = async (req, res) => {
 	} catch (err) {
 		res.send({ status: status.FAILURE })
 	}
-}
+};
 
 /**
  * Edits an existing tag in the database
@@ -378,18 +462,20 @@ const addNewTag = async (req, res) => {
  */
 const editTag = async (req, res) => {
 	try {
-		await Tag.findOneAndUpdate({
-			"_id": req.body._id,
-		}, {
-			"tagText": req.body.tagText,
-			"tagColour": req.body.tagColour
-		})
-		res.send({ status: status.SUCCESS })
-
+		await Tag.findOneAndUpdate(
+			{
+				_id: req.body._id,
+			},
+			{
+				tagText: req.body.tagText,
+				tagColour: req.body.tagColour,
+			}
+		);
+		res.send({ status: status.SUCCESS });
 	} catch (err) {
 		res.send({ status: status.FAILURE })
 	}
-}
+};
 
 /**
  * Deletes an existing tag from the database
@@ -399,19 +485,20 @@ const editTag = async (req, res) => {
 const deleteTag = async (req, res) => {
 	try {
 		await Tag.findOneAndDelete({
-			"_id": req.body._id
-		})
+			_id: req.body._id,
+		});
 
-		res.send({ status: status.SUCCESS })
+		res.send({ status: status.SUCCESS });
 	} catch (err) {
-		res.send({ status: status.FAILURE })
+		res.send({ status: status.FAILURE });
 	}
 }
+
 
 const uploadImage = async (req, res) => {
 	var obj = {
 		data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-        contentType: 'image/png' 
+		contentType: 'image/png' 
 	}
 	await Image.create(obj, (err, item) => {
 		if (err) {
@@ -455,6 +542,8 @@ module.exports = {
 	getOneContact,
 	addNewContact,
 	editContact,
+  pushContactTag,
+	deleteContactTag,
 	deleteContact,
 	addNote,
 	changeCategory,
@@ -473,3 +562,4 @@ module.exports = {
 	changeProfilePic,
 	logout
 };
+
