@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import React from "react";
+//import React from "react";
 
 //const BASE_URL = "https://duckroll-crm.herokuapp.com/";
 const BASE_URL = "http://localhost:3001";
@@ -106,7 +106,7 @@ export function useOneContact(id) {
 				setError(e);
 				setLoading(false);
 			});
-	}, []);
+	});
 
 	return {
 		loading,
@@ -301,7 +301,7 @@ export function useOneTag() {
 				setError(e);
 				setLoading(false);
 			});
-	}, []);
+	});
 
 	return {
 		// return the states
@@ -337,7 +337,7 @@ export function useUserTag() {
 				setError(e);
 				setLoading(false);
 			});
-	}, []);
+	});
 
 	return {
 		// return the states
