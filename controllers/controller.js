@@ -155,7 +155,9 @@ const editContact = async (req, res) => {
 			lastName: req.body.lastName,
 			phone: req.body.phone,
 			email: req.body.email,
-			category: req.body.category
+			category: req.body.category,
+			tags: req.body.tags,
+			note: req.body.note
 		})
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
