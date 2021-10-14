@@ -23,7 +23,7 @@ function Contact() {
             lastName: info.lastName,
             category: info.category,
             notes: info.notes,
-            phoneNumber: info.phoneNumber,
+            phone: info.phone,
             email: info.email,
             photo: info.photo,
             _id: info._id,
@@ -65,7 +65,7 @@ function Contact() {
                 lastName={info.lastName}
                 category={info.category}
                 notes={info.notes}
-                phoneNumber={info.phoneNumber}
+                phone={info.phone}
                 email={info.email}
                 photo={info.photo}
                 _id={info._id}
@@ -99,7 +99,7 @@ function Contact() {
                         <h2 style={{ border: "none", paddingRight: "50px" }}>
                             Phone Number:
                         </h2>
-                        <h2>{info.phoneNumber}</h2>
+                        <h2>{info.phone}</h2>
                     </div>
                     <div
                         style={{
