@@ -2,10 +2,21 @@ import React from "react";
 import { useGlobalState } from "state-pool";
 import ManageAccountsIcon from "@material-ui/icons/AccountCircle";
 import LogoutIcon from "@material-ui/icons/MeetingRoom";
-import { AppBar, Toolbar, Menu } from "@material-ui/core";
 
 function UserInfo() {
 	const [userInfo] = useGlobalState("userInfo");
+	// eslint-disable-next-line
+	const [openAccount, setOpenAccount] = useGlobalState("openAccountSettings");
+	const handleProfileClick = () => {
+		setOpenAccount(true);
+	};
+	const handleLogoutClick = () => {
+		console.log("clicked");
+		// hopefully passport will redirect back to login automatically
+		fetch("/api/logout").catch((error) => {
+			console.log(error);
+		});
+	};
 	return (
 		<>
 			<div className="user-info">
@@ -14,7 +25,7 @@ function UserInfo() {
 					Hello, {userInfo.firstName} {userInfo.lastName}
 				</h1>
 				<div>
-					<button>
+					<button onClick={handleProfileClick}>
 						<div style={{ display: "flex" }}>
 							<ManageAccountsIcon
 								style={{ paddingRight: "0.5rem" }}
@@ -23,7 +34,7 @@ function UserInfo() {
 						</div>
 					</button>
 
-					<button>
+					<button onClick={handleLogoutClick}>
 						<div style={{ display: "flex" }}>
 							<LogoutIcon style={{ paddingRight: "0.5rem" }} />
 							Logout

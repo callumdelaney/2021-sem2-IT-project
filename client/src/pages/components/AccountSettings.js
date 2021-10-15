@@ -3,9 +3,6 @@ import axios from "axios";
 import statusCode from "./Status";
 import Popup from "./Popup";
 import {
-	FormControlLabel,
-	Radio,
-	RadioGroup,
 	Box,
 	OutlinedInput,
 	InputLabel,
@@ -22,22 +19,19 @@ import StyledCropper from "./crop/CropperEz";
 import defaultUser from "../../images/default-user.png";
 
 // ContactUpdate is a child component of Contact()
-function ContactUpdate(props) {
+function AccountSettings() {
+	const [userInfo] = useGlobalState("userInfo");
+	const [userTags] = useGlobalState("userTags");
 	// set state variables (default to contact details)
 	// eslint-disable-next-line
-	const [info, setInfo] = useGlobalState("contactInfo");
-	const [firstName, setFirstName] = useState(props.firstName);
-	const [lastName, setLastName] = useState(props.lastName);
-	const [email, setEmail] = useState(props.email);
-	const [phoneNumber, setPhoneNumber] = useState(props.phoneNumber);
-	const [category, setCategory] = useState(props.category);
-	const [notes, setNotes] = useState(props.notes);
-	// eslint-disable-next-line
+	const [firstName, setFirstName] = useState(userInfo.firstName);
+	const [lastName, setLastName] = useState(userInfo.lastName);
+	const [email, setEmail] = useState(userInfo.email);
+	const [phoneNumber, setPhoneNumber] = useState(userInfo.phoneNumber);
 
-	const [tags, setTags] = useState(props.tags);
+	const [tags, setTags] = useState(userTags);
 	// eslint-disable-next-line
 	const [status, setStatus] = useState(statusCode.SUCCESS);
-	const [userTags] = useGlobalState("userTags");
 
 	const [photo, setPhoto] = useState(null /* set to props.photo later */);
 	const [preview, setPreview] = useState(defaultUser);
@@ -66,10 +60,9 @@ function ContactUpdate(props) {
 	const togglePopup = () => {
 		setIsOpen(!isOpen);
 	};
-	// initialize tagNames with the names of all tags associated with this contact upon going
-	// into edit mode
+	// initialize tagNames with the names of all tags associated with user
 	const [tagNames, setTagNames] = useState(
-		props.tags.map((tag) => tag.tagText)
+		userTags.map((tag) => tag.tagText)
 	);
 	// handle change function for tags, searches through userTags and creates a list
 	// of all tags based on selected names
@@ -102,48 +95,34 @@ function ContactUpdate(props) {
 		console.log(status);
 		console.log(statusCode.SUCCESS);
 
-		// if more than 5 tags are selected, display error message
-		// if (tags.length > 5) {
-		//     setStatus(statusCode.TOO_MANY_TAGS);
-		//     localStatus = statusCode.TOO_MANY_TAGS;
-		//     // don't post data
-		//     return;
-		// } else {
-		//     setStatus(statusCode.SUCCESS);
-		//     localStatus = statusCode.SUCCESS;
-		// }
-
 		// contact details
 		var userData = {
 			firstName: firstName,
 			lastName: lastName,
 			email: email,
-			category: category,
 			phoneNumber: phoneNumber,
-			notes: notes,
 		};
 		// use axios to post user data to back end for processing, use
 		// response to test for validity
 		axios
-			.post("/api/update-contact", userData)
+			.post("/api/update-user", userData)
 			.then((response) => {
 				console.log(response.data);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
-		// since status won't change until the end of this function, need local status
-		// to keep track of the actual value
 		if (localStatus === statusCode.SUCCESS) {
 			togglePopup();
 		}
 	};
+
 	const cadetBlue = "#52a594ea";
 
 	return (
 		// Contents of the page, each seperated by a div
 		<article className="contact-article">
-			<h1 className="header">Edit Contact</h1>
+			<h1 className="header">Edit Account Settings</h1>
 			<form className="contact-form" action="" onSubmit={handleSubmit}>
 				<div className="contact-form-control">
 					<label htmlFor="firstName">First name: </label>
@@ -188,57 +167,9 @@ function ContactUpdate(props) {
 						onChange={(e) => setPhoneNumber(e.target.value)}
 					/>
 				</div>
-				<div className="contact-form-control">
-					<label htmlFor="notes" style={{ paddingBottom: "150px" }}>
-						Notes:{" "}
-					</label>
-					<textarea
-						className="contact-form-notes"
-						name="notes"
-						id="notes"
-						value={notes}
-						onChange={(e) => setNotes(e.target.value)}
-						cols="30"
-						rows="10"
-						placeholder="Write Something..."
-					></textarea>
-				</div>
 				{/* category labels */}
 				<div style={{ width: "100%" }}>
-					<RadioGroup
-						className="contact-form-category"
-						row
-						onChange={(e) => setCategory(e.target.value)}
-					>
-						<FormControlLabel
-							value="business"
-							control={<Radio style={{ color: cadetBlue }} />}
-							label={
-								<span style={{ fontSize: "22px" }}>
-									Business
-								</span>
-							}
-							// style={{ fontSize: "22px" }}
-							checked={category === "business"}
-						/>
-						<FormControlLabel
-							value="personal"
-							control={<Radio style={{ color: cadetBlue }} />}
-							label={
-								<span style={{ fontSize: "22px" }}>
-									Personal
-								</span>
-							}
-							checked={category === "personal"}
-						/>
-					</RadioGroup>
 					{/* div for photo upload */}
-					{photo != null && (
-						<img
-							src={URL.createObjectURL(photo)}
-							alt="contactPhoto"
-						/>
-					)}
 					<div>
 						<label
 							htmlFor="photo"
@@ -266,6 +197,7 @@ function ContactUpdate(props) {
 					<Dialog open={dialogOpen} onClose={handleDialog} fullWidth>
 						<DialogTitle>Crop Image</DialogTitle>
 						<DialogContent>
+							<button>Confirm</button>
 							<StyledCropper
 								img={preview}
 								callBack={handleCallBack}
@@ -282,7 +214,7 @@ function ContactUpdate(props) {
 						content={
 							<>
 								<h1 className="contact-popup-box">
-									Contact Updated Successfully!
+									Account Updated Successfully!
 								</h1>
 								<div className="contact-popup-button">
 									<button
@@ -290,18 +222,6 @@ function ContactUpdate(props) {
 										onClick={() => {
 											// onclick toggles popup and updates info
 											togglePopup();
-											setInfo({
-												addContact: false,
-												editContact: false,
-												firstName: firstName,
-												lastName: lastName,
-												category: category,
-												notes: notes,
-												phoneNumber: phoneNumber,
-												email: email,
-												photo: photo,
-												tags: tags,
-											});
 										}}
 									>
 										Close
@@ -323,11 +243,24 @@ function ContactUpdate(props) {
 				{/* select menu for tags */}
 				<Box sx={{ minWidth: "100%", maxWidth: "100%" }}>
 					<FormControl fullWidth>
-						<InputLabel id="multiple-chip-label">Tags</InputLabel>
+						<InputLabel
+							id="multiple-chip-label"
+							style={{
+								color: "#52410f",
+								padding: "0rem 0.8rem",
+								// fontFamily: "Oswald, sans-serif",
+								fontWeight: "bold",
+							}}
+						>
+							Your Tags
+						</InputLabel>
 						<Select
 							labelId="multiple-chip-label"
 							id="multiple-chip"
 							multiple
+							style={{
+								border: "1px solid #52410f",
+							}}
 							// initial value will be current contact tags
 							value={tagNames}
 							onChange={handleChange}
@@ -380,9 +313,21 @@ function ContactUpdate(props) {
 				</Box>
 				{/* error message for too many tags */}
 				{/* <ErrorMessage statusCode={status} /> */}
+				{/* cropped photo display */}
+				{photo != null && (
+					<img
+						style={{
+							marginTop: "5rem",
+							border: "3px solid #52410f",
+							borderRadius: "50%",
+						}}
+						src={URL.createObjectURL(photo)}
+						alt=""
+					/>
+				)}
 			</div>
 		</article>
 	);
 }
 
-export default ContactUpdate;
+export default AccountSettings;

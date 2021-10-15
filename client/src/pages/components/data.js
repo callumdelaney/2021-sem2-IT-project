@@ -100,7 +100,7 @@ const tableData = [
 			},
 		],
 		category: "business",
-		photo: "https://drive.google.com/file/d/1UU_ybmsKFitP4Z4C65r0HCjhAzgjEAfZ/view?usp=sharing",
+		photo: "https://static2.srcdn.com/wordpress/wp-content/uploads/2021/01/Tom-Holland-in-Spider-Man-Far-From-Home.jpg",
 	},
 	{
 		id: "7",

@@ -131,8 +131,6 @@ function ContactCreation() {
 	};
 
 	// color constants used in styles
-	const businessColor = "orange";
-	const personalColor = "yellow";
 	const cadetBlue = "#52a594ea";
 
 	return (
@@ -276,7 +274,6 @@ function ContactCreation() {
 					<Dialog open={dialogOpen} onClose={handleDialog} fullWidth>
 						<DialogTitle>Crop Image</DialogTitle>
 						<DialogContent>
-							<button>Confirm</button>
 							<StyledCropper
 								img={preview}
 								callBack={handleCallBack}

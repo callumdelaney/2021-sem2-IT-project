@@ -21,7 +21,7 @@ import TagCreator from "./TagCreator";
 
 function ContactsTable() {
 	const [category, setCategory] = useState("");
-	const [tableDataCpy, setTableDataCpy] = useState(tableData);
+	const [tableDataCpy] = useState(tableData);
 	const [filteredData, setFilteredData] = useState(tableData);
 	const [selectedRow, setSelectedRow] = useState(null);
 
@@ -29,6 +29,8 @@ function ContactsTable() {
 	// eslint-disable-next-line
 	const [info, setInfo] = useGlobalState("contactInfo");
 	const [userTags] = useGlobalState("userTags");
+	// eslint-disable-next-line
+	const [openAccount, setOpenAccount] = useGlobalState("openAccountSettings");
 
 	// useState for selected tag to filter on
 	const [tagName, setTagName] = useState("");
@@ -110,8 +112,8 @@ function ContactsTable() {
 	const businessColor = "#9F684A";
 	const personalColor = "#83498A";
 	const whiteColor = "white";
-	const cadetBlue = "#52a594ea";
-	const cadetDarkBlue = "#3a776b";
+	// const cadetBlue = "#52a594ea";
+	// const cadetDarkBlue = "#3a776b";
 	// const iconColor = "#83498A";
 
 	// update the selected contact information in a global variable
@@ -167,6 +169,8 @@ function ContactsTable() {
 								category: "",
 							});
 							setSelectedRow(null);
+							// don't want to display account info
+							setOpenAccount(false);
 						},
 					},
 				]}
@@ -185,6 +189,8 @@ function ContactsTable() {
 						selectedRow.id,
 						selectedRow.tags
 					);
+					// don't want to display account info
+					setOpenAccount(false);
 				}}
 				// // Option for deleting rows/contacts
 				// editable={{

@@ -84,15 +84,11 @@ code {
 }
 
 /* global styles: currently none */
-.container {
-}
+/* .container {
+} */
 /* different offsets for login and signup */
 .articleSignup {
 	margin-top: 5%;
-}
-
-.articleLogin {
-	/* margin-top: 10%; */
 }
 
 /* form stylings */
@@ -266,6 +262,7 @@ code {
 	/* look */
 	background: var(--cadet-blue);
 	border: 2px solid var(--dark-slate-gray);
+	border-right: none;
 }
 .user-info img {
 	/* layout */
@@ -529,15 +526,23 @@ code {
 	display: block;
 	min-height: 79vh;
 	/* look */
-	border: 2px solid black;
+	border: 2px solid var(--dark-slate-gray);
+	border-right: none;
+	border-top: none;
+	/* background: beige; */
+	background: rgba(231, 223, 223, 0.87);
 }
 .contact-info img {
 	max-width: 230px;
 	min-height: 200px;
 	max-height: 230px;
-	/* margin-top: 2rem; */
-	/* margin-left: 1rem; */
-	padding: 20px 20px;
+	margin-top: 1rem;
+	margin-left: 1rem;
+	margin-bottom: 1rem;
+	margin-right: 2rem;
+	border: 2px solid #52410f;
+	border-radius: 6px;
+	/* padding: 20px 20px; */
 
 	float: left;
 }
@@ -552,7 +557,10 @@ code {
 }
 .contact-info-name {
 	display: inline-block;
-	border: steelblue 2px solid;
+	border: 2px solid var(--dark-slate-gray);
+	border-left: none;
+	border-top: none;
+	border-right: none;
 	width: 100%;
 }
 .contact-info h1 {
@@ -572,4 +580,31 @@ code {
 	/* display: inline-block; */
 	flex-wrap: wrap;
 	flex-direction: row;
+}
+
+.edit-delete-buttons {
+	/* layout */
+	font-weight: bold;
+	font-size: 22px;
+	margin-top: 0.2rem;
+	margin-bottom: 0.5rem;
+	letter-spacing: 2px;
+	cursor: pointer;
+	margin-left: 1rem;
+	/* look */
+	font-family: "Oswald", sans-serif;
+	/* background: var(--clr-primary-4); */
+	background: var(--cadet-blue);
+	color: var(--clr-white);
+	border-color: transparent;
+	text-transform: capitalize;
+	border-radius: var(--radius);
+	transition: var(--transition);
+	box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+		0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+}
+
+.edit-delete-buttons:hover {
+	background: var(--cadet-dark-blue);
+	color: var(--clr-grey-7);
 }

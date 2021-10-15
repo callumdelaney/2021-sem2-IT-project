@@ -3,10 +3,13 @@ import ContactCreation from "./ContactCreation";
 import { useGlobalState } from "state-pool";
 import ContactUpdate from "./ContactUpdate";
 import Tag from "./Tags";
-import EmailIcon from "@material-ui/icons/Email";
 import ContactPhoneIcon from "@material-ui/icons/ContactPhone";
-import NotesIcon from "@material-ui/icons/Notes";
 import { Paper, makeStyles } from "@material-ui/core";
+import defaultUser from "../../images/default-user.png";
+import EmailIcon from "@material-ui/icons/Email";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import NotesIcon from "@material-ui/icons/Notes";
 // contact-info content
 function Contact() {
 	const [info, setInfo] = useGlobalState("contactInfo");
@@ -76,14 +79,18 @@ function Contact() {
 		<div className="contact-info">
 			{/* contact photo and name */}
 			<div className="contact-info-name">
-				<img src={info.photo} alt="contactPhoto" />
+				{info.photo != null ? (
+					<img src={info.photo} alt="contactPhoto" />
+				) : (
+					<img src={defaultUser} alt="default" />
+				)}
 				<h1>
 					{info.firstName} {info.lastName}
 				</h1>
 			</div>
 			{/* one main div surrounding two seperate divs, one for phone No. & email, other side for tags  */}
 			<div style={{ display: "inline-flex" }}>
-				<div style={{ minWidth: "50%" }}>
+				<div style={{ width: "fit-content" }}>
 					<div
 						style={{
 							display: "inline-flex",
@@ -122,9 +129,10 @@ function Contact() {
 				{/* second half of this div is where the tags g */}
 				<div
 					style={{
-						minWidth: "50%",
-						paddingTop: "1rem",
-						paddingLeft: "1rem",
+						width: "50%",
+						// paddingTop: "1rem",
+						// paddingLeft: "1rem",
+						padding: "2rem 2rem",
 					}}
 				>
 					<Tag inTable={false} tags={info.tags}></Tag>
@@ -134,8 +142,8 @@ function Contact() {
 				style={{
 					display: "inline-block",
 					width: "90%",
-
-					marginLeft: "50px",
+					marginRight: "2rem",
+					marginLeft: "3rem",
 				}}
 			>
 				{/* descripton/notes */}
@@ -145,6 +153,7 @@ function Contact() {
 							border: "none",
 							padding: "0px 10px",
 							letterSpacing: "2px",
+							marginLeft: "-0.8rem",
 						}}
 					>
 						<NotesIcon /> Notes:{" "}
@@ -164,22 +173,36 @@ function Contact() {
 				</Paper>
 			</div>
 			{/* Edit and delete Buttons */}
-			<button
-				style={{ display: "flex" }}
-				onClick={() => {
-					handleEditClick();
-				}}
-			>
-				Edit
-			</button>
-			<button
-				style={{ color: "red" }}
-				onClick={() => {
-					handleDeleteClick();
-				}}
-			>
-				Delete
-			</button>
+			<div style={{ display: "inline" }}>
+				<button
+					className="edit-delete-buttons"
+					style={
+						{
+							// display: "flex",
+						}
+					}
+					onClick={() => {
+						handleEditClick();
+					}}
+				>
+					<div style={{ display: "flex" }}>
+						<EditIcon />
+						Edit
+					</div>
+				</button>
+				<button
+					style={{ color: "#b30000" }}
+					className="edit-delete-buttons"
+					onClick={() => {
+						handleDeleteClick();
+					}}
+				>
+					<div style={{ display: "flex" }}>
+						<DeleteIcon />
+						Delete
+					</div>
+				</button>
+			</div>
 		</div>
 	);
 }
