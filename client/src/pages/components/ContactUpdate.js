@@ -143,7 +143,7 @@ function ContactUpdate(props) {
             togglePopup();
         }
 
-        // get global contacts
+        // refetch global contacts to update table
         
         fetch("/api/get-contacts")
             .then((res) => res.json())

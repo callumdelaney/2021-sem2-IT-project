@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ContactCreation from "./ContactCreation";
-import { useGlobalState } from "state-pool";
+import { store, useGlobalState } from "state-pool";
 import ContactUpdate from "./ContactUpdate";
 import Tag from "./Tags";
 import axios from "axios";
@@ -52,6 +52,18 @@ function Contact() {
             .catch((error) => {
                 console.log(error);
             })
+
+        // refetch global contacts to update table
+        
+        fetch("/api/get-contacts")
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                store.setState("userContacts", data.contacts);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
 
     };
     // display contact creation area if no contact is selected or user presses add contact button
