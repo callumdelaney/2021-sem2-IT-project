@@ -397,12 +397,30 @@ const changeLastName = async (req, res) => {
 
 const changeEmail = async (req, res) => {
 	try {
-		await User.findOneAndUpdate({
-			user_id: req.session.passport.user
-		}, {
-			username: req.body.username
+		await User.findOneAndUpdate(
+			{
+				username: req.user.username,
+			},
+			{
+				email: req.body.email,
+			}
+		);
+		res.send({ status: status.SUCCESS });
+	} catch (err) {
+		res.send({ status: status.FAILURE });
+	}
+
+const getUserDetails = async (req, res) => {
+	
+	try {
+		let user = await User.findOne({
+			username: req.user.username,
 		})
-		res.send({status: status.SUCCESS})
+		console.log(req.session.passport.user)
+		res.send({
+			status: status.SUCCESS,
+			user: user
+		});
 	} catch (err) {
 		res.send({ status: status.FAILURE });
 	}
@@ -547,7 +565,7 @@ module.exports = {
 	getOneContact,
 	addNewContact,
 	editContact,
-  pushContactTag,
+    pushContactTag,
 	deleteContactTag,
 	deleteContact,
 	addNote,
@@ -564,6 +582,7 @@ module.exports = {
 	changeEmail,
 	uploadImage,
 	getImage,
-	changeProfilePic
+	changeProfilePic,
+	getUserDetails
 };
 
