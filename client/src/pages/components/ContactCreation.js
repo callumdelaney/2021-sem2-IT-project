@@ -17,7 +17,7 @@ import {
 	DialogTitle,
 	DialogContent,
 } from "@material-ui/core";
-import { store, useGlobalState } from "state-pool";
+import { useGlobalState } from "state-pool";
 import ErrorMessage from "./ErrorMessage";
 import defaultUser from "../../images/default-user.png";
 import StyledCropper from "./crop/CropperEz";
@@ -39,7 +39,6 @@ function ContactCreation() {
 	// eslint-disable-next-line
 	const [status, setStatus] = useState(statusCode.SUCCESS);
 	const [userTags] = useGlobalState("userTags");
-    const [userContacts] = useGlobalState("userContacts");
 
 	const fileSelectedHandler = (e) => {
 		console.log(e.target.files[0]);
@@ -88,9 +87,10 @@ function ContactCreation() {
 	};
 
 	const handleSubmit = (e) => {
+		// default action refreshes page
 		e.preventDefault();
 
-		console.log(tags);
+		console.log("tags: ", tags);
 		var localStatus = status;
 
 		// if more than 5 tags are selected, display error message
@@ -121,33 +121,16 @@ function ContactCreation() {
 			.post("/api/add-contact", contactData)
 			.then((response) => {
 				console.log(response.data);
+				// since status won't change until the end of this function, need local status
+				// to keep track of the actual value
+				localStatus = response.data.status;
+				if (localStatus === statusCode.SUCCESS) {
+					togglePopup();
+				}
 			})
 			.catch((error) => {
 				console.log(error);
 			});
-		// since status won't change until the end of this function, need local status
-		// to keep track of the actual value
-		if (localStatus === statusCode.SUCCESS) {
-			togglePopup();
-
-            
-
-		}
-
-        // refetch global contacts to try update table
-            //currently it doesn't work...
-        
-        fetch("/api/get-contacts")
-        .then((res) => res.json())
-        .then((data) => {
-            console.log("fetching after contact creation")
-            console.log(data);
-            store.setState("userContacts", data.contacts);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-            
 	};
 
 	// color constants used in styles
@@ -277,24 +260,30 @@ function ContactCreation() {
 				</div>
 
 				<button type="submit">Save</button>
-				{/* contact saved popup component */}
-				{isOpen && (
-					<Popup
-						content={
-							<>
-								<h1 className="contact-popup-box">
-									Contact Saved!
-								</h1>
-								<div className="contact-popup-button">
-									<button className="" onClick={togglePopup}>
-										Close
-									</button>
-								</div>
-							</>
-						}
-					/>
-				)}
 			</form>
+			{/* contact saved popup component */}
+			{isOpen && (
+				<Popup
+					content={
+						<>
+							<h1 className="contact-popup-box">
+								Contact Saved!
+							</h1>
+							<div className="contact-popup-button">
+								<button
+									className=""
+									onClick={() => {
+										// REFRESH PAGE
+										window.location.reload(false);
+									}}
+								>
+									Close
+								</button>
+							</div>
+						</>
+					}
+				/>
+			)}
 			{/* div for tag selection */}
 			<div
 				style={{

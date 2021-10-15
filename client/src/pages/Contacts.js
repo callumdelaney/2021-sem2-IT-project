@@ -1,9 +1,9 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import ContactsTable from "./components/ContactsTable";
 import Contact from "./components/Contact";
 import UserInfo from "./components/UserInfo";
-import { store } from "state-pool";
+import { store, useGlobalState } from "state-pool";
 //import { userTags } from "./components/data";
 
 // declare a global state variable, contactInfo, with an initial "unselected" state
@@ -16,53 +16,38 @@ store.setState("userContacts", []);
 
 /*Contacts page main function*/
 function Contacts() {
-
-
-    //get global tags
-
-    useEffect(() => {
-        fetch("/api/get-tags")
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                store.setState("userTags", data.tags);
-                
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, []);
-
-
-    // get global contacts
-    useEffect(() => {
-		fetch("/api/get-contacts")
+	//get global tags
+	// eslint-disable-next-line
+	const [userTags, setUserTags] = useGlobalState("userTags");
+	useEffect(() => {
+		fetch("/api/get-tags")
 			.then((res) => res.json())
 			.then((data) => {
 				console.log(data);
-				store.setState("userContacts", data.contacts);
+				setUserTags(data.tags);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
+		// eslint-disable-next-line
 	}, []);
-    
-    return (
-        <>
-            <div className="flex-container">
-                <div className="flex-child">
-                    {/* Left-hand table showing records of user contacts */}
-                    <ContactsTable />
-                </div>
-                <div className="flex-child">
-                    {/* div displaying user information */}
-                    <UserInfo />
-                    {/* component displaying contact-info */}
-                    <Contact />
-                </div>
-            </div>
-        </>
-    );
+
+	return (
+		<>
+			<div className="flex-container">
+				<div className="flex-child">
+					{/* Left-hand table showing records of user contacts */}
+					<ContactsTable />
+				</div>
+				<div className="flex-child">
+					{/* div displaying user information */}
+					<UserInfo />
+					{/* component displaying contact-info */}
+					<Contact />
+				</div>
+			</div>
+		</>
+	);
 }
 
 export default Contacts;
