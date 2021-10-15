@@ -264,9 +264,7 @@ function ContactCreation() {
 							accept="image/*"
 							style={{
 								background: cadetBlue,
-								color: "#52410f",
-								// fontFamily: "Oswald, sans-serif",
-								// fontSize: "12px",
+								color: "#EEE",
 							}}
 						/>
 					</div>

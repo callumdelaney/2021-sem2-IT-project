@@ -258,7 +258,7 @@ function ContactUpdate(props) {
 							accept="image/*"
 							style={{
 								background: cadetBlue,
-								color: "#52410f",
+								color: "#EEE",
 							}}
 						/>
 					</div>
