@@ -131,8 +131,11 @@ const addNewContact = async (req, res) => {
 			photo: req.body.photo,
 			notes: req.body.notes,
 			user_id: req.session.passport.user,
+			tags: req.body.tags
 
 		})
+		console.log(req.body)
+
 		new Contact(newContact).save()
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
