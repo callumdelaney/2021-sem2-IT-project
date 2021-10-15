@@ -32,6 +32,23 @@ function Contacts() {
 		// eslint-disable-next-line
 	}, []);
 
+	//get global user ingo
+
+	const [userInfo, setUserInfo] = useGlobalState("userInfo");
+
+	useEffect(() => {
+		fetch("/api/get-user-details")
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(data);
+				setUserInfo(data.user);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+		// eslint-disable-next-line
+	}, []);
+
 	return (
 		<>
 			<div className="flex-container">
