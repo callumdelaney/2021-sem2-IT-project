@@ -17,6 +17,7 @@ import {
 import { useGlobalState } from "state-pool";
 import StyledCropper from "./crop/CropperEz";
 import defaultUser from "../../images/default-user.png";
+import TagCreator from "./TagCreator";
 
 // ContactUpdate is a child component of Contact()
 function AccountSettings() {
@@ -206,8 +207,11 @@ function AccountSettings() {
 					</Dialog>
 				</div>
 
-				{/* changes contact info onClick */}
-				<button type="submit">Save</button>
+				<button type="submit" style={{ marginRight: "12rem" }}>
+					Save
+				</button>
+				{/* create contact button brings up a popup */}
+				<TagCreator />
 				{/* contact saved popup component */}
 				{isOpen && (
 					<Popup

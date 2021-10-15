@@ -17,7 +17,6 @@ import {
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useGlobalState } from "state-pool";
 import Tag from "./Tags";
-import TagCreator from "./TagCreator";
 
 function ContactsTable() {
 	const [category, setCategory] = useState("");
@@ -261,12 +260,14 @@ function ContactsTable() {
 										: "rgba(231, 223, 223, 0.87)",
 								border: "2px solid hsla(159, 30%, 27%, 0.753)",
 								borderLeft: "none",
+								borderTop: "none",
 							};
 						}
 						return {
 							backgroundColor: "rgba(231, 223, 223, 0.87)",
 							border: "2px solid hsla(159, 30%, 27%, 0.753)",
 							borderLeft: "none",
+							borderTop: "none",
 						};
 					},
 				}}
@@ -316,6 +317,7 @@ function ContactsTable() {
 														Array.isArray(
 															e.target.value
 														) &&
+														// this condition shouldn't be necessary anymore
 														e.target.value[
 															e.target.value
 																.length - 1
@@ -375,8 +377,6 @@ function ContactsTable() {
 													},
 												}}
 											>
-												{/* create contact button brings up a popup */}
-												<TagCreator />
 												{/* iterate over userTags and add them to list */}
 												{userTags.map((data) => {
 													return (
