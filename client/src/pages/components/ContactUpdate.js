@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import statusCode from "./Status";
 import Popup from "./Popup";
@@ -17,10 +17,11 @@ import {
     DialogTitle,
     DialogContent,
 } from "@material-ui/core";
-import { useGlobalState } from "state-pool";
+import { store, useGlobalState } from "state-pool";
 import ErrorMessage from "./ErrorMessage";
 import StyledCropper from "./crop/CropperEz";
 import defaultUser from "../../images/default-user.png";
+
 
 // ContactUpdate is a child component of Contact()
 function ContactUpdate(props) {
@@ -40,6 +41,7 @@ function ContactUpdate(props) {
     // eslint-disable-next-line
     const [status, setStatus] = useState(statusCode.SUCCESS);
     const [userTags] = useGlobalState("userTags");
+    const [userContacts] = useGlobalState("userContacts");
 
     const [photo, setPhoto] = useState(null /* set to props.photo later */);
     const [preview, setPreview] = useState(defaultUser);
@@ -134,11 +136,27 @@ function ContactUpdate(props) {
             .catch((error) => {
                 console.log(error);
             });
+            
         // since status won't change until the end of this function, need local status
         // to keep track of the actual value
         if (localStatus === statusCode.SUCCESS) {
             togglePopup();
         }
+
+        // get global contacts
+        
+        fetch("/api/get-contacts")
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                store.setState("userContacts", data.contacts);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        
+
+
     };
     const businessColor = "orange";
     const personalColor = "yellow";

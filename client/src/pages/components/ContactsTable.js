@@ -22,21 +22,26 @@ import TagCreator from "./TagCreator";
 
 
 function ContactsTable() {
-	const [tableDataCpy, setTableDataCpy] = useState([]);
+
+    //const [info, setInfo] = useGlobalState("contactInfo");
+
+	const [tableDataCpy, setTableDataCpy] = useGlobalState("userContacts");
 	const [filteredData, setFilteredData] = useState([]);
 
+    
 	useEffect(() => {
 		fetch("/api/get-contacts")
 			.then((res) => res.json())
 			.then((data) => {
 				console.log(data);
-				setTableDataCpy(data.contacts);
+				//setTableDataCpy(data.contacts);
 				setFilteredData(data.contacts);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	}, []);
+    
 
 	const [category, setCategory] = useState("");
 	const [selectedRow, setSelectedRow] = useState(null);

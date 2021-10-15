@@ -17,7 +17,7 @@ import {
     DialogTitle,
     DialogContent,
 } from "@material-ui/core";
-import { useGlobalState } from "state-pool";
+import { store, useGlobalState } from "state-pool";
 import ErrorMessage from "./ErrorMessage";
 import defaultUser from "../../images/default-user.png";
 import StyledCropper from "./crop/CropperEz";

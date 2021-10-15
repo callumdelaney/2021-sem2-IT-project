@@ -12,9 +12,13 @@ store.setState("contactInfo", { firstName: -1, tags: [] });
 
 store.setState("userTags", []);
 
+store.setState("userContacts", []);
 
 /*Contacts page main function*/
 function Contacts() {
+
+
+    //get global tags
 
     useEffect(() => {
         fetch("/api/get-tags")
@@ -28,6 +32,20 @@ function Contacts() {
                 console.log(error);
             });
     }, []);
+
+
+    // get global contacts
+    useEffect(() => {
+		fetch("/api/get-contacts")
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(data);
+				store.setState("userContacts", data.contacts);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}, []);
     
     return (
         <>
