@@ -69,7 +69,7 @@ function ContactsTable() {
 			cellStyle: {
 				// backgroundColor: "#039be5",
 				color: "rgba(0,0,0,0.75)",
-				fontSize: "17px",
+				fontSize: "19px",
 			},
 			/*render a div in each cell so that name and tags can be displayed in one cell*/
 			render: (filteredData) => {
@@ -107,7 +107,7 @@ function ContactsTable() {
 		},
 	];
 	// color constants used in styles
-	const iconColor = "rgba(82, 165, 148, 1)";
+	const iconColor = "rgba(58, 119, 107, 0.9)";
 	const businessColor = "#9F684A";
 	const personalColor = "#83498A";
 	const whiteColor = "white";

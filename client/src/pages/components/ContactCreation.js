@@ -131,7 +131,7 @@ function ContactCreation() {
 	};
 
 	// color constants used in styles
-	const cadetBlue = "#52a594ea";
+	const cadetBlue = "rgba(58, 119, 107, 0.9)";
 
 	return (
 		// Contents of the page, each seperated by a div. each div contains a label and a
