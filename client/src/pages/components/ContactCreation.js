@@ -39,6 +39,7 @@ function ContactCreation() {
 	// eslint-disable-next-line
 	const [status, setStatus] = useState(statusCode.SUCCESS);
 	const [userTags] = useGlobalState("userTags");
+    const [userContacts] = useGlobalState("userContacts");
 
 	const fileSelectedHandler = (e) => {
 		console.log(e.target.files[0]);
@@ -128,7 +129,25 @@ function ContactCreation() {
 		// to keep track of the actual value
 		if (localStatus === statusCode.SUCCESS) {
 			togglePopup();
+
+            
+
 		}
+
+        // refetch global contacts to try update table
+            //currently it doesn't work...
+        
+        fetch("/api/get-contacts")
+        .then((res) => res.json())
+        .then((data) => {
+            console.log("fetching after contact creation")
+            console.log(data);
+            store.setState("userContacts", data.contacts);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+            
 	};
 
 	// color constants used in styles

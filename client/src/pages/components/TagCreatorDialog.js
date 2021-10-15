@@ -84,7 +84,7 @@ function TagCreatorDialog(props) {
     };
 
     if (refresh) {
-        window.location.reload(false);
+        //window.location.reload(false);
     }
     return (
         <Dialog onClose={handleClose} open={open} disableEnforceFocus>

@@ -69,6 +69,9 @@ function Contact() {
     // display contact creation area if no contact is selected or user presses add contact button
     if (info.firstName === -1 || info.addContact) {
         return <ContactCreation />;
+
+        
+        
     }
     if (info.editContact) {
         return (

@@ -141,19 +141,22 @@ function ContactUpdate(props) {
         // to keep track of the actual value
         if (localStatus === statusCode.SUCCESS) {
             togglePopup();
-        }
 
+            
+        }
         // refetch global contacts to update table
         
         fetch("/api/get-contacts")
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                store.setState("userContacts", data.contacts);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+            store.setState("userContacts", data.contacts);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+        
         
 
 

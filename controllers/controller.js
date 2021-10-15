@@ -452,6 +452,8 @@ const addNewTag = async (req, res) => {
 			tagColour: req.body.tagColour,
 		})
 		new Tag(newTag).save()
+		console.log("creating new tag")
+		console.log(req.body)
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
 		res.send({ status: status.FAILURE })
