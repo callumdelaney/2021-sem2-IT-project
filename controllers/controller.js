@@ -409,6 +409,7 @@ const changeEmail = async (req, res) => {
 	} catch (err) {
 		res.send({ status: status.FAILURE });
 	}
+};
 
 const getUserDetails = async (req, res) => {
 	
@@ -416,7 +417,6 @@ const getUserDetails = async (req, res) => {
 		let user = await User.findOne({
 			username: req.user.username,
 		})
-		console.log(req.session.passport.user)
 		res.send({
 			status: status.SUCCESS,
 			user: user
