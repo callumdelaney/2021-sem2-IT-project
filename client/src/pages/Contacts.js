@@ -34,7 +34,7 @@ function Contacts() {
 
 	//get global user ingo
 
-	const [userInfo, setUserInfo] = useGlobalState("userInfo");
+	const [setUserInfo] = useGlobalState("userInfo");
 
 	useEffect(() => {
 		fetch("/api/get-user-details")
