@@ -4,6 +4,7 @@ import {
     DialogTitle,
     TextField,
     DialogContent,
+    makeStyles,
 } from "@material-ui/core";
 import ColorPicker from "./ColorPicker";
 import axios from "axios";
@@ -22,18 +23,24 @@ function TagCreatorDialog(props) {
         a: 1,
     });
     const open = props.open;
+    const useStyles = makeStyles((theme) => ({
+        ChipStyle: {
+            marginBottom: theme.spacing(2),
+        },
+    }));
+    const classes = useStyles();
 
     // callback function to obtain color values from color picker
     const handleCallBack = (color, opacity, hsl) => {
         setColor(color);
         setOpacity(opacity);
         setHsl(hsl);
-        console.log(hsl);
-        console.log(color);
-        console.log(opacity);
+        // console.log(hsl);
+        // console.log(color);
+        // console.log(opacity);
     };
 
-    const formatHsl = (hslObj) => {
+    const formatHsl = () => {
         var h = hsl.h.toString();
         var s = (hsl.s * 100).toString();
         var l = (hsl.l * 100).toString();
@@ -94,6 +101,7 @@ function TagCreatorDialog(props) {
                     color={color}
                     opacity={opacity}
                     hsl={hsl}
+                    tagName={tagName}
                     callBack={handleCallBack}
                 />
                 <div
