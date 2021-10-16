@@ -91,9 +91,7 @@ function AccountSettings() {
 		e.preventDefault();
 
 		console.log(tags);
-		var localStatus = statusCode.SUCCESS;
-		console.log(status);
-		console.log(statusCode.SUCCESS);
+		var localStatus = status;
 
 		// contact details
 		var userData = {
@@ -108,15 +106,15 @@ function AccountSettings() {
 			.post("/api/update-user", userData)
 			.then((response) => {
 				console.log(response.data);
+				localStatus = response.data.status;
+				if (localStatus === statusCode.SUCCESS) {
+					togglePopup();
+				}
 			})
 			.catch((error) => {
 				console.log(error);
 			});
-		if (localStatus === statusCode.SUCCESS) {
-			togglePopup();
-		}
 	};
-
 	const cadetBlue = "rgba(58, 119, 107, 0.9)";
 
 	return (

@@ -16,13 +16,9 @@ import {
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useGlobalState } from "state-pool";
 
-//import { tableData } from "./data";
 import Tag from "./Tags";
 
 function ContactsTable() {
-
-	//const [info, setInfo] = useGlobalState("contactInfo");
-
 	const [tableDataCpy, setTableDataCpy] = useGlobalState("userContacts");
 	const [filteredData, setFilteredData] = useState([]);
 
@@ -48,6 +44,7 @@ function ContactsTable() {
 	// access the global variable contactInfo
 	// eslint-disable-next-line
 	const [userTags] = useGlobalState("userTags");
+	// eslint-disable-next-line
 	const [openAccount, setOpenAccount] = useGlobalState("openAccountSettings");
 
 	// useState for selected tag to filter on
@@ -207,8 +204,8 @@ function ContactsTable() {
 						selectedRow._id,
 						selectedRow.tags
 					);
-          // don't want to display account info
-          setOpenAccount(false);
+					// don't want to display account info
+					setOpenAccount(false);
 				}}
 				// Customizable styling for delete message
 				localization={{
