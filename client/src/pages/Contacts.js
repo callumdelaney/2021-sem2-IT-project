@@ -33,8 +33,8 @@ function Contacts() {
 	}, []);
 
 	//get global user ingo
-
-	const [setUserInfo] = useGlobalState("userInfo");
+	// eslint-disable-next-line
+	const [userInfo, setUserInfo] = useGlobalState("userInfo");
 
 	useEffect(() => {
 		fetch("/api/get-user-details")
