@@ -4,8 +4,9 @@ import { Link, Redirect } from "react-router-dom";
 import ErrorMessage from "./components/ErrorMessage";
 import statusCode from "./components/Status";
 import { store, useGlobalState } from "state-pool";
-
-// store.setState("contactInfo", { firstName: -1 });
+import duckrollLogo from "../images/duckroll-logo2.png";
+import animated from "../images/wavesgif3.gif";
+import quack from "../audio/quack.mp3";
 // initialise user info global variable
 store.setState("userInfo", {
 	firstName: "Obi-Wan",
@@ -25,10 +26,13 @@ function Login() {
 
 	// const [contactInfo, setContactInfo] = useGlobalState("contactInfo");
 	const [userInfo, setUserInfo] = useGlobalState("userInfo");
+	const sound = new Audio(quack);
 
 	// handleSubmit is executed when the submit button is clicked
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		sound.volume = 0.2;
+		sound.play();
 
 		// setStatus and localStatus keep track of what errors can be returned from trying to log in
 		var localStatus = status;
@@ -72,46 +76,76 @@ function Login() {
 			});
 	};
 
+	// const duckBlue = "hsl(200,56%,28%, 0.877)";
+
 	if (isLoggedIn) {
 		// redirect to contacts page upon successful login
 		return <Redirect to="/contacts" />;
 	}
 	return (
 		// Section for login details where email and password can be entered
-		<article className="articleLogin">
-			<h1 className="header">Login</h1>
-			{/* form div containing all of the required fields */}
-			<form className="form" action="" onSubmit={handleSubmit}>
-				<div className="form-control">
-					<label htmlFor="email">Email: </label>
-					<input
-						type="text"
-						id="email"
-						name="email"
-						required
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-				</div>
-				<div className="form-control">
-					<label htmlFor="password">Password: </label>
-					<input
-						type="password"
-						id="password"
-						name="password"
-						required
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-				</div>
-				<button type="submit">Login</button>
-				<Link to="/signup">
-					<button>Signup</button>
-				</Link>
-				{/* conditional rendering of error message based on status */}
-				<ErrorMessage statusCode={status} />
-			</form>
-		</article>
+		<>
+			<div
+				style={{
+					background: "hsl(200,70%,35%, 0.8)",
+					backgroundImage: "url(" + animated + ")",
+					display: "flex",
+					height: "100vh",
+					backgroundSize: "cover",
+				}}
+			>
+				<img
+					src={duckrollLogo}
+					alt="logo"
+					style={{
+						maxHeight: "500px",
+						maxWidth: "700px",
+						aspectRatio: "14/10",
+						marginTop: "13%",
+						marginLeft: "10%",
+					}}
+				/>
+				{/* <article className="articleLogin"> */}
+				{/* <h1 className="header">Login</h1> */}
+				{/* form div containing all of the required fields */}
+				<form
+					className="form"
+					style={{ marginTop: "20%" }}
+					action=""
+					onSubmit={handleSubmit}
+				>
+					<div className="form-control">
+						<label htmlFor="email">Email: </label>
+						<input
+							type="text"
+							id="email"
+							name="email"
+							required
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+						/>
+					</div>
+					<div className="form-control">
+						<label htmlFor="password">Password: </label>
+						<input
+							type="password"
+							id="password"
+							name="password"
+							required
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+					</div>
+					<button type="submit">Login</button>
+					<Link to="/signup">
+						<button>Signup</button>
+					</Link>
+					{/* conditional rendering of error message based on status */}
+					<ErrorMessage statusCode={status} />
+				</form>
+				{/* </article> */}
+			</div>
+		</>
 	);
 }
 

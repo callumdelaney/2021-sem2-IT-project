@@ -1,6 +1,6 @@
 import React from "react";
 import TagCreatorDialog from "./TagCreatorDialog";
-import { Button } from "@material-ui/core";
+import LabelIcon from "@material-ui/icons/Label";
 function TagCreator() {
     const [open, setOpen] = React.useState(false);
 
@@ -17,10 +17,13 @@ function TagCreator() {
     };
 
     return (
-        <div>
-            <Button variant="outlined" onClick={handleClickOpen}>
-                Create Tag
-            </Button>
+        <div style={{ display: "inline" }}>
+            <button variant="outlined" onClick={handleClickOpen}>
+                <div style={{ display: "flex" }}>
+                    <LabelIcon style={{ paddingRight: "5px" }} />
+                    Create Tag
+                </div>
+            </button>
             <TagCreatorDialog
                 open={open}
                 callBack={handleCallBack} /*onClose={handleClose}*/

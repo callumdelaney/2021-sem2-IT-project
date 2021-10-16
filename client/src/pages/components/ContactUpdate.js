@@ -18,7 +18,6 @@ import {
 	DialogContent,
 } from "@material-ui/core";
 import { useGlobalState } from "state-pool";
-import ErrorMessage from "./ErrorMessage";
 import StyledCropper from "./crop/CropperEz";
 import defaultUser from "../../images/default-user.png";
 
@@ -100,18 +99,8 @@ function ContactUpdate(props) {
 		e.preventDefault();
 
 		console.log(tags);
-		var localStatus = status;
 
-		// if more than 5 tags are selected, display error message
-		if (tags.length > 5) {
-			setStatus(statusCode.TOO_MANY_TAGS);
-			localStatus = statusCode.TOO_MANY_TAGS;
-			// don't post data
-			return;
-		} else {
-			setStatus(statusCode.SUCCESS);
-			localStatus = statusCode.SUCCESS;
-		}
+		var localStatus = status;
 
 		// contact details
 		var userData = {
@@ -139,8 +128,7 @@ function ContactUpdate(props) {
 				console.log(error);
 			});
 	};
-	const businessColor = "orange";
-	const personalColor = "yellow";
+	const cadetBlue = "rgba(58, 119, 107, 0.9)";
 
 	return (
 		// Contents of the page, each seperated by a div
@@ -214,7 +202,7 @@ function ContactUpdate(props) {
 					>
 						<FormControlLabel
 							value="business"
-							control={<Radio style={{ color: businessColor }} />}
+							control={<Radio style={{ color: cadetBlue }} />}
 							label={
 								<span style={{ fontSize: "22px" }}>
 									Business
@@ -225,7 +213,7 @@ function ContactUpdate(props) {
 						/>
 						<FormControlLabel
 							value="personal"
-							control={<Radio style={{ color: personalColor }} />}
+							control={<Radio style={{ color: cadetBlue }} />}
 							label={
 								<span style={{ fontSize: "22px" }}>
 									Personal
@@ -242,7 +230,15 @@ function ContactUpdate(props) {
 						/>
 					)}
 					<div>
-						<label htmlFor="photo" style={{ fontSize: "15px" }}>
+						<label
+							htmlFor="photo"
+							style={{
+								fontSize: "22px",
+								fontWeight: "bold",
+								width: "9rem",
+								marginLeft: "2rem",
+							}}
+						>
 							Upload Photo
 						</label>
 						<input
@@ -250,13 +246,16 @@ function ContactUpdate(props) {
 							onClick={handleDialog}
 							onChange={fileSelectedHandler}
 							accept="image/*"
+							style={{
+								background: cadetBlue,
+								color: "#EEE",
+							}}
 						/>
 					</div>
 
 					<Dialog open={dialogOpen} onClose={handleDialog} fullWidth>
 						<DialogTitle>Crop Image</DialogTitle>
 						<DialogContent>
-							<button>Confirm</button>
 							<StyledCropper
 								img={preview}
 								callBack={handleCallBack}
@@ -278,23 +277,8 @@ function ContactUpdate(props) {
 							</h1>
 							<div className="contact-popup-button">
 								<button
-									className=""
+                  style={{ marginLeft: "-3rem" }}
 									onClick={() => {
-										// onclick toggles popup and updates info
-										// togglePopup();
-										// setInfo({
-										//     addContact: false,
-										//     editContact: false,
-										//     _id: _id,
-										//     firstName: firstName,
-										//     lastName: lastName,
-										//     category: category,
-										//     notes: notes,
-										//     phone: phone,
-										//     email: email,
-										//     photo: photo,
-										//     tags: tags
-										// });
 										// REFRESH PAGE
 										window.location.reload(false);
 									}}
@@ -372,8 +356,6 @@ function ContactUpdate(props) {
 						</Select>
 					</FormControl>
 				</Box>
-				{/* error message for too many tags */}
-				<ErrorMessage statusCode={status} />
 			</div>
 		</article>
 	);

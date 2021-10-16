@@ -18,7 +18,6 @@ import {
 	DialogContent,
 } from "@material-ui/core";
 import { useGlobalState } from "state-pool";
-import ErrorMessage from "./ErrorMessage";
 import defaultUser from "../../images/default-user.png";
 import StyledCropper from "./crop/CropperEz";
 // ContactCreation is a child component of Contact()
@@ -92,18 +91,7 @@ function ContactCreation() {
 
 		console.log("tags: ", tags);
 		var localStatus = status;
-
-		// if more than 5 tags are selected, display error message
-		if (tags.length > 5) {
-			setStatus(statusCode.TOO_MANY_TAGS);
-			localStatus = statusCode.TOO_MANY_TAGS;
-			// don't post data
-			return;
-		} else {
-			setStatus(statusCode.SUCCESS);
-			localStatus = statusCode.SUCCESS;
-		}
-
+    
 		// contact details
 		var contactData = {
 			firstName: firstName,
@@ -130,12 +118,10 @@ function ContactCreation() {
 			})
 			.catch((error) => {
 				console.log(error);
-			});
+			});		
 	};
-
 	// color constants used in styles
-	const businessColor = "orange";
-	const personalColor = "yellow";
+	const cadetBlue = "rgba(58, 119, 107, 0.9)";
 
 	return (
 		// Contents of the page, each seperated by a div. each div contains a label and a
@@ -211,32 +197,54 @@ function ContactCreation() {
 					>
 						<FormControlLabel
 							value="business"
-							control={<Radio style={{ color: businessColor }} />}
+							control={
+								<Radio
+									style={{
+										color: cadetBlue,
+									}}
+								/>
+							}
 							label={
-								<span style={{ fontSize: "22px" }}>
+								<span
+									style={{
+										fontSize: "22px",
+										fontWeight: "bold",
+										fontFamily: "Oswald, sans-serif",
+									}}
+								>
 									Business
 								</span>
 							}
-							style={{ fontSize: "22px" }}
 							// default to business unless changed
 						/>
 						<FormControlLabel
 							value="personal"
-							control={<Radio style={{ color: personalColor }} />}
+							control={<Radio style={{ color: cadetBlue }} />}
 							// label="Personal"
 							label={
-								<span style={{ fontSize: "22px" }}>
+								<span
+									style={{
+										fontSize: "22px",
+										fontWeight: "bold",
+										fontFamily: "Oswald, sans-serif",
+									}}
+								>
 									Personal
 								</span>
 							}
 						/>
 					</RadioGroup>
 					{/* div for photo upload */}
-					{photo != null && (
-						<img src={URL.createObjectURL(photo)} alt="" />
-					)}
 					<div>
-						<label htmlFor="photo" style={{ fontSize: "15px" }}>
+						<label
+							htmlFor="photo"
+							style={{
+								fontSize: "22px",
+								fontWeight: "bold",
+								width: "9rem",
+								marginLeft: "2rem",
+							}}
+						>
 							Upload Photo
 						</label>
 						<input
@@ -244,13 +252,16 @@ function ContactCreation() {
 							onClick={handleDialog}
 							onChange={fileSelectedHandler}
 							accept="image/*"
+							style={{
+								background: cadetBlue,
+								color: "#EEE",
+							}}
 						/>
 					</div>
 
 					<Dialog open={dialogOpen} onClose={handleDialog} fullWidth>
 						<DialogTitle>Crop Image</DialogTitle>
 						<DialogContent>
-							<button>Confirm</button>
 							<StyledCropper
 								img={preview}
 								callBack={handleCallBack}
@@ -293,13 +304,31 @@ function ContactCreation() {
 				}}
 			>
 				{/* select menu for tags */}
-				<Box sx={{ minWidth: "100%", maxWidth: "100%" }}>
+				<Box
+					sx={{
+						minWidth: "100%",
+						maxWidth: "100%",
+					}}
+				>
 					<FormControl fullWidth>
-						<InputLabel id="multiple-chip-label">Tags</InputLabel>
+						<InputLabel
+							id="multiple-chip-label"
+							style={{
+								color: "#52410f",
+								padding: "0rem 0.8rem",
+								// fontFamily: "Oswald, sans-serif",
+								fontWeight: "bold",
+							}}
+						>
+							Tags
+						</InputLabel>
 						<Select
 							labelId="multiple-chip-label"
 							id="multiple-chip"
 							multiple
+							style={{
+								border: "1px solid #52410f",
+							}}
 							value={tagNames}
 							onChange={handleChange}
 							input={
@@ -349,8 +378,18 @@ function ContactCreation() {
 						</Select>
 					</FormControl>
 				</Box>
-				{/* error message for too many tags */}
-				<ErrorMessage statusCode={status} />
+				{/* cropped photo display */}
+				{photo != null && (
+					<img
+						style={{
+							marginTop: "5rem",
+							border: "3px solid #52410f",
+							borderRadius: "6px",
+						}}
+						src={URL.createObjectURL(photo)}
+						alt=""
+					/>
+				)}
 			</div>
 		</article>
 	);

@@ -69,10 +69,23 @@ function Signup() {
 
 	return (
 		// Contents of the page, each seperated by a div
-		<article className="articleSignup">
-			<h1 className="header">Sign Up</h1>
+		<div style={{ display: "flex", height: "100vh", background: "beige" }}>
+			{/* <img
+                src={duckrollLogo}
+                alt="logo"
+                style={{
+                    maxHeight: "10rem",
+                    maxWidth: "15rem",
+                }}
+            /> */}
+			{/* <h1 className="header">Sign Up</h1> */}
 			{/* form div containing all of the required fields */}
-			<form className="form" action="" onSubmit={handleSubmit}>
+			<form
+				className="form"
+				style={{ marginTop: "7%" }}
+				action=""
+				onSubmit={handleSubmit}
+			>
 				<div className="form-control">
 					<label htmlFor="firstName">First name:* </label>
 					<input
@@ -171,7 +184,7 @@ function Signup() {
 					}
 				/>
 			)}
-		</article>
+		</div>
 	);
 }
 

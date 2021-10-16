@@ -18,9 +18,9 @@ import { useGlobalState } from "state-pool";
 
 //import { tableData } from "./data";
 import Tag from "./Tags";
-import TagCreator from "./TagCreator";
 
 function ContactsTable() {
+
 	//const [info, setInfo] = useGlobalState("contactInfo");
 
 	const [tableDataCpy, setTableDataCpy] = useGlobalState("userContacts");
@@ -45,10 +45,10 @@ function ContactsTable() {
 	// access the global variable contactInfo
 	// eslint-disable-next-line
 	const [info, setInfo] = useGlobalState("contactInfo");
-
 	// access the global variable contactInfo
 	// eslint-disable-next-line
 	const [userTags] = useGlobalState("userTags");
+	const [openAccount, setOpenAccount] = useGlobalState("openAccountSettings");
 
 	// useState for selected tag to filter on
 	const [tagName, setTagName] = useState("");
@@ -86,8 +86,9 @@ function ContactsTable() {
 			// width: "200%",
 			// for troubleshooting column width
 			cellStyle: {
-				backgroundColor: "#039be5",
-				color: "#FFF",
+				// backgroundColor: "#039be5",
+				color: "rgba(0,0,0,0.75)",
+				fontSize: "19px",
 			},
 			/*render a div in each cell so that name and tags can be displayed in one cell*/
 			render: (filteredData) => {
@@ -113,15 +114,25 @@ function ContactsTable() {
 		{
 			title: "Category",
 			field: "category",
+			cellStyle: {
+				// backgroundColor: "#039be5",
+				color: "rgba(0,0,0,0.75)",
+				fontWeight: "bold",
+				fontSize: "17px",
+				letterSpacing: "1px",
+			},
 			width: "5%",
 			hidden: false,
 		},
 	];
 	// color constants used in styles
-	const iconColor = "#83498A";
-	const businessColor = "orange";
-	const personalColor = "yellow";
+	const iconColor = "rgba(58, 119, 107, 0.9)";
+	const businessColor = "#9F684A";
+	const personalColor = "#83498A";
 	const whiteColor = "white";
+	// const cadetBlue = "#52a594ea";
+	// const cadetDarkBlue = "#3a776b";
+	// const iconColor = "#83498A";
 
 	// update the selected contact information in a global variable
 	const updateSelectedContact = (
@@ -176,6 +187,8 @@ function ContactsTable() {
 								category: "",
 							});
 							setSelectedRow(null);
+							// don't want to display account info
+							setOpenAccount(false);
 						},
 					},
 				]}
@@ -194,20 +207,8 @@ function ContactsTable() {
 						selectedRow._id,
 						selectedRow.tags
 					);
-				}}
-				// Option for deleting rows/contacts
-				editable={{
-					onRowDelete: (oldData) =>
-						new Promise((resolve, reject) => {
-							setTimeout(() => {
-								const dataDelete = [...filteredData];
-								const index = oldData.tableData.id;
-								dataDelete.splice(index, 1);
-								setFilteredData([...dataDelete]);
-								setTableDataCpy([...dataDelete]);
-								resolve();
-							}, 1000);
-						}),
+          // don't want to display account info
+          setOpenAccount(false);
 				}}
 				// Customizable styling for delete message
 				localization={{
@@ -235,20 +236,22 @@ function ContactsTable() {
 					headerStyle: {
 						position: "sticky",
 						top: 0,
-						backgroundColor: "#01579b",
+						// backgroundColor: "#5AC161",
+						backgroundColor: "rgba(104, 172, 111,1)",
 						color: whiteColor,
 						min_height: "5vh",
+						fontFamily: "Oswald, sans-serif",
+						fontSize: "17px",
+						fontWeight: "bold",
+						letterSpacing: "2px",
 					},
 					// styling for search bar
 					searchFieldStyle: {
-						color: whiteColor,
+						marginLeft: "-3rem",
+						color: "rgba(0,0,0,0.8)",
 					},
 					paging: false,
 					maxBodyHeight: "85vh",
-					// fixedColumns: {
-					// 	left: 2,
-					// 	right: 0,
-					// },
 					// stylings for each individual row
 					rowStyle: (rowData) => {
 						if (selectedRow != null) {
@@ -257,14 +260,18 @@ function ContactsTable() {
 								backgroundColor:
 									selectedRow.tableData.id ===
 									rowData.tableData.id
-										? "#e6e6e6"
-										: whiteColor,
-								border: "2px solid black",
+										? "rgba(201, 192, 192, 0.87)"
+										: "rgba(231, 223, 223, 0.87)",
+								border: "2px solid hsla(159, 30%, 27%, 0.753)",
+								borderLeft: "none",
+								borderTop: "none",
 							};
 						}
 						return {
-							backgroundColor: whiteColor,
-							border: "2px solid black",
+							backgroundColor: "rgba(231, 223, 223, 0.87)",
+							border: "2px solid hsla(159, 30%, 27%, 0.753)",
+							borderLeft: "none",
+							borderTop: "none",
 						};
 					},
 				}}
@@ -274,13 +281,6 @@ function ContactsTable() {
 						<div className="toolbar">
 							<div className="search">
 								<MTableToolbar {...props} />
-								{/* Color Pallet */}
-								{/* <ColorPicker
-									color={color}
-									opacity={opacity}
-									bg={bg}
-									callBack={handleCallBack}
-								/> */}
 								<div
 									style={{
 										width: "100%",
@@ -297,7 +297,12 @@ function ContactsTable() {
 										<FormControl fullWidth>
 											<InputLabel
 												id="select-label"
-												style={{ color: whiteColor }}
+												style={{
+													color: "rgba(82, 65, 15, 0.8)",
+													padding: "0rem 0.8rem",
+													// fontFamily: "Oswald, sans-serif",
+													fontWeight: "bold",
+												}}
 											>
 												Tags
 											</InputLabel>
@@ -307,6 +312,9 @@ function ContactsTable() {
 												value={tagNames}
 												label="Tag"
 												multiple
+												style={{
+													border: "1px solid rgba(82, 65, 15, 0.8)",
+												}}
 												onChange={(e) => {
 													console.log(e.target.value);
 													if (
@@ -372,8 +380,6 @@ function ContactsTable() {
 													},
 												}}
 											>
-												{/* create contact button brings up a popup */}
-												<TagCreator />
 												{/* iterate over userTags and add them to list */}
 												{userTags.map((data) => {
 													return (
@@ -408,7 +414,20 @@ function ContactsTable() {
 												style={{ color: iconColor }}
 											/>
 										}
-										label="Business"
+										label={
+											<span
+												style={{
+													fontSize: "20px",
+													fontWeight: "bold",
+													fontFamily:
+														"Oswald, sans-serif",
+													color: businessColor,
+													letterSpacing: "1px",
+												}}
+											>
+												Business
+											</span>
+										}
 										// color of first label
 										style={{ color: businessColor }}
 									/>
@@ -419,12 +438,25 @@ function ContactsTable() {
 												style={{ color: iconColor }}
 											/>
 										}
-										label="Personal"
-										style={{ color: personalColor }}
+										label={
+											<span
+												style={{
+													fontSize: "20px",
+													fontWeight: "bold",
+													fontFamily:
+														"Oswald, sans-serif",
+													color: personalColor,
+													letterSpacing: "1px",
+												}}
+											>
+												Personal
+											</span>
+										}
 									/>
 								</RadioGroup>
 								{/* button to reset toolbar filters */}
 								<button
+									className="toolbar-button"
 									onClick={() => {
 										setTagName("");
 										setTagNames([]);

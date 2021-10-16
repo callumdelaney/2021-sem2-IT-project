@@ -5,6 +5,8 @@ import Contact from "./components/Contact";
 import UserInfo from "./components/UserInfo";
 import { store, useGlobalState } from "state-pool";
 //import { userTags } from "./components/data";
+import AccountSettings from "./components/AccountSettings";
+
 
 // declare a global state variable, contactInfo, with an initial "unselected" state
 store.setState("contactInfo", { firstName: -1, tags: [] });
@@ -13,6 +15,8 @@ store.setState("contactInfo", { firstName: -1, tags: [] });
 store.setState("userTags", []);
 
 store.setState("userContacts", []);
+
+store.setState("openAccountSettings", false);
 
 /*Contacts page main function*/
 function Contacts() {
@@ -49,6 +53,7 @@ function Contacts() {
 		// eslint-disable-next-line
 	}, []);
 
+	const [openAccount] = useGlobalState("openAccountSettings");
 	return (
 		<>
 			<div className="flex-container">
@@ -60,7 +65,7 @@ function Contacts() {
 					{/* div displaying user information */}
 					<UserInfo />
 					{/* component displaying contact-info */}
-					<Contact />
+					{openAccount ? <AccountSettings /> : <Contact />}
 				</div>
 			</div>
 		</>

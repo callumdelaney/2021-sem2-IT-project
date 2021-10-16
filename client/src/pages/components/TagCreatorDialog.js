@@ -28,12 +28,9 @@ function TagCreatorDialog(props) {
 		setColor(color);
 		setOpacity(opacity);
 		setHsl(hsl);
-		console.log(hsl);
-		console.log(color);
-		console.log(opacity);
 	};
 
-	const formatHsl = (hslObj) => {
+	const formatHsl = () => {
 		var h = hsl.h.toString();
 		var s = (hsl.s * 100).toString();
 		var l = (hsl.l * 100).toString();
@@ -81,7 +78,7 @@ function TagCreatorDialog(props) {
 				console.log(error);
 			});
 	};
-
+  
 	if (refresh) {
 		// REFRESH PAGE
 		window.location.reload(false);
@@ -94,6 +91,7 @@ function TagCreatorDialog(props) {
 					color={color}
 					opacity={opacity}
 					hsl={hsl}
+					tagName={tagName}
 					callBack={handleCallBack}
 				/>
 				<div
@@ -109,7 +107,6 @@ function TagCreatorDialog(props) {
 						value={tagName}
 						onChange={(e) => setTagName(e.target.value)}
 					></TextField>
-
 					<button
 						style={{
 							width: "20%",
