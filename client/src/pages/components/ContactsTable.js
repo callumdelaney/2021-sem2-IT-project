@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { tableData } from "./data";
 import MaterialTable from "material-table";
 import { MTableToolbar } from "material-table";
 import {
@@ -16,19 +15,39 @@ import {
 } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useGlobalState } from "state-pool";
+
+//import { tableData } from "./data";
 import Tag from "./Tags";
 
 function ContactsTable() {
-	const [category, setCategory] = useState("");
-	const [tableDataCpy] = useState(tableData);
-	const [filteredData, setFilteredData] = useState(tableData);
-	const [selectedRow, setSelectedRow] = useState(null);
 
+	//const [info, setInfo] = useGlobalState("contactInfo");
+
+	const [tableDataCpy, setTableDataCpy] = useGlobalState("userContacts");
+	const [filteredData, setFilteredData] = useState([]);
+
+	useEffect(() => {
+		fetch("/api/get-contacts")
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(data);
+				setTableDataCpy(data.contacts);
+				setFilteredData(data.contacts);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+		// eslint-disable-next-line
+	}, []);
+
+	const [category, setCategory] = useState("");
+	const [selectedRow, setSelectedRow] = useState(null);
 	// access the global variable contactInfo
 	// eslint-disable-next-line
 	const [info, setInfo] = useGlobalState("contactInfo");
-	const [userTags] = useGlobalState("userTags");
+	// access the global variable contactInfo
 	// eslint-disable-next-line
+	const [userTags] = useGlobalState("userTags");
 	const [openAccount, setOpenAccount] = useGlobalState("openAccountSettings");
 
 	// useState for selected tag to filter on
@@ -135,10 +154,10 @@ function ContactsTable() {
 			lastName: lstName,
 			category: cat,
 			notes: notes,
-			phoneNumber: phoneNumber,
+			phone: phoneNumber,
 			email: email,
 			photo: photo,
-			id: id,
+			_id: id,
 			tags: tgs,
 		});
 	};
@@ -182,29 +201,15 @@ function ContactsTable() {
 						selectedRow.lastName,
 						selectedRow.category,
 						selectedRow.notes,
-						selectedRow.phoneNumber,
+						selectedRow.phone,
 						selectedRow.email,
 						selectedRow.photo,
-						selectedRow.id,
+						selectedRow._id,
 						selectedRow.tags
 					);
-					// don't want to display account info
-					setOpenAccount(false);
+          // don't want to display account info
+          setOpenAccount(false);
 				}}
-				// // Option for deleting rows/contacts
-				// editable={{
-				// 	onRowDelete: (oldData) =>
-				// 		new Promise((resolve, reject) => {
-				// 			setTimeout(() => {
-				// 				const dataDelete = [...filteredData];
-				// 				const index = oldData.tableData.id;
-				// 				dataDelete.splice(index, 1);
-				// 				setFilteredData([...dataDelete]);
-				// 				setTableDataCpy([...dataDelete]);
-				// 				resolve();
-				// 			}, 1000);
-				// 		}),
-				// }}
 				// Customizable styling for delete message
 				localization={{
 					body: {
@@ -247,7 +252,6 @@ function ContactsTable() {
 					},
 					paging: false,
 					maxBodyHeight: "85vh",
-
 					// stylings for each individual row
 					rowStyle: (rowData) => {
 						if (selectedRow != null) {
@@ -317,7 +321,6 @@ function ContactsTable() {
 														Array.isArray(
 															e.target.value
 														) &&
-														// this condition shouldn't be necessary anymore
 														e.target.value[
 															e.target.value
 																.length - 1

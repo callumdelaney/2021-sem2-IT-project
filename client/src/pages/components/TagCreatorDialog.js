@@ -28,9 +28,6 @@ function TagCreatorDialog(props) {
 		setColor(color);
 		setOpacity(opacity);
 		setHsl(hsl);
-		// console.log(hsl);
-		// console.log(color);
-		// console.log(opacity);
 	};
 
 	const formatHsl = () => {
@@ -68,22 +65,22 @@ function TagCreatorDialog(props) {
 				console.log(response.data);
 				// check if data was saved successfully
 				localStatus = response.data.status;
+				if (localStatus === statusCode.SUCCESS) {
+					setRefresh(true);
+				} else {
+					console.log("tag was not created successfully");
+					setRefresh(false);
+					props.callBack();
+					// onClose();
+				}
 			})
 			.catch((error) => {
 				console.log(error);
 			});
-
-		if (localStatus === statusCode.SUCCESS) {
-			setRefresh(true);
-		} else {
-			console.log("tag was not created successfully");
-			setRefresh(false);
-			props.callBack();
-			// onClose();
-		}
 	};
-
+  
 	if (refresh) {
+		// REFRESH PAGE
 		window.location.reload(false);
 	}
 	return (
@@ -110,7 +107,6 @@ function TagCreatorDialog(props) {
 						value={tagName}
 						onChange={(e) => setTagName(e.target.value)}
 					></TextField>
-
 					<button
 						style={{
 							width: "20%",

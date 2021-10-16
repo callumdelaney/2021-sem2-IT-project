@@ -43,7 +43,7 @@ function UserInfo() {
                     </button>
                     <TagCreator />
                 </div>
-                <h4>{userInfo.email}</h4>
+                <h4>{userInfo.username}</h4>
             </div>
         </>
     );

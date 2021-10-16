@@ -34,7 +34,7 @@ function ContactCreation() {
 	const [preview, setPreview] = useState(defaultUser);
 
 	// eslint-disable-next-line
-	const [tags, setTags] = useState("");
+	const [tags, setTags] = useState([]);
 	// eslint-disable-next-line
 	const [status, setStatus] = useState(statusCode.SUCCESS);
 	const [userTags] = useGlobalState("userTags");
@@ -86,22 +86,12 @@ function ContactCreation() {
 	};
 
 	const handleSubmit = (e) => {
+		// default action refreshes page
 		e.preventDefault();
 
-		console.log(tags);
+		console.log("tags: ", tags);
 		var localStatus = status;
-
-		// // if more than 5 tags are selected, display error message
-		// if (tags.length > 5) {
-		// 	setStatus(statusCode.TOO_MANY_TAGS);
-		// 	localStatus = statusCode.TOO_MANY_TAGS;
-		// 	// don't post data
-		// 	return;
-		// } else {
-		// 	setStatus(statusCode.SUCCESS);
-		// 	localStatus = statusCode.SUCCESS;
-		// }
-
+    
 		// contact details
 		var contactData = {
 			firstName: firstName,
@@ -119,17 +109,17 @@ function ContactCreation() {
 			.post("/api/add-contact", contactData)
 			.then((response) => {
 				console.log(response.data);
+				// since status won't change until the end of this function, need local status
+				// to keep track of the actual value
+				localStatus = response.data.status;
+				if (localStatus === statusCode.SUCCESS) {
+					togglePopup();
+				}
 			})
 			.catch((error) => {
 				console.log(error);
-			});
-		// since status won't change until the end of this function, need local status
-		// to keep track of the actual value
-		if (localStatus === statusCode.SUCCESS) {
-			togglePopup();
-		}
+			});		
 	};
-
 	// color constants used in styles
 	const cadetBlue = "rgba(58, 119, 107, 0.9)";
 
@@ -281,24 +271,30 @@ function ContactCreation() {
 				</div>
 
 				<button type="submit">Save</button>
-				{/* contact saved popup component */}
-				{isOpen && (
-					<Popup
-						content={
-							<>
-								<h1 className="contact-popup-box">
-									Contact Saved!
-								</h1>
-								<div className="contact-popup-button">
-									<button className="" onClick={togglePopup}>
-										Close
-									</button>
-								</div>
-							</>
-						}
-					/>
-				)}
 			</form>
+			{/* contact saved popup component */}
+			{isOpen && (
+				<Popup
+					content={
+						<>
+							<h1 className="contact-popup-box">
+								Contact Saved!
+							</h1>
+							<div className="contact-popup-button">
+								<button
+									className=""
+									onClick={() => {
+										// REFRESH PAGE
+										window.location.reload(false);
+									}}
+								>
+									Close
+								</button>
+							</div>
+						</>
+					}
+				/>
+			)}
 			{/* div for tag selection */}
 			<div
 				style={{
@@ -382,8 +378,6 @@ function ContactCreation() {
 						</Select>
 					</FormControl>
 				</Box>
-				{/* error message for too many tags */}
-				{/* <ErrorMessage statusCode={status} /> */}
 				{/* cropped photo display */}
 				{photo != null && (
 					<img

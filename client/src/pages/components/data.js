@@ -1,3 +1,7 @@
+//Eimport {getAllContacts} from "../../api";
+
+//var tableData = getAllContacts();
+
 const tableData = [
 	{
 		id: "1",

@@ -26,10 +26,11 @@ function ContactUpdate(props) {
 	// set state variables (default to contact details)
 	// eslint-disable-next-line
 	const [info, setInfo] = useGlobalState("contactInfo");
+	const [_id] = useState(props._id);
 	const [firstName, setFirstName] = useState(props.firstName);
 	const [lastName, setLastName] = useState(props.lastName);
 	const [email, setEmail] = useState(props.email);
-	const [phoneNumber, setPhoneNumber] = useState(props.phoneNumber);
+	const [phone, setPhone] = useState(props.phone);
 	const [category, setCategory] = useState(props.category);
 	const [notes, setNotes] = useState(props.notes);
 	// eslint-disable-next-line
@@ -98,28 +99,18 @@ function ContactUpdate(props) {
 		e.preventDefault();
 
 		console.log(tags);
-		var localStatus = statusCode.SUCCESS;
-		console.log(status);
-		console.log(statusCode.SUCCESS);
 
-		// if more than 5 tags are selected, display error message
-		// if (tags.length > 5) {
-		//     setStatus(statusCode.TOO_MANY_TAGS);
-		//     localStatus = statusCode.TOO_MANY_TAGS;
-		//     // don't post data
-		//     return;
-		// } else {
-		//     setStatus(statusCode.SUCCESS);
-		//     localStatus = statusCode.SUCCESS;
-		// }
+		var localStatus = status;
 
 		// contact details
 		var userData = {
+			_id: _id,
 			firstName: firstName,
 			lastName: lastName,
 			email: email,
 			category: category,
-			phoneNumber: phoneNumber,
+			phone: phone,
+			tags: tags,
 			notes: notes,
 		};
 		// use axios to post user data to back end for processing, use
@@ -128,15 +119,14 @@ function ContactUpdate(props) {
 			.post("/api/update-contact", userData)
 			.then((response) => {
 				console.log(response.data);
+				localStatus = response.data.status;
+				if (localStatus === statusCode.SUCCESS) {
+					togglePopup();
+				}
 			})
 			.catch((error) => {
 				console.log(error);
 			});
-		// since status won't change until the end of this function, need local status
-		// to keep track of the actual value
-		if (localStatus === statusCode.SUCCESS) {
-			togglePopup();
-		}
 	};
 	const cadetBlue = "rgba(58, 119, 107, 0.9)";
 
@@ -184,8 +174,8 @@ function ContactUpdate(props) {
 						type="number"
 						id="phone"
 						name="phone"
-						value={phoneNumber}
-						onChange={(e) => setPhoneNumber(e.target.value)}
+						value={phone}
+						onChange={(e) => setPhone(e.target.value)}
 					/>
 				</div>
 				<div className="contact-form-control">
@@ -276,42 +266,30 @@ function ContactUpdate(props) {
 
 				{/* changes contact info onClick */}
 				<button type="submit">Save</button>
-				{/* contact saved popup component */}
-				{isOpen && (
-					<Popup
-						content={
-							<>
-								<h1 className="contact-popup-box">
-									Contact Updated Successfully!
-								</h1>
-								<div className="contact-popup-button">
-									<button
-										style={{ marginLeft: "-3rem" }}
-										onClick={() => {
-											// onclick toggles popup and updates info
-											togglePopup();
-											setInfo({
-												addContact: false,
-												editContact: false,
-												firstName: firstName,
-												lastName: lastName,
-												category: category,
-												notes: notes,
-												phoneNumber: phoneNumber,
-												email: email,
-												photo: photo,
-												tags: tags,
-											});
-										}}
-									>
-										Close
-									</button>
-								</div>
-							</>
-						}
-					/>
-				)}
 			</form>
+			{/* contact saved popup component */}
+			{isOpen && (
+				<Popup
+					content={
+						<>
+							<h1 className="contact-popup-box">
+								Contact Updated Successfully!
+							</h1>
+							<div className="contact-popup-button">
+								<button
+                  style={{ marginLeft: "-3rem" }}
+									onClick={() => {
+										// REFRESH PAGE
+										window.location.reload(false);
+									}}
+								>
+									Close
+								</button>
+							</div>
+						</>
+					}
+				/>
+			)}
 			{/* div for tag selection */}
 			<div
 				style={{
@@ -378,8 +356,6 @@ function ContactUpdate(props) {
 						</Select>
 					</FormControl>
 				</Box>
-				{/* error message for too many tags */}
-				{/* <ErrorMessage statusCode={status} /> */}
 			</div>
 		</article>
 	);

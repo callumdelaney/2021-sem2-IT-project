@@ -3,6 +3,7 @@ import ContactCreation from "./ContactCreation";
 import { useGlobalState } from "state-pool";
 import ContactUpdate from "./ContactUpdate";
 import Tag from "./Tags";
+import axios from "axios";
 import ContactPhoneIcon from "@material-ui/icons/ContactPhone";
 import { Paper, makeStyles } from "@material-ui/core";
 import defaultUser from "../../images/default-user.png";
@@ -10,10 +11,66 @@ import EmailIcon from "@material-ui/icons/Email";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import NotesIcon from "@material-ui/icons/Notes";
+
 // contact-info content
 function Contact() {
-    const [info, setInfo] = useGlobalState("contactInfo");
+	const [info, setInfo] = useGlobalState("contactInfo");
 
+	// function for handling the click of edit button
+	const handleEditClick = () => {
+		setInfo({
+			addContact: false,
+			editContact: true,
+			firstName: info.firstName,
+			lastName: info.lastName,
+			category: info.category,
+			notes: info.notes,
+			phone: info.phone,
+			email: info.email,
+			photo: info.photo,
+			_id: info._id,
+			tags: info.tags,
+		});
+	};
+	// function for handling delete contact button
+	const handleDeleteClick = (contact_id) => {
+		console.log("delete");
+		console.log(contact_id);
+		console.log(info._id);
+
+		var toDelete = {
+			_id: contact_id,
+		};
+		axios
+			.post("/api/delete-contact", toDelete)
+			.then((response) => {
+				console.log(response.data);
+				// REFRESH PAGE
+				window.location.reload(false);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+	// display contact creation area if no contact is selected or user presses add contact button
+	if (info.firstName === -1 || info.addContact) {
+		return <ContactCreation />;
+	}
+	if (info.editContact) {
+		return (
+			<ContactUpdate
+				firstName={info.firstName}
+				lastName={info.lastName}
+				category={info.category}
+				notes={info.notes}
+				phone={info.phone}
+				email={info.email}
+				photo={info.photo}
+				_id={info._id}
+				tags={info.tags}
+			/>
+		);
+	}
     const useStyles = makeStyles((theme) => ({
         paperStyle: {
             margin: theme.spacing(1),
@@ -28,52 +85,7 @@ function Contact() {
         },
     }));
     const classes = useStyles();
-
-    useEffect(() => {
-        // console.log(info.firstName);
-        // console.log(info.tags);
-    }, [info]);
-    // function for handling the click of edit button
-    const handleEditClick = () => {
-        setInfo({
-            addContact: false,
-            editContact: true,
-            firstName: info.firstName,
-            lastName: info.lastName,
-            category: info.category,
-            notes: info.notes,
-            phoneNumber: info.phoneNumber,
-            email: info.email,
-            photo: info.photo,
-            id: info.id,
-            tags: info.tags,
-        });
-    };
-    // function for handling delete contact button
-    const handleDeleteClick = () => {
-        console.log("delete");
-    };
-    // display contact creation area if no contact is selected or user presses add contact button
-    if (info.firstName === -1 || info.addContact) {
-        return <ContactCreation />;
-    }
-    if (info.editContact) {
-        return (
-            <ContactUpdate
-                firstName={info.firstName}
-                lastName={info.lastName}
-                category={info.category}
-                notes={info.notes}
-                phoneNumber={info.phoneNumber}
-                email={info.email}
-                photo={info.photo}
-                id={info.id}
-                tags={info.tags}
-            />
-        );
-    }
-    console.log(info.firstName);
-    console.log(info.tags);
+   
     // main contact info area
     return (
         <div className="contact-info">
