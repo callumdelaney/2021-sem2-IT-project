@@ -84,6 +84,7 @@ const getTags = async (req, res) => {
 			status: status.SUCCESS,
 			tags: tags
 		});
+		console.log(tags)
 	} catch (err) {
 		return res.send({ status: status.FAILURE })
 	}
@@ -130,8 +131,11 @@ const addNewContact = async (req, res) => {
 			photo: req.body.photo,
 			notes: req.body.notes,
 			user_id: req.session.passport.user,
+			tags: req.body.tags
 
 		})
+		console.log(req.body)
+
 		new Contact(newContact).save()
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
@@ -159,6 +163,7 @@ const editContact = async (req, res) => {
 			tags: req.body.tags,
 			notes: req.body.notes
 		})
+		console.log(req.body)
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
 		console.log(err);
@@ -248,7 +253,8 @@ const deleteContact = async (req, res) => {
 			"_id": req.body._id,
 			"user_id": req.session.passport.user,
 		})
-		res.send({ status: status.SUCCESS })
+		console.log(req.body)
+		res.send({ status: status.SUCCESS, msg: "contact deleted" })
 	} catch (err) {
 		res.send({ status: status.FAILURE });
 	}
@@ -391,12 +397,30 @@ const changeLastName = async (req, res) => {
 
 const changeEmail = async (req, res) => {
 	try {
-		await User.findOneAndUpdate({
-			user_id: req.session.passport.user
-		}, {
-			username: req.body.username
+		await User.findOneAndUpdate(
+			{
+				username: req.user.username,
+			},
+			{
+				email: req.body.email,
+			}
+		);
+		res.send({ status: status.SUCCESS });
+	} catch (err) {
+		res.send({ status: status.FAILURE });
+	}
+};
+
+const getUserDetails = async (req, res) => {
+	
+	try {
+		let user = await User.findOne({
+			username: req.user.username,
 		})
-		res.send({status: status.SUCCESS})
+		res.send({
+			status: status.SUCCESS,
+			user: user
+		});
 	} catch (err) {
 		res.send({ status: status.FAILURE });
 	}
@@ -446,6 +470,8 @@ const addNewTag = async (req, res) => {
 			tagColour: req.body.tagColour,
 		})
 		new Tag(newTag).save()
+		console.log("creating new tag")
+		console.log(req.body)
 		res.send({ status: status.SUCCESS })
 	} catch (err) {
 		res.send({ status: status.FAILURE })
@@ -539,7 +565,7 @@ module.exports = {
 	getOneContact,
 	addNewContact,
 	editContact,
-  pushContactTag,
+    pushContactTag,
 	deleteContactTag,
 	deleteContact,
 	addNote,
@@ -556,6 +582,7 @@ module.exports = {
 	changeEmail,
 	uploadImage,
 	getImage,
-	changeProfilePic
+	changeProfilePic,
+	getUserDetails
 };
 
