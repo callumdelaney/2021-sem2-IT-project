@@ -17,6 +17,8 @@ store.setState("userContacts", []);
 
 store.setState("openAccountSettings", false);
 
+store.setState("userInfo", {});
+
 /*Contacts page main function*/
 function Contacts() {
 	//get global tags

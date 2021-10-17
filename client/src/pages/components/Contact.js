@@ -93,7 +93,7 @@ function Contact() {
 		<div className="contact-info">
 			{/* contact photo and name */}
 			<div className="contact-info-name">
-				{info.photo != null ? (
+				{info.photo != null || info.photo === "" ? (
 					<Image
 						style={{
 							marginTop: "1rem",
@@ -127,7 +127,7 @@ function Contact() {
 							>
 								<ContactPhoneIcon /> Phone Number:
 							</h2>
-							<h2>{info.phoneNumber}</h2>
+							<h2>{info.phone}</h2>
 						</Paper>
 					</div>
 					<div

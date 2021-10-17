@@ -157,7 +157,7 @@ function ContactsTable() {
 			_id: id,
 			tags: tgs,
 		});
-		console.log(photo);
+		console.log(typeof photo);
 	};
 
 	return (

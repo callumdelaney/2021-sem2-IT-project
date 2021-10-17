@@ -128,6 +128,7 @@ function ContactUpdate(props) {
 
 					// embed another axios call on getting response
 					var contactData = {
+						_id: _id,
 						firstName: firstName,
 						lastName: lastName,
 						email: email,
@@ -155,6 +156,7 @@ function ContactUpdate(props) {
 		} else {
 			// contact details
 			var contactData = {
+				_id: _id,
 				firstName: firstName,
 				lastName: lastName,
 				email: email,
@@ -406,8 +408,16 @@ function ContactUpdate(props) {
 						</Select>
 					</FormControl>
 				</Box>
-				{publicID === null ? (
-					<img src={defaultUser} alt="default" />
+				{publicID === null || publicID === "" ? (
+					<img
+						style={{
+							marginTop: "5rem",
+							border: "3px solid #52410f",
+							borderRadius: "6px",
+						}}
+						src={defaultUser}
+						alt="default"
+					/>
 				) : (
 					<Image
 						style={{

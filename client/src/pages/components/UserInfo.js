@@ -1,29 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { useGlobalState } from "state-pool";
 import ManageAccountsIcon from "@material-ui/icons/AccountCircle";
 import LogoutIcon from "@material-ui/icons/MeetingRoom";
 import TagCreator from "./TagCreator";
 import defaultUser from "../../images/default-user.png";
 import { Image } from "cloudinary-react";
+import { Redirect } from "react-router-dom";
 
 function UserInfo() {
 	const [userInfo] = useGlobalState("userInfo");
 	// eslint-disable-next-line
 	const [openAccount, setOpenAccount] = useGlobalState("openAccountSettings");
+	const [loggedOut, setLoggedOut] = useState(false);
 	const handleProfileClick = () => {
 		setOpenAccount(true);
 	};
 	const handleLogoutClick = () => {
 		console.log("clicked");
 		// hopefully passport will redirect back to login automatically
-		fetch("/api/logout").catch((error) => {
-			console.log(error);
-		});
+		fetch("/api/logout")
+			.then(() => setLoggedOut(true))
+			.catch((error) => {
+				console.log(error);
+			});
 	};
+	if (loggedOut) {
+		return <Redirect to="/login" />;
+	}
 	return (
 		<>
 			<div className="user-info">
-				{userInfo.photo !== null ? (
+				{userInfo.photo !== null && userInfo.photo !== "" ? (
 					<Image cloudName="duckroll" publicId={userInfo.photo} />
 				) : (
 					<img src={defaultUser} alt="default" />

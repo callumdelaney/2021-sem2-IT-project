@@ -84,7 +84,6 @@ const getTags = async (req, res) => {
 			status: status.SUCCESS,
 			tags: tags,
 		});
-		console.log(tags);
 	} catch (err) {
 		return res.send({ status: status.FAILURE });
 	}
@@ -121,7 +120,6 @@ const getOneTag = async (req, res) => {
  * @param {object} res responds with a status code
  */
 const addNewContact = async (req, res) => {
-	console.log(req.body);
 	try {
 		const newContact = await Contact.create({
 			firstName: req.body.firstName,
@@ -134,7 +132,6 @@ const addNewContact = async (req, res) => {
 			user_id: req.session.passport.user,
 			tags: req.body.tags,
 		});
-		console.log(req.body);
 
 		new Contact(newContact).save();
 		res.send({ status: status.SUCCESS });
@@ -154,7 +151,6 @@ const editContact = async (req, res) => {
 		await Contact.findOneAndUpdate(
 			{
 				_id: req.body._id,
-				user_id: req.session.passport.user,
 			},
 			{
 				firstName: req.body.firstName,
@@ -326,10 +322,12 @@ const newUser = async (req, res) => {
 		}
 		const newUser = await User.create({
 			username: req.body.username,
+			phone: req.body.phone,
 			hash: pass.hash,
 			salt: pass.salt,
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
+			photo: "",
 		});
 		res.send({ status: status.SUCCESS });
 		new User(newUser).save();
@@ -363,7 +361,7 @@ const changePassword = async (req, res) => {
 	}
 };
 
-const changeFirstName = async (req, res) => {
+const editProfile = async (req, res) => {
 	try {
 		await User.findOneAndUpdate(
 			{
@@ -371,38 +369,10 @@ const changeFirstName = async (req, res) => {
 			},
 			{
 				firstName: req.body.firstName,
-			}
-		);
-		res.send({ status: status.SUCCESS });
-	} catch (err) {
-		res.send({ status: status.FAILURE });
-	}
-};
-
-const changeLastName = async (req, res) => {
-	try {
-		await User.findOneAndUpdate(
-			{
-				username: req.user.username,
-			},
-			{
 				lastName: req.body.lastName,
-			}
-		);
-		res.send({ status: status.SUCCESS });
-	} catch (err) {
-		res.send({ status: status.FAILURE });
-	}
-};
-
-const changeEmail = async (req, res) => {
-	try {
-		await User.findOneAndUpdate(
-			{
-				username: req.user.username,
-			},
-			{
-				email: req.body.email,
+				username: req.body.username,
+				phone: req.body.phone,
+				photo: req.body.photo,
 			}
 		);
 		res.send({ status: status.SUCCESS });
@@ -515,49 +485,9 @@ const deleteTag = async (req, res) => {
 	}
 };
 
-const uploadImage = async (req, res) => {
-	var obj = {
-		data: fs.readFileSync(
-			path.join(__dirname + "/uploads/" + req.file.filename)
-		),
-		contentType: "image/png",
-	};
-	await Image.create(obj, (err, item) => {
-		if (err) {
-			res.send({ status: status.FAILURE });
-		} else {
-			res.send({ status: status.SUCCESS, image: obj });
-		}
-	});
-};
-
-const changeProfilePic = async (req, res) => {
-	try {
-		await User.findOneAndUpdate(
-			{
-				username: req.user.username,
-			},
-			{
-				photo: req.body.image,
-			}
-		);
-		res.send({ status: status.SUCCESS, image: req.body.image });
-	} catch (err) {
-		res.send({ status: status.FAILURE });
-	}
-};
-
-const getImage = async (req, res) => {
-	await Image.findOne({ _id: req.body._id }, (err, item) => {
-		if (err) {
-			res.send({ status: status.FAILURE });
-		} else {
-			res.send({
-				image: item,
-				status: status.SUCCESS,
-			});
-		}
-	});
+const logout = async (req, res) => {
+	req.logout();
+	res.redirect("/login");
 };
 
 module.exports = {
@@ -579,11 +509,7 @@ module.exports = {
 	editTag,
 	deleteTag,
 	changePassword,
-	changeFirstName,
-	changeLastName,
-	changeEmail,
-	uploadImage,
-	getImage,
-	changeProfilePic,
+	editProfile,
 	getUserDetails,
+	logout,
 };
