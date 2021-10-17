@@ -6,20 +6,27 @@ import TagCreator from "./TagCreator";
 import defaultUser from "../../images/default-user.png";
 import { Image } from "cloudinary-react";
 import { Redirect } from "react-router-dom";
+import quack from "../../audio/quack.mp3";
 
 function UserInfo() {
 	const [userInfo] = useGlobalState("userInfo");
 	// eslint-disable-next-line
 	const [openAccount, setOpenAccount] = useGlobalState("openAccountSettings");
 	const [loggedOut, setLoggedOut] = useState(false);
+	const sound = new Audio(quack);
+
 	const handleProfileClick = () => {
 		setOpenAccount(true);
 	};
 	const handleLogoutClick = () => {
 		console.log("clicked");
+		sound.volume = 0.2;
+		sound.play();
 		// hopefully passport will redirect back to login automatically
 		fetch("/api/logout")
-			.then(() => setLoggedOut(true))
+			.then(() => {
+				setLoggedOut(true);
+			})
 			.catch((error) => {
 				console.log(error);
 			});
