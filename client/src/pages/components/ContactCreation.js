@@ -41,22 +41,6 @@ function ContactCreation() {
 	const [status, setStatus] = useState(statusCode.SUCCESS);
 	const [userTags] = useGlobalState("userTags");
 
-	// NEW
-	const handleUpload = () => {
-		// add functionality to only upload if user has selected & cropped image
-		const formData = new FormData();
-		formData.append("file", photo);
-		console.log(photo);
-		formData.append("upload_preset", "cc16t03g");
-		console.log("sending to cloudinary...");
-		axios
-			.post("https://api.cloudinary.com/v1_1/duckroll/upload", formData)
-			.then((response) => {
-				console.log(response);
-				setPublicID(response.data.public_id);
-			});
-	};
-
 	const fileSelectedHandler = (e) => {
 		console.log(e.target.files[0]);
 		if (e.target.files.length > 0) {
@@ -110,34 +94,81 @@ function ContactCreation() {
 
 		console.log("tags: ", tags);
 		var localStatus = status;
+		var localPhotoId = "";
 
-		// contact details
-		var contactData = {
-			firstName: firstName,
-			lastName: lastName,
-			email: email,
-			category: category,
-			phoneNumber: phoneNumber,
-			notes: notes,
-			photo: photo,
-			tags: tags,
-		};
-		// use axios to post user data to back end for processing, use
-		// response to test for validity
-		axios
-			.post("/api/add-contact", contactData)
-			.then((response) => {
-				console.log(response.data);
-				// since status won't change until the end of this function, need local status
-				// to keep track of the actual value
-				localStatus = response.data.status;
-				if (localStatus === statusCode.SUCCESS) {
-					togglePopup();
-				}
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		// if user has supplied a photo and cropped it successfully, we can post it to cloudinary
+		if (photo != null) {
+			const formData = new FormData();
+			formData.append("file", photo);
+			console.log(photo);
+			formData.append("upload_preset", "cc16t03g");
+			console.log("sending to cloudinary...");
+			axios
+				.post(
+					"https://api.cloudinary.com/v1_1/duckroll/image/upload",
+					formData
+				)
+				.then((response) => {
+					console.log(response);
+					setPublicID(response.data.public_id);
+					localPhotoId = response.data.public_id;
+					console.log(localPhotoId);
+
+					// embed another axios call on getting response
+					var contactData = {
+						firstName: firstName,
+						lastName: lastName,
+						email: email,
+						category: category,
+						phoneNumber: phoneNumber,
+						notes: notes,
+						photo: localPhotoId,
+						tags: tags,
+					};
+					axios
+						.post("/api/add-contact", contactData)
+						.then((response) => {
+							console.log(response.data);
+							// since status won't change until the end of this function, need local status
+							// to keep track of the actual value
+							localStatus = response.data.status;
+							if (localStatus === statusCode.SUCCESS) {
+								togglePopup();
+							}
+						})
+						.catch((error) => {
+							console.log(error);
+						});
+				});
+		} else {
+			// contact details
+			var contactData = {
+				firstName: firstName,
+				lastName: lastName,
+				email: email,
+				category: category,
+				phoneNumber: phoneNumber,
+				notes: notes,
+				photo: localPhotoId,
+				tags: tags,
+			};
+			// use axios to post user data to back end for processing, use
+			// response to test for validity
+			axios
+				.post("/api/add-contact", contactData)
+				.then((response) => {
+					console.log(response.data);
+					// since status won't change until the end of this function, need local status
+					// to keep track of the actual value
+					localStatus = response.data.status;
+					if (localStatus === statusCode.SUCCESS) {
+						togglePopup();
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
 	};
 	// color constants used in styles
 	const cadetBlue = "rgba(58, 119, 107, 0.9)";
@@ -276,7 +307,6 @@ function ContactCreation() {
 								color: "#EEE",
 							}}
 						/>
-						<button onClick={handleUpload}>upload</button>
 					</div>
 
 					<Dialog open={dialogOpen} onClose={handleDialog} fullWidth>
@@ -405,18 +435,14 @@ function ContactCreation() {
 				{publicID === "" ? (
 					<img src={defaultUser} alt="default" />
 				) : (
-					<Image cloudName="duckroll" publicId={publicID} />
-				)}
-				{/* cropped photo display */}
-				{photo != null && (
-					<img
+					<Image
 						style={{
 							marginTop: "5rem",
 							border: "3px solid #52410f",
 							borderRadius: "6px",
 						}}
-						src={URL.createObjectURL(photo)}
-						alt=""
+						cloudName="duckroll"
+						publicId={publicID}
 					/>
 				)}
 			</div>

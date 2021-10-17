@@ -11,10 +11,12 @@ import EmailIcon from "@material-ui/icons/Email";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import NotesIcon from "@material-ui/icons/Notes";
+import { Image } from "cloudinary-react";
 
 // contact-info content
 function Contact() {
 	const [info, setInfo] = useGlobalState("contactInfo");
+	const [publicID, setPublicID] = React.useState(info.photo);
 
 	const useStyles = makeStyles((theme) => ({
 		paperStyle: {
@@ -92,7 +94,15 @@ function Contact() {
 			{/* contact photo and name */}
 			<div className="contact-info-name">
 				{info.photo != null ? (
-					<img src={info.photo} alt="contactPhoto" />
+					<Image
+						style={{
+							marginTop: "1rem",
+							border: "3px solid #52410f",
+							borderRadius: "6px",
+						}}
+						cloudName="duckroll"
+						publicId={info.photo}
+					/>
 				) : (
 					<img src={defaultUser} alt="default" />
 				)}

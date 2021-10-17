@@ -4,6 +4,7 @@ import ManageAccountsIcon from "@material-ui/icons/AccountCircle";
 import LogoutIcon from "@material-ui/icons/MeetingRoom";
 import TagCreator from "./TagCreator";
 import defaultUser from "../../images/default-user.png";
+import { Image } from "cloudinary-react";
 
 function UserInfo() {
 	const [userInfo] = useGlobalState("userInfo");
@@ -22,8 +23,8 @@ function UserInfo() {
 	return (
 		<>
 			<div className="user-info">
-				{userInfo.photo != null ? (
-					<img src={userInfo.photo} alt="userphoto" />
+				{userInfo.photo !== null ? (
+					<Image cloudName="duckroll" publicId={userInfo.photo} />
 				) : (
 					<img src={defaultUser} alt="default" />
 				)}

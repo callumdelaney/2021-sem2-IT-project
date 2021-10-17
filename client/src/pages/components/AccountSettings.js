@@ -26,7 +26,7 @@ function AccountSettings() {
 	// eslint-disable-next-line
 	const [firstName, setFirstName] = useState(userInfo.firstName);
 	const [lastName, setLastName] = useState(userInfo.lastName);
-	const [email, setEmail] = useState(userInfo.email);
+	const [email, setEmail] = useState(userInfo.username);
 	const [phoneNumber, setPhoneNumber] = useState(userInfo.phoneNumber);
 
 	const [tags, setTags] = useState(userTags);
