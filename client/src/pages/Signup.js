@@ -44,7 +44,7 @@ function Signup() {
 			lastName: lastName,
 			username: email,
 			password: password,
-			phoneNumber: phoneNumber,
+			phone: phoneNumber,
 		};
 		// use axios to post user data to back end for processing, use
 		// response to test for validity
