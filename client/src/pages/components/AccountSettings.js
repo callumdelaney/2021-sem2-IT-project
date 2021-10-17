@@ -297,8 +297,8 @@ function AccountSettings() {
 								<button
 									style={{ marginLeft: "-3rem" }}
 									onClick={() => {
-										// onclick toggles popup and updates info
-										togglePopup();
+										// REFRESH PAGE
+										window.location.reload(false);
 									}}
 								>
 									Close
