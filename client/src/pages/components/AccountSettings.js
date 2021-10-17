@@ -28,7 +28,7 @@ function AccountSettings() {
 	const [firstName, setFirstName] = useState(userInfo.firstName);
 	const [lastName, setLastName] = useState(userInfo.lastName);
 	const [email, setEmail] = useState(userInfo.username);
-	const [phoneNumber, setPhoneNumber] = useState(userInfo.phoneNumber);
+	const [phoneNumber, setPhoneNumber] = useState(userInfo.phone);
 
 	const [tags, setTags] = useState(userTags);
 	// eslint-disable-next-line
@@ -122,7 +122,7 @@ function AccountSettings() {
 						lastName: lastName,
 						username: email,
 						photo: localPhotoId,
-						phone: phoneNumber,
+						phone: phoneNumber
 					};
 					axios
 						.post("/api/update-user", userData)
@@ -146,7 +146,7 @@ function AccountSettings() {
 				lastName: lastName,
 				username: email,
 				photo: localPhotoId,
-				phone: phoneNumber,
+				phone: phoneNumber
 			};
 			// console.log(firstName, lastName, email);
 			// use axios to post user data to back end for processing, use
