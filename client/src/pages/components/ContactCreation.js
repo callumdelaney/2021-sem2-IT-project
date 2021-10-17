@@ -20,6 +20,7 @@ import {
 import { useGlobalState } from "state-pool";
 import defaultUser from "../../images/default-user.png";
 import StyledCropper from "./crop/CropperEz";
+import { Image } from "cloudinary-react";
 // ContactCreation is a child component of Contact()
 function ContactCreation() {
 	const [firstName, setFirstName] = useState("");
@@ -32,6 +33,7 @@ function ContactCreation() {
 
 	const [photo, setPhoto] = useState(null);
 	const [preview, setPreview] = useState(defaultUser);
+	const [publicID, setPublicID] = useState("");
 
 	// eslint-disable-next-line
 	const [tags, setTags] = useState([]);
@@ -39,14 +41,31 @@ function ContactCreation() {
 	const [status, setStatus] = useState(statusCode.SUCCESS);
 	const [userTags] = useGlobalState("userTags");
 
+	// NEW
+	const handleUpload = () => {
+		// add functionality to only upload if user has selected & cropped image
+		const formData = new FormData();
+		formData.append("file", photo);
+		console.log(photo);
+		formData.append("upload_preset", "cc16t03g");
+		console.log("sending to cloudinary...");
+		axios
+			.post("https://api.cloudinary.com/v1_1/duckroll/upload", formData)
+			.then((response) => {
+				console.log(response);
+				setPublicID(response.data.public_id);
+			});
+	};
+
 	const fileSelectedHandler = (e) => {
 		console.log(e.target.files[0]);
 		if (e.target.files.length > 0) {
-			setPreview(URL.createObjectURL(e.target.files[0]));
+			setPreview(e.target.files[0]);
 		}
 	};
 	const handleCallBack = (croppedImage) => {
 		setPhoto(croppedImage);
+		// should be object, not url
 		console.log(croppedImage);
 	};
 
@@ -91,7 +110,7 @@ function ContactCreation() {
 
 		console.log("tags: ", tags);
 		var localStatus = status;
-    
+
 		// contact details
 		var contactData = {
 			firstName: firstName,
@@ -118,7 +137,7 @@ function ContactCreation() {
 			})
 			.catch((error) => {
 				console.log(error);
-			});		
+			});
 	};
 	// color constants used in styles
 	const cadetBlue = "rgba(58, 119, 107, 0.9)";
@@ -257,13 +276,18 @@ function ContactCreation() {
 								color: "#EEE",
 							}}
 						/>
+						<button onClick={handleUpload}>upload</button>
 					</div>
 
 					<Dialog open={dialogOpen} onClose={handleDialog} fullWidth>
 						<DialogTitle>Crop Image</DialogTitle>
 						<DialogContent>
 							<StyledCropper
-								img={preview}
+								img={
+									preview === defaultUser
+										? defaultUser
+										: URL.createObjectURL(preview)
+								}
 								callBack={handleCallBack}
 							/>
 						</DialogContent>
@@ -378,6 +402,11 @@ function ContactCreation() {
 						</Select>
 					</FormControl>
 				</Box>
+				{publicID === "" ? (
+					<img src={defaultUser} alt="default" />
+				) : (
+					<Image cloudName="duckroll" publicId={publicID} />
+				)}
 				{/* cropped photo display */}
 				{photo != null && (
 					<img
