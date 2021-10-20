@@ -314,7 +314,7 @@ function ContactsTable() {
 													border: "1px solid rgba(82, 65, 15, 0.8)",
 												}}
 												onChange={(e) => {
-													console.log(e.target.value);
+													//console.log(e.target.value);
 													if (
 														Array.isArray(
 															e.target.value

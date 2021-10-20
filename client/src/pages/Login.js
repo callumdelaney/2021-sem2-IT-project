@@ -32,13 +32,11 @@ function Login() {
 			username: email,
 			password: password,
 		};
-		console.log(userData);
 		// use axios to post user data to back end for processing, use
 		// response to test for validity
 		axios
 			.post("/api/login", userData)
 			.then((response) => {
-				console.log(response.data);
 				// check if credentials are correct
 				localStatus = response.data.status;
 				setStatus(localStatus);
