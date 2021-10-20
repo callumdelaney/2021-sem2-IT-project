@@ -80,7 +80,7 @@ function UserInfo() {
 						</div>
 					</button>
 					<TagCreator />
-					<button>
+					<button onClick={handleTagDeleteClick}>
 						<div style={{ display: "flex" }}>
 							<DeleteIcon style={{ paddingRight: "0.1rem" }} />
 							Delete Tag

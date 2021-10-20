@@ -22,7 +22,6 @@ function Contact() {
 	const togglePopup = () => {
 		setIsOpen(!isOpen);
 	};
-	const cadetBlue = "#52a594ea";
 	const useStyles = makeStyles((theme) => ({
 		paperStyle: {
 			margin: theme.spacing(1),

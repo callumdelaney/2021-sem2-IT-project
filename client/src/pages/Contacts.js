@@ -8,6 +8,7 @@ import { store, useGlobalState } from "state-pool";
 //import { userTags } from "./components/data";
 import AccountSettings from "./components/AccountSettings";
 import statusCode from "./components/Status";
+import walkingDuck from "../images/walking-duck.gif";
 
 // declare a global state variable, contactInfo, with an initial "unselected" state
 store.setState("contactInfo", { firstName: -1, tags: [], photo: "" });
@@ -74,17 +75,26 @@ function Contacts() {
 		// eslint-disable-next-line
 	}, []);
 
-	// useEffect(() => {
-	// 	// eslint-disable-next-line
-	// }, []);
 	const [openAccount] = useGlobalState("openAccountSettings");
 
 	if (loadingStatus === -1) {
 		return <Redirect to="/login" />;
 	} else if (!(tagsRetrieved && userRetrieved && contactsRetrieved)) {
 		return (
-			<div>
-				<h1>loading...</h1>
+			<div
+				style={{
+					display: "block",
+					marginLeft: "auto",
+					marginRight: "auto",
+					width: "15%",
+					paddingTop: "16%",
+				}}
+			>
+				<img
+					src={walkingDuck}
+					alt="walking-duck"
+					style={{ width: "100%" }}
+				/>
 			</div>
 		);
 	}

@@ -2,18 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import statusCode from "./Status";
 import Popup from "./Popup";
-import {
-	Box,
-	OutlinedInput,
-	InputLabel,
-	MenuItem,
-	FormControl,
-	Select,
-	Chip,
-	Dialog,
-	DialogTitle,
-	DialogContent,
-} from "@material-ui/core";
+import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
 import { useGlobalState } from "state-pool";
 import StyledCropper from "./crop/CropperEz";
 import defaultUser from "../../images/default-user.png";
@@ -30,7 +19,7 @@ function AccountSettings() {
 	const [lastName, setLastName] = useState(userInfo.lastName);
 	const [email, setEmail] = useState(userInfo.username);
 	const [phoneNumber, setPhoneNumber] = useState(userInfo.phone);
-
+	// eslint-disable-next-line
 	const [tags, setTags] = useState(userTags);
 	// eslint-disable-next-line
 	const [status, setStatus] = useState(statusCode.SUCCESS);
@@ -66,31 +55,31 @@ function AccountSettings() {
 		setIsOpen(!isOpen);
 	};
 	// initialize tagNames with the names of all tags associated with user
-	const [tagNames, setTagNames] = useState(
-		userTags.map((tag) => tag.tagText)
-	);
-	// handle change function for tags, searches through userTags and creates a list
-	// of all tags based on selected names
-	const handleChange = (event) => {
-		const {
-			target: { value },
-		} = event;
-		// set tagNames to a list of all selected tag names
-		var localTagNames =
-			typeof value === "string" ? value.split(",") : value;
-		setTagNames(localTagNames);
+	// const [tagNames, setTagNames] = useState(
+	// 	userTags.map((tag) => tag.tagText)
+	// );
+	// // handle change function for tags, searches through userTags and creates a list
+	// // of all tags based on selected names
+	// const handleChange = (event) => {
+	// 	const {
+	// 		target: { value },
+	// 	} = event;
+	// 	// set tagNames to a list of all selected tag names
+	// 	var localTagNames =
+	// 		typeof value === "string" ? value.split(",") : value;
+	// 	setTagNames(localTagNames);
 
-		var tagList = [];
-		userTags.forEach((tag) => {
-			// if the tag name is in our list of selected tag names, push it to tagList
-			// use localTagNames as it is immediately updated
-			if (localTagNames.includes(tag.tagText)) {
-				tagList.push(tag);
-			}
-		});
-		// set contact tags to our tagList
-		setTags(tagList);
-	};
+	// 	var tagList = [];
+	// 	userTags.forEach((tag) => {
+	// 		// if the tag name is in our list of selected tag names, push it to tagList
+	// 		// use localTagNames as it is immediately updated
+	// 		if (localTagNames.includes(tag.tagText)) {
+	// 			tagList.push(tag);
+	// 		}
+	// 	});
+	// 	// set contact tags to our tagList
+	// 	setTags(tagList);
+	// };
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
