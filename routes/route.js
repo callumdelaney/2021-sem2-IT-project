@@ -16,11 +16,10 @@ router.use(
 router.use(bodyParser.json());
 // .post method receives data 'posted' by client-side
 router.post("/api/login", controller.login);
+router.get("/api/logout", controller.logout);
 router.post("/api/signup", controller.newUser);
-router.post("/api/update-firstName", controller.changeFirstName);
-router.post("/api/update-lastName", controller.changeFirstName);
+router.post("/api/update-user", controller.editProfile);
 router.post("/api/update-user-password", controller.changePassword);
-router.post("/api/update-email", controller.changeEmail);
 router.get("/api/get-user-details", controller.getUserDetails);
 
 router.get(

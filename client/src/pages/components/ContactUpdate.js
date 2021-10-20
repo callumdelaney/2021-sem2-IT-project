@@ -20,6 +20,7 @@ import {
 import { useGlobalState } from "state-pool";
 import StyledCropper from "./crop/CropperEz";
 import defaultUser from "../../images/default-user.png";
+import { Image } from "cloudinary-react";
 
 // ContactUpdate is a child component of Contact()
 function ContactUpdate(props) {
@@ -40,8 +41,10 @@ function ContactUpdate(props) {
 	const [status, setStatus] = useState(statusCode.SUCCESS);
 	const [userTags] = useGlobalState("userTags");
 
-	const [photo, setPhoto] = useState(null /* set to props.photo later */);
+	const [photo, setPhoto] = useState("" /* set to props.photo later */);
 	const [preview, setPreview] = useState(defaultUser);
+	const [publicID, setPublicID] = useState(props.photo);
+	const [changedPhoto, setChangedPhoto] = useState(false);
 
 	const fileSelectedHandler = (e) => {
 		console.log(e.target.files[0]);
@@ -53,9 +56,11 @@ function ContactUpdate(props) {
 			setPreview(URL.createObjectURL(e.target.files[0]));
 		}
 	};
+
 	const handleCallBack = (croppedImage) => {
 		setPhoto(croppedImage);
 		console.log(croppedImage);
+		setChangedPhoto(true);
 	};
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const handleDialog = () => {
@@ -101,32 +106,84 @@ function ContactUpdate(props) {
 		console.log(tags);
 
 		var localStatus = status;
+		var localPhotoId = props.photo;
 
-		// contact details
-		var userData = {
-			_id: _id,
-			firstName: firstName,
-			lastName: lastName,
-			email: email,
-			category: category,
-			phone: phone,
-			tags: tags,
-			notes: notes,
-		};
-		// use axios to post user data to back end for processing, use
-		// response to test for validity
-		axios
-			.post("/api/update-contact", userData)
-			.then((response) => {
-				console.log(response.data);
-				localStatus = response.data.status;
-				if (localStatus === statusCode.SUCCESS) {
-					togglePopup();
-				}
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		// if user has supplied a photo and cropped it successfully, we can post it to cloudinary
+		if (photo != null && changedPhoto) {
+			const formData = new FormData();
+			formData.append("file", photo);
+			console.log(photo);
+			formData.append("upload_preset", "cc16t03g");
+			console.log("sending to cloudinary...");
+			axios
+				.post(
+					"https://api.cloudinary.com/v1_1/duckroll/image/upload",
+					formData
+				)
+				.then((response) => {
+					console.log(response);
+					setPublicID(response.data.public_id);
+					localPhotoId = response.data.public_id;
+					console.log(localPhotoId);
+
+					// embed another axios call on getting response
+					var contactData = {
+						_id: _id,
+						firstName: firstName,
+						lastName: lastName,
+						email: email,
+						category: category,
+						phone: phone,
+						notes: notes,
+						photo: localPhotoId,
+						tags: tags,
+					};
+					axios
+						.post("/api/update-contact", contactData)
+						.then((response) => {
+							console.log(response.data);
+							// since status won't change until the end of this function, need local status
+							// to keep track of the actual value
+							localStatus = response.data.status;
+							if (localStatus === statusCode.SUCCESS) {
+								togglePopup();
+							}
+						})
+						.catch((error) => {
+							console.log(error);
+						});
+				});
+		} else {
+			// contact details
+			var contactData = {
+				_id: _id,
+				firstName: firstName,
+				lastName: lastName,
+				email: email,
+				category: category,
+				phone: phone,
+				notes: notes,
+				photo: localPhotoId,
+				tags: tags,
+			};
+			console.log(firstName, lastName, email);
+			// use axios to post user data to back end for processing, use
+			// response to test for validity
+			axios
+				.post("/api/update-contact", contactData)
+				.then((response) => {
+					console.log(response.data);
+					// since status won't change until the end of this function, need local status
+					// to keep track of the actual value
+					localStatus = response.data.status;
+					if (localStatus === statusCode.SUCCESS) {
+						togglePopup();
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
 	};
 	const cadetBlue = "rgba(58, 119, 107, 0.9)";
 
@@ -223,12 +280,6 @@ function ContactUpdate(props) {
 						/>
 					</RadioGroup>
 					{/* div for photo upload */}
-					{photo != null && (
-						<img
-							src={URL.createObjectURL(photo)}
-							alt="contactPhoto"
-						/>
-					)}
 					<div>
 						<label
 							htmlFor="photo"
@@ -267,6 +318,7 @@ function ContactUpdate(props) {
 				{/* changes contact info onClick */}
 				<button type="submit">Save</button>
 			</form>
+
 			{/* contact saved popup component */}
 			{isOpen && (
 				<Popup
@@ -277,7 +329,7 @@ function ContactUpdate(props) {
 							</h1>
 							<div className="contact-popup-button">
 								<button
-                  style={{ marginLeft: "-3rem" }}
+									style={{ marginLeft: "-3rem" }}
 									onClick={() => {
 										// REFRESH PAGE
 										window.location.reload(false);
@@ -356,6 +408,27 @@ function ContactUpdate(props) {
 						</Select>
 					</FormControl>
 				</Box>
+				{publicID === null || publicID === "" ? (
+					<img
+						style={{
+							marginTop: "5rem",
+							border: "3px solid #52410f",
+							borderRadius: "6px",
+						}}
+						src={defaultUser}
+						alt="default"
+					/>
+				) : (
+					<Image
+						style={{
+							marginTop: "5rem",
+							border: "3px solid #52410f",
+							borderRadius: "6px",
+						}}
+						cloudName="duckroll"
+						publicId={publicID}
+					/>
+				)}
 			</div>
 		</article>
 	);

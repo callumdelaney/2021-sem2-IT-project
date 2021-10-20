@@ -44,7 +44,7 @@ function Signup() {
 			lastName: lastName,
 			username: email,
 			password: password,
-			phoneNumber: phoneNumber,
+			phone: phoneNumber,
 		};
 		// use axios to post user data to back end for processing, use
 		// response to test for validity
@@ -172,8 +172,10 @@ function Signup() {
 				<Popup
 					content={
 						<>
-							<b>Account Created Successfully!</b>
-							<p>
+							<b style={{ fontSize: "22px" }}>
+								Account Created Successfully!
+							</b>
+							<p style={{ fontSize: "20px" }}>
 								Thank you for your interest! <br /> you can now
 								login using your credentials
 							</p>

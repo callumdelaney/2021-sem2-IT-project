@@ -3,17 +3,10 @@ import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import ErrorMessage from "./components/ErrorMessage";
 import statusCode from "./components/Status";
-import { store, useGlobalState } from "state-pool";
 import duckrollLogo from "../images/duckroll-logo2.png";
 import animated from "../images/wavesgif3.gif";
 import quack from "../audio/quack.mp3";
 // initialise user info global variable
-store.setState("userInfo", {
-	firstName: "Obi-Wan",
-	lastName: "Kenobi",
-	email: "obiwankenobi@hellothere.org",
-	photo: "https://static.myfigurecollection.net/pics/figure/big/44190.jpg",
-});
 
 // component for login page
 function Login() {
@@ -23,9 +16,6 @@ function Login() {
 	// default success so that error won't appear
 	const [status, setStatus] = useState(statusCode.SUCCESS);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-	// const [contactInfo, setContactInfo] = useGlobalState("contactInfo");
-	const [userInfo, setUserInfo] = useGlobalState("userInfo");
 	const sound = new Audio(quack);
 
 	// handleSubmit is executed when the submit button is clicked
@@ -42,32 +32,17 @@ function Login() {
 			username: email,
 			password: password,
 		};
-		console.log(userData);
 		// use axios to post user data to back end for processing, use
 		// response to test for validity
 		axios
 			.post("/api/login", userData)
 			.then((response) => {
-				console.log(response.data);
 				// check if credentials are correct
 				localStatus = response.data.status;
 				setStatus(localStatus);
 
 				if (localStatus === statusCode.SUCCESS) {
 					console.log("login successful!");
-					fetch("/api/user-info", userData)
-						.then((res) => res.json())
-						.then((data) => {
-							setUserInfo(data);
-							console.log(data);
-						})
-						.catch((error) => {
-							console.log(error);
-						});
-					// fetch("/api/user-contacts", userData)
-					//   .then((res) => res.json())
-					//   .then((data) => setContactInfo(data));
-					console.log(userInfo);
 					setIsLoggedIn(true);
 				}
 			})

@@ -7,9 +7,8 @@ import { store, useGlobalState } from "state-pool";
 //import { userTags } from "./components/data";
 import AccountSettings from "./components/AccountSettings";
 
-
 // declare a global state variable, contactInfo, with an initial "unselected" state
-store.setState("contactInfo", { firstName: -1, tags: [] });
+store.setState("contactInfo", { firstName: -1, tags: [], photo: "" });
 // declare global userTags variable to keep track of user tags
 
 store.setState("userTags", []);
@@ -17,6 +16,8 @@ store.setState("userTags", []);
 store.setState("userContacts", []);
 
 store.setState("openAccountSettings", false);
+
+store.setState("userInfo", {});
 
 /*Contacts page main function*/
 function Contacts() {
