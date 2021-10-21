@@ -16,9 +16,13 @@ RGB Color Mixer: https://www.mathsisfun.com/hexadecimal-decimal-colors.html
 # Team members:
 
 Callum Delaney - Frontend team, repo owner
+
 Jiaqi Fu - Frontend team
+
 Declan Gannon - Backend team, database owner
+
 Bardia Zamani - Scrum Master and Test Writer
+
 Ayda Zhao - Backend team
 
 
