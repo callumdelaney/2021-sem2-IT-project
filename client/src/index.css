@@ -416,7 +416,7 @@ code {
 
 .contact-popup-button {
 	text-align: center;
-	margin-left: 45px;
+	margin-left: 0.5rem;
 }
 
 /* contact form stylings */
@@ -607,4 +607,28 @@ code {
 .edit-delete-buttons:hover {
 	background: var(--cadet-dark-blue);
 	color: var(--clr-grey-7);
+}
+
+.delete-tags-button {
+	/* layout */
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	padding: 0.15rem 0.4rem;
+	/* look */
+	background: #769c38;
+	color: #3e281e;
+	font-weight: bold;
+	font-size: 15px;
+	letter-spacing: var(--spacing);
+	cursor: pointer;
+	font-family: "Oswald", sans-serif;
+	border-color: transparent;
+	border-radius: var(--radius);
+	transition: var(--transition);
+	box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+		0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+}
+.delete-tags-button:hover {
+	background: #63832f;
+	color: #5f3e2f;
 }

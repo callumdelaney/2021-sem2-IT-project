@@ -2,22 +2,12 @@ import React, { useState } from "react";
 import axios from "axios";
 import statusCode from "./Status";
 import Popup from "./Popup";
-import {
-	Box,
-	OutlinedInput,
-	InputLabel,
-	MenuItem,
-	FormControl,
-	Select,
-	Chip,
-	Dialog,
-	DialogTitle,
-	DialogContent,
-} from "@material-ui/core";
+import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
 import { useGlobalState } from "state-pool";
 import StyledCropper from "./crop/CropperEz";
 import defaultUser from "../../images/default-user.png";
 import { Image } from "cloudinary-react";
+import Tag from "./Tags";
 
 // ContactUpdate is a child component of Contact()
 function AccountSettings() {
@@ -29,7 +19,7 @@ function AccountSettings() {
 	const [lastName, setLastName] = useState(userInfo.lastName);
 	const [email, setEmail] = useState(userInfo.username);
 	const [phoneNumber, setPhoneNumber] = useState(userInfo.phone);
-
+	// eslint-disable-next-line
 	const [tags, setTags] = useState(userTags);
 	// eslint-disable-next-line
 	const [status, setStatus] = useState(statusCode.SUCCESS);
@@ -64,32 +54,6 @@ function AccountSettings() {
 	const togglePopup = () => {
 		setIsOpen(!isOpen);
 	};
-	// initialize tagNames with the names of all tags associated with user
-	const [tagNames, setTagNames] = useState(
-		userTags.map((tag) => tag.tagText)
-	);
-	// handle change function for tags, searches through userTags and creates a list
-	// of all tags based on selected names
-	const handleChange = (event) => {
-		const {
-			target: { value },
-		} = event;
-		// set tagNames to a list of all selected tag names
-		var localTagNames =
-			typeof value === "string" ? value.split(",") : value;
-		setTagNames(localTagNames);
-
-		var tagList = [];
-		userTags.forEach((tag) => {
-			// if the tag name is in our list of selected tag names, push it to tagList
-			// use localTagNames as it is immediately updated
-			if (localTagNames.includes(tag.tagText)) {
-				tagList.push(tag);
-			}
-		});
-		// set contact tags to our tagList
-		setTags(tagList);
-	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -122,7 +86,7 @@ function AccountSettings() {
 						lastName: lastName,
 						username: email,
 						photo: localPhotoId,
-						phone: phoneNumber
+						phone: phoneNumber,
 					};
 					axios
 						.post("/api/update-user", userData)
@@ -146,7 +110,7 @@ function AccountSettings() {
 				lastName: lastName,
 				username: email,
 				photo: localPhotoId,
-				phone: phoneNumber
+				phone: phoneNumber,
 			};
 			// console.log(firstName, lastName, email);
 			// use axios to post user data to back end for processing, use
@@ -308,85 +272,24 @@ function AccountSettings() {
 					}
 				/>
 			)}
+
 			{/* div for tag selection */}
 			<div
 				style={{
 					display: "inline-flex",
-					width: "20%",
+					width: "30%",
 					flexWrap: "wrap",
 				}}
 			>
-				{/* select menu for tags */}
-				<Box sx={{ minWidth: "100%", maxWidth: "100%" }}>
-					<FormControl fullWidth>
-						<InputLabel
-							id="multiple-chip-label"
-							style={{
-								color: "#52410f",
-								padding: "0rem 0.8rem",
-								// fontFamily: "Oswald, sans-serif",
-								fontWeight: "bold",
-							}}
-						>
-							Your Tags
-						</InputLabel>
-						<Select
-							labelId="multiple-chip-label"
-							id="multiple-chip"
-							multiple
-							style={{
-								border: "1px solid #52410f",
-							}}
-							// initial value will be current contact tags
-							value={tagNames}
-							onChange={handleChange}
-							input={
-								<OutlinedInput
-									id="select-multiple-chip"
-									label="Chip"
-								/>
-							}
-							renderValue={(selected) => (
-								<Box
-									sx={{
-										display: "flex",
-										flexWrap: "wrap",
-										gap: 3.5,
-									}}
-								>
-									{selected.map((value) => (
-										<Chip key={value} label={value} />
-									))}
-								</Box>
-							)}
-							MenuProps={{
-								PaperProps: {
-									style: {
-										maxHeight: 48 * 4.5 + 8,
-										width: 180,
-									},
-								},
-								getContentAnchorEl: null,
-								anchorOrigin: {
-									vertical: "bottom",
-									horizontal: "left",
-								},
-							}}
-						>
-							{/* available options */}
-							{userTags.map((data) => {
-								return (
-									<MenuItem
-										key={data._id}
-										value={data.tagText}
-									>
-										{data.tagText}
-									</MenuItem>
-								);
-							})}
-						</Select>
-					</FormControl>
-				</Box>
+				<div
+					style={{
+						// width: "50%",
+						paddingTop: "1rem",
+					}}
+				>
+					<h2>Your Tags</h2>
+					<Tag inTable={false} tags={userTags}></Tag>
+				</div>
 			</div>
 		</article>
 	);

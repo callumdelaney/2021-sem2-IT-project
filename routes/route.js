@@ -47,5 +47,6 @@ router.get(
 router.post("/api/add-tag", controller.addNewTag);
 router.post("/api/update-tag", controller.editTag);
 router.post("/api/delete-tag", controller.deleteTag);
+router.post("/api/delete-tags", controller.deleteTags);
 
 module.exports = router;

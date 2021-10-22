@@ -12,10 +12,16 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import NotesIcon from "@material-ui/icons/Notes";
 import { Image } from "cloudinary-react";
+import Popup from "./Popup";
 
 // contact-info content
 function Contact() {
 	const [info, setInfo] = useGlobalState("contactInfo");
+	// toggle state for confirmation popup
+	const [isOpen, setIsOpen] = React.useState(false);
+	const togglePopup = () => {
+		setIsOpen(!isOpen);
+	};
 	const useStyles = makeStyles((theme) => ({
 		paperStyle: {
 			margin: theme.spacing(1),
@@ -200,6 +206,49 @@ function Contact() {
 					</p>
 				</Paper>
 			</div>
+			{isOpen && (
+				<Popup
+					content={
+						<>
+							<h2 className="contact-popup-box">
+								Are you sure you want to delete
+							</h2>
+							<h2
+								style={{
+									fontSize: "40px",
+									display: "flex",
+									fontWeight: "bold",
+								}}
+							>
+								{" "}
+								{info.firstName} {info.lastName}
+							</h2>
+							<div className="contact-popup-button">
+								<button
+									className="edit-delete-buttons"
+									style={{ color: "#b30000" }}
+									onClick={() => {
+										handleDeleteClick(info._id);
+									}}
+								>
+									<div style={{ display: "flex" }}>
+										<DeleteIcon />
+										Confirm Delete
+									</div>
+								</button>
+								<button
+									className="edit-delete-buttons"
+									onClick={() => {
+										togglePopup();
+									}}
+								>
+									Close
+								</button>
+							</div>
+						</>
+					}
+				/>
+			)}
 			{/* Edit and delete Buttons */}
 			<div style={{ display: "inline" }}>
 				<button
@@ -211,6 +260,7 @@ function Contact() {
 					}
 					onClick={() => {
 						handleEditClick();
+						// togglePopup();
 					}}
 				>
 					<div style={{ display: "flex" }}>
@@ -222,7 +272,8 @@ function Contact() {
 					style={{ color: "#b30000" }}
 					className="edit-delete-buttons"
 					onClick={() => {
-						handleDeleteClick(info._id);
+						// handleDeleteClick(info._id);
+						togglePopup();
 					}}
 				>
 					<div style={{ display: "flex" }}>

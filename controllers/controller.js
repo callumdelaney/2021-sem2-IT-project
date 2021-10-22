@@ -485,6 +485,33 @@ const deleteTag = async (req, res) => {
 	}
 };
 
+/**
+ * Deletes  existings tag from the database
+ * @param {object} req takes an array of unique tag ids
+ * @param {object} res responds with a status code
+ */
+ const deleteTags = async (req, res) => {
+	try {
+
+		for (let idCount = 0; idCount < req.body.tags.length; idCount++) {
+			tagToDelete = req.body.tags[idCount];
+			console.log(tagToDelete);
+		   
+			await Tag.findOneAndDelete({
+				_id: tagToDelete
+			});
+
+			
+		}
+
+		res.send({ status: status.SUCCESS });
+		
+	} catch (err) {
+		res.send({ status: status.FAILURE });
+	}
+};
+
+
 const logout = async (req, res) => {
 	req.logout();
 	res.redirect("/login");
@@ -508,6 +535,7 @@ module.exports = {
 	addNewTag,
 	editTag,
 	deleteTag,
+	deleteTags,
 	changePassword,
 	editProfile,
 	getUserDetails,
