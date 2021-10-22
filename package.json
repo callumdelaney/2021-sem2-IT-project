@@ -5,6 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha --exit",
+    "test:awesome": "mocha --exit --reporter mochawesome || true",
+    "open:report": "open mochawesome-report/mochawesome.html",
     "start": "node app.js",
     "build": "cd client && npm install && npm run build"
   },
@@ -27,13 +29,16 @@
     "formidable": "^1.2.2",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^9.1.2",
+    "mochawesome": "^6.3.0",
     "mongoose": "^5.13.7",
+    "multer": "^1.4.3",
+    "node": "^16.6.1",
+    "node-pre-gyp": "^0.17.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.1.0",
     "react": "^17.0.2",
-    "supertest": "^6.1.6",
-    "node": "^16.6.1"
+    "supertest": "^6.1.6"
   },
   "engines": {
     "node": "^14.17.4"

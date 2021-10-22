@@ -1,0 +1,313 @@
+{
+  "stats": {
+    "suites": 7,
+    "tests": 6,
+    "passes": 6,
+    "pending": 0,
+    "failures": 0,
+    "start": "2021-10-01T13:01:06.029Z",
+    "end": "2021-10-01T13:01:06.837Z",
+    "duration": 808,
+    "testsRegistered": 6,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "78dbd561-555a-4348-b4a1-5db5f18293a9",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "42c8eac6-0141-4033-841c-64223fd3c8b4",
+          "title": "Logging in",
+          "fullFile": "/Users/barzamsr/dev/ifc23dtiles/2021-sem2-IT-project/test/test.js",
+          "file": "/test/test.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "60f31ef5-b24d-4dda-9133-fc0ef74d8d68",
+              "title": "with an empty request",
+              "fullFile": "/Users/barzamsr/dev/ifc23dtiles/2021-sem2-IT-project/test/test.js",
+              "file": "/test/test.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should respond with status 0",
+                  "fullTitle": "Logging in with an empty request should respond with status 0",
+                  "timedOut": false,
+                  "duration": 26,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "request(app)\n\t.post('/api/login')\n\t.send({})\n\t.then(response => {\n\t\tif (response.body.status == controller.status.INCORRECT_CREDENTIALS) {\n\t\t\tdone()\n\t\t}\n\t\telse {\n\t\t\tdone(new Error(JSON.stringify(response.body)))\n\t\t}\n\t})",
+                  "err": {},
+                  "uuid": "02a8783c-9eb3-4f55-9eeb-64cc8cc4eb95",
+                  "parentUUID": "60f31ef5-b24d-4dda-9133-fc0ef74d8d68",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "02a8783c-9eb3-4f55-9eeb-64cc8cc4eb95"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 26,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "2c2f3ce1-20aa-4ba8-bb3f-2668dbf8aa3b",
+              "title": "with correct credentials",
+              "fullFile": "/Users/barzamsr/dev/ifc23dtiles/2021-sem2-IT-project/test/test.js",
+              "file": "/test/test.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should respond with status 1",
+                  "fullTitle": "Logging in with correct credentials should respond with status 1",
+                  "timedOut": false,
+                  "duration": 568,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "request(app)\n\t.post('/api/login')\n\t.send({ email: \"mocha\", password: \"mocha\" })\n\t.then(response => {\n\t\tif (!response.body) {\n\t\t\tdone(new Error(\"empty response body\"))\n\t\t}\n\t\tif (response.body.status == controller.status.SUCCESS) {\n\t\t\tdone()\n\t\t}\n\t\telse {\n\t\t\tdone(new Error(JSON.stringify(response.body)))\n\t\t}\n\t})",
+                  "err": {},
+                  "uuid": "b45eb972-eff1-41da-a435-66989afb5561",
+                  "parentUUID": "2c2f3ce1-20aa-4ba8-bb3f-2668dbf8aa3b",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "b45eb972-eff1-41da-a435-66989afb5561"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 568,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "8b0e0cc9-2a7f-4723-84d8-f327b7ba2c03",
+              "title": "with incorrect credentials",
+              "fullFile": "/Users/barzamsr/dev/ifc23dtiles/2021-sem2-IT-project/test/test.js",
+              "file": "/test/test.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should respond with status 1",
+                  "fullTitle": "Logging in with incorrect credentials should respond with status 1",
+                  "timedOut": false,
+                  "duration": 45,
+                  "state": "passed",
+                  "speed": "medium",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "request(app)\n\t.post('/api/login')\n\t.send({ email: \"0706167104\", password: \"07096661652786167104\" })\n\t.then(response => {\n\t\tif (response.body.status == controller.status.INCORRECT_CREDENTIALS) {\n\t\t\tdone()\n\t\t}\n\t\telse {\n\t\t\tdone(new Error(JSON.stringify(response.body)))\n\t\t}\n\t})",
+                  "err": {},
+                  "uuid": "a0d038f3-5cd3-4861-a73f-88f24e2e2a0f",
+                  "parentUUID": "8b0e0cc9-2a7f-4723-84d8-f327b7ba2c03",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "a0d038f3-5cd3-4861-a73f-88f24e2e2a0f"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 45,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "8152a6bd-c46a-4431-b187-ad5682270a10",
+          "title": "Get contacts",
+          "fullFile": "/Users/barzamsr/dev/ifc23dtiles/2021-sem2-IT-project/test/test.js",
+          "file": "/test/test.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "314648c7-50ae-4cdf-9838-c3b3fdd77c11",
+              "title": "Not logged in",
+              "fullFile": "/Users/barzamsr/dev/ifc23dtiles/2021-sem2-IT-project/test/test.js",
+              "file": "/test/test.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should return {}",
+                  "fullTitle": "Get contacts Not logged in should return {}",
+                  "timedOut": false,
+                  "duration": 41,
+                  "state": "passed",
+                  "speed": "medium",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "server\n\t.get('/api/get-contacts')\n\t.then(response => {\n\t\tif (response.body.stringify == {}.stringify) {\n\t\t\tdone()\n\t\t}\n\t\telse {\n\t\t\tdone(new Error(JSON.stringify(response.body)))\n\t\t}\n\t})",
+                  "err": {},
+                  "uuid": "30c9956f-8c20-4628-9e49-e65bf8e7790c",
+                  "parentUUID": "314648c7-50ae-4cdf-9838-c3b3fdd77c11",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "30c9956f-8c20-4628-9e49-e65bf8e7790c"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 41,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "afff1644-1acd-4788-a147-43099abc4686",
+              "title": "Logged in",
+              "fullFile": "/Users/barzamsr/dev/ifc23dtiles/2021-sem2-IT-project/test/test.js",
+              "file": "/test/test.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "login",
+                  "fullTitle": "Get contacts Logged in login",
+                  "timedOut": false,
+                  "duration": 42,
+                  "state": "passed",
+                  "speed": "medium",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "await server\n\t.post(\"/api/login\")\n\t.send({ email: \"mocha\", password: \"mocha\" })\n\t.then(response => {\n\t\tconsole.log(response.body)\n\t})",
+                  "err": {},
+                  "uuid": "c4f66df9-6db3-45e5-86c8-217386299237",
+                  "parentUUID": "afff1644-1acd-4788-a147-43099abc4686",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "should return status code 1",
+                  "fullTitle": "Get contacts Logged in should return status code 1",
+                  "timedOut": false,
+                  "duration": 60,
+                  "state": "passed",
+                  "speed": "medium",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "server\n\t.get('/api/get-contacts')\n\t.then(response => {\n\t\tif (response.body.status == controller.status.SUCCESS) {\n\t\t\tdone()\n\t\t}\n\t\telse {\n\t\t\tdone(new Error(JSON.stringify(response.body)))\n\t\t}\n\t})",
+                  "err": {},
+                  "uuid": "75e71e1a-b880-475a-83e8-952619ab827a",
+                  "parentUUID": "afff1644-1acd-4788-a147-43099abc4686",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "c4f66df9-6db3-45e5-86c8-217386299237",
+                "75e71e1a-b880-475a-83e8-952619ab827a"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 102,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "9.1.2"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.3.0"
+    },
+    "marge": {
+      "options": null,
+      "version": "5.2.0"
+    }
+  }
+}

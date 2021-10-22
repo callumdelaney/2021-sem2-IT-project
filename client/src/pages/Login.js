@@ -3,115 +3,125 @@ import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import ErrorMessage from "./components/ErrorMessage";
 import statusCode from "./components/Status";
-import { store, useGlobalState } from "state-pool";
-
-// store.setState("contactInfo", { firstName: -1 });
+import duckrollLogo from "../images/duckroll-logo2.png";
+import animated from "../images/wavesgif3.gif";
+import quack from "../audio/quack.mp3";
 // initialise user info global variable
-store.setState("userInfo", {
-  firstName: "Obi-Wan",
-  lastName: "Kenobi",
-  email: "obiwankenobi@hellothere.org",
-  photo: "https://static.myfigurecollection.net/pics/figure/big/44190.jpg",
-});
 
 // component for login page
 function Login() {
-  // hooks, setXXXX will change the associated variable and then re-render the page
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [status, setStatus] = useState(statusCode.SUCCESS);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+	// hooks, setXXXX will change the associated variable and then re-render the page
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	// default success so that error won't appear
+	const [status, setStatus] = useState(statusCode.SUCCESS);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const sound = new Audio(quack);
 
-  // const [contactInfo, setContactInfo] = useGlobalState("contactInfo");
-  const [userInfo, setUserInfo] = useGlobalState("userInfo");
+	// handleSubmit is executed when the submit button is clicked
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		sound.volume = 0.2;
+		sound.play();
 
-  // handleSubmit is executed when the submit button is clicked
-  const handleSubmit = (e) => {
-    e.preventDefault();
+		// setStatus and localStatus keep track of what errors can be returned from trying to log in
+		var localStatus = status;
 
-    // setError based on feedback from back-end. localStatus can change within
-    // this function to be referenced
+		// registration details
+		var userData = {
+			username: email,
+			password: password,
+		};
+		// use axios to post user data to back end for processing, use
+		// response to test for validity
+		axios
+			.post("/api/login", userData)
+			.then((response) => {
+				// check if credentials are correct
+				localStatus = response.data.status;
+				setStatus(localStatus);
 
-    // var localStatus = statusCode.UNKNOWN_EMAIL;
-    // setStatus(statusCode.UNKNOWN_EMAIL);
-    var localStatus = statusCode.SUCCESS;
-    setStatus(statusCode.SUCCESS);
+				if (localStatus === statusCode.SUCCESS) {
+					console.log("login successful!");
+					setIsLoggedIn(true);
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
-    // registration details
-    var userData = {
-      username: username,
-      password: password,
-    };
-    // use axios to post user data to back end for processing, use
-    // response to test for validity
-    axios
-      .post("/api/login", userData)
-      .then((response) => {
-        console.log(response.data);
-        // check if credentials are correct
-        localStatus = response.data.status;
-        setStatus(localStatus);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    if (localStatus === statusCode.SUCCESS) {
-      console.log("login successful!");
-      fetch("/api/user-info", userData)
-        .then((res) => res.json())
-        .then((data) => setUserInfo(data))
-        .catch((error) => {
-          console.log(error);
-        });
-      // fetch("/api/user-contacts", userData)
-      //   .then((res) => res.json())
-      //   .then((data) => setContactInfo(data));
-      console.log(userInfo);
-      setIsLoggedIn(true);
-    }
-  };
+	// const duckBlue = "hsl(200,56%,28%, 0.877)";
 
-  if (isLoggedIn) {
-    // redirect to contacts page upon successful login
-    return <Redirect to="/contacts" />;
-  }
-  return (
-    // Section for login details where email and password can be entered
-    <article className="articleLogin">
-      <h1 className="header">Login</h1>
-      {/* form div containing all of the required fields */}
-      <form className="form" action="" onSubmit={handleSubmit}>
-        <div className="form-control">
-          <label htmlFor="username">Email: </label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div className="form-control">
-          <label htmlFor="password">Password: </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Login</button>
-        <Link to="/signup">
-          <button>Signup</button>
-        </Link>
-        {/* conditional rendering of error message based on status */}
-        <ErrorMessage statusCode={status} />
-      </form>
-    </article>
-  );
+	if (isLoggedIn) {
+		// redirect to contacts page upon successful login
+		return <Redirect to="/contacts" />;
+	}
+	return (
+		// Section for login details where email and password can be entered
+		<>
+			<div
+				style={{
+					background: "hsl(200,70%,35%, 0.8)",
+					backgroundImage: "url(" + animated + ")",
+					display: "flex",
+					height: "100vh",
+					backgroundSize: "cover",
+				}}
+			>
+				<img
+					src={duckrollLogo}
+					alt="logo"
+					style={{
+						maxHeight: "500px",
+						maxWidth: "700px",
+						aspectRatio: "14/10",
+						marginTop: "13%",
+						marginLeft: "10%",
+					}}
+				/>
+				{/* <article className="articleLogin"> */}
+				{/* <h1 className="header">Login</h1> */}
+				{/* form div containing all of the required fields */}
+				<form
+					className="form"
+					style={{ marginTop: "20%" }}
+					action=""
+					onSubmit={handleSubmit}
+				>
+					<div className="form-control">
+						<label htmlFor="email">Email: </label>
+						<input
+							type="text"
+							id="email"
+							name="email"
+							required
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+						/>
+					</div>
+					<div className="form-control">
+						<label htmlFor="password">Password: </label>
+						<input
+							type="password"
+							id="password"
+							name="password"
+							required
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+					</div>
+					<button type="submit">Login</button>
+					<Link to="/signup">
+						<button>Signup</button>
+					</Link>
+					{/* conditional rendering of error message based on status */}
+					<ErrorMessage statusCode={status} />
+				</form>
+				{/* </article> */}
+			</div>
+		</>
+	);
 }
 
 export default Login;
