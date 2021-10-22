@@ -34,7 +34,9 @@ npm start
 Once the terminal has written the message of :
 
 "Server listening on 3001
+
 connection to MongoDB on cluster0-shard-00-01.uxvwm.mongodb.net:undefined
+
 Success"
 
 navigate to localhost:3001.
