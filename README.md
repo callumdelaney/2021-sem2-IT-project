@@ -27,7 +27,7 @@ We are using the MERN stack of MongoDB, Express, React, Node. We are also using 
 https://barzamsr.atlassian.net/wiki/spaces/PD/pages/35291137/License+Agreement
 
 # How to run our application:
-Currently Heroku builds it (development branch: https://crm-duckroll-test.herokuapp.com/login , main branch: https://duckroll-crm.herokuapp.com/ ) , but if you want to run it manually, open the project up to the directory "2021-sem2-IT-project", command the terminal to 
+Currently Heroku builds it (development branch: https://crm-duckroll-test.herokuapp.com/login , main branch: https://duckroll-crm.herokuapp.com/ , please note, that it may take a while to load because Heroku builds the application before the user can access it) , but if you want to run it manually, open the project up to the directory "2021-sem2-IT-project", command the terminal to 
 ```
 npm install 
 npm run build
