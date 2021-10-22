@@ -3,13 +3,12 @@ import { useGlobalState } from "state-pool";
 import ManageAccountsIcon from "@material-ui/icons/AccountCircle";
 import LogoutIcon from "@material-ui/icons/MeetingRoom";
 import TagCreator from "./TagCreator";
-import DeleteIcon from "@material-ui/icons/Delete";
 import defaultUser from "../../images/default-user.png";
 import { Image } from "cloudinary-react";
 import { Redirect } from "react-router-dom";
 import quack from "../../audio/quack.mp3";
 import TagDeleter from "./TagDeleter";
-import TagEditor from "./TagEditor";
+// import TagEditor from "./TagEditor";
 
 function UserInfo() {
     // eslint-disable-next-line
@@ -30,9 +29,6 @@ function UserInfo() {
 
     const handleProfileClick = () => {
         setOpenAccount(true);
-    };
-    const handleTagDeleteClick = () => {
-        console.log("delete tag");
     };
     const handleLogoutClick = () => {
         sound.volume = 0.2;
