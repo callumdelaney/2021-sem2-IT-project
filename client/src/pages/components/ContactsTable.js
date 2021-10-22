@@ -23,20 +23,6 @@ function ContactsTable() {
 	const [tableDataCpy, setTableDataCpy] = useGlobalState("userContacts");
 	const [filteredData, setFilteredData] = useState(tableDataCpy);
 
-	// useEffect(() => {
-	// 	fetch("/api/get-contacts")
-	// 		.then((res) => res.json())
-	// 		.then((data) => {
-	// 			console.log(data);
-	// 			//setTableDataCpy(data.contacts);
-	// 			//setFilteredData(data.contacts);
-	// 		})
-	// 		.catch((error) => {
-	// 			console.log(error);
-	// 		});
-	// 	// eslint-disable-next-line
-	// }, []);
-
 	const [category, setCategory] = useState("");
 	const [selectedRow, setSelectedRow] = useState(null);
 	// access the global variable contactInfo

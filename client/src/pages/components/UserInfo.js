@@ -8,6 +8,8 @@ import defaultUser from "../../images/default-user.png";
 import { Image } from "cloudinary-react";
 import { Redirect } from "react-router-dom";
 import quack from "../../audio/quack.mp3";
+import TagDeleter from "./TagDeleter";
+import TagEditor from "./TagEditor";
 
 function UserInfo() {
 	// eslint-disable-next-line
@@ -72,20 +74,22 @@ function UserInfo() {
 							Profile Settings
 						</div>
 					</button>
-
+					<TagCreator />
+					<TagDeleter />
+					<TagEditor />
 					<button onClick={handleLogoutClick}>
 						<div style={{ display: "flex" }}>
 							<LogoutIcon style={{ paddingRight: "0.5rem" }} />
 							Logout
 						</div>
 					</button>
-					<TagCreator />
-					<button onClick={handleTagDeleteClick}>
+
+					{/* <button onClick={handleTagDeleteClick}>
 						<div style={{ display: "flex" }}>
 							<DeleteIcon style={{ paddingRight: "0.1rem" }} />
 							Delete Tag
 						</div>
-					</button>
+					</button> */}
 				</div>
 				<h4>{userInfo.username}</h4>
 			</div>
