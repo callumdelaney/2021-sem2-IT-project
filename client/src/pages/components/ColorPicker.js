@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { ChromePicker } from "react-color";
 import { Chip } from "@material-ui/core";
 
@@ -9,10 +9,6 @@ function ColorPicker(props) {
 	const [hsl, setHsl] = useState(props.hsl);
 	var tagName = props.tagName;
 
-	useEffect(() => {
-		console.log(hsl);
-	}, [hsl]);
-
 	const formatHsl = () => {
 		var h = hsl.h.toString();
 		var s = (hsl.s * 100).toString();
@@ -21,11 +17,13 @@ function ColorPicker(props) {
 
 		return "hsl(" + h + "," + s + "%," + l + "%," + a + ")";
 	};
-	const convertHslObj = () => {
-		const regex = /\d+.\d+/g;
-		var numbers = hsl.match(regex);
-		console.log(numbers);
-		var h, s, l, a;
+	const formatHslValue = (value) => {
+		var h = value.h.toString();
+		var s = (value.s * 100).toString();
+		var l = (value.l * 100).toString();
+		var a = value.a.toString();
+
+		return "hsl(" + h + "," + s + "%," + l + "%," + a + ")";
 	};
 
 	const handleChange = (data) => {
@@ -33,12 +31,13 @@ function ColorPicker(props) {
 		setColor(data.hex);
 		setHsl(data.hsl);
 		setOpacity(data.hsl.a);
-		props.callBack(color, opacity, hsl);
+		props.callBack(color, opacity, formatHslValue(data.hsl));
 	};
 
 	return (
 		<div>
 			<Chip
+				id="tagPreview"
 				style={{
 					marginBottom: "1rem",
 					backgroundColor:

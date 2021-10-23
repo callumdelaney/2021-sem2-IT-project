@@ -22,7 +22,6 @@ function TagCreatorDialog(props) {
 		a: 1,
 	});
 	const open = props.open;
-
 	// callback function to obtain color values from color picker
 	const handleCallBack = (color, opacity, hsl) => {
 		setColor(color);

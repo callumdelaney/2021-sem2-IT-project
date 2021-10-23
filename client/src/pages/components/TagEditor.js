@@ -1,41 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	Dialog,
 	DialogTitle,
 	TextField,
 	DialogContent,
 	Select,
-	Chip,
 	MenuItem,
 	InputLabel,
 	FormControl,
-	Box,
 	OutlinedInput,
 } from "@material-ui/core";
 import ColorPicker from "./ColorPicker";
-// import axios from "axios";
 import EditIcon from "@material-ui/icons/Edit";
 import { useGlobalState } from "state-pool";
+// import axios from "axios";
 
 function TagEditor() {
 	const [tagName, setTagName] = useState("");
+	const [newTagName, setNewTagName] = useState("");
 	const [open, setOpen] = useState(false);
 	const [userTags] = useGlobalState("userTags");
 	const [tag, setTag] = useState({});
 
 	// useState hooks for color picker
 	const [color, setColor] = useState("#fff");
-	const [opacity, setOpacity] = useState("1");
-	const [hsl, setHsl] = useState({
-		h: 250,
-		s: 0,
-		l: 0.2,
-		a: 1,
-	});
+
+	useEffect(() => {
+		// change color of preview tag when the color changes
+		if (document.getElementById("tagPreview") != null) {
+			document.getElementById("tagPreview").style["background"] = color;
+		}
+	}, [color]);
 	const handleCallBack = (color, opacity, hsl) => {
-		setColor(color);
-		setOpacity(opacity);
-		setHsl(hsl);
+		setColor(hsl);
 	};
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -58,9 +55,13 @@ function TagEditor() {
 		});
 
 		setTagName(e.target.value);
+		setNewTagName(e.target.value);
 		setTag(localTag);
 		setColor(localTag.tagColour);
-		console.log(localTag.tagColour);
+	};
+	const handleClick = () => {
+		console.log(tag);
+		console.log(newTagName, color);
 	};
 
 	return (
@@ -99,9 +100,6 @@ function TagEditor() {
 							id="select-chip"
 							style={{
 								border: "1px solid #52410f",
-								// width: "60%",
-								// marginLeft: "auto",
-								// marginRight: "auto",
 							}}
 							value={tagName}
 							onChange={handleChange}
@@ -111,19 +109,6 @@ function TagEditor() {
 									label="Chip"
 								/>
 							}
-							// renderValue={(selected) => (
-							// 	<Box
-							// 		sx={{
-							// 			display: "flex",
-							// 			flexWrap: "wrap",
-							// 			gap: 3.5,
-							// 		}}
-							// 	>
-							// 		{selected.map((value) => (
-							// 			<Chip key={value} label={value} />
-							// 		))}
-							// 	</Box>
-							// )}
 							MenuProps={{
 								PaperProps: {
 									style: {
@@ -153,9 +138,8 @@ function TagEditor() {
 					</FormControl>
 					<ColorPicker
 						color={color}
-						opacity={opacity}
 						hsl={color}
-						tagName={tagName}
+						tagName={newTagName}
 						callBack={handleCallBack}
 					/>
 					<div
@@ -168,17 +152,17 @@ function TagEditor() {
 							fullWidth
 							type="text"
 							id="tagName"
-							value={tagName}
-							onChange={(e) => setTagName(e.target.value)}
+							value={newTagName}
+							onChange={(e) => setNewTagName(e.target.value)}
 						></TextField>
-						{/* <button
+						<button
 							style={{
 								width: "20%",
 							}}
 							onClick={handleClick}
 						>
-							create tag
-						</button> */}
+							Confirm Edit
+						</button>
 					</div>
 				</DialogContent>
 			</Dialog>
