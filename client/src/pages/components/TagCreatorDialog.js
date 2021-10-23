@@ -78,7 +78,7 @@ function TagCreatorDialog(props) {
 				console.log(error);
 			});
 	};
-  
+
 	if (refresh) {
 		// REFRESH PAGE
 		window.location.reload(false);

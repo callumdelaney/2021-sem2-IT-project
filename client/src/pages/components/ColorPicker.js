@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChromePicker } from "react-color";
 import { Chip } from "@material-ui/core";
 
@@ -9,13 +9,25 @@ function ColorPicker(props) {
 	const [hsl, setHsl] = useState(props.hsl);
 	var tagName = props.tagName;
 
+	useEffect(() => {
+		console.log(hsl);
+	}, [hsl]);
+
 	const formatHsl = () => {
 		var h = hsl.h.toString();
 		var s = (hsl.s * 100).toString();
 		var l = (hsl.l * 100).toString();
 		var a = opacity.toString();
+
 		return "hsl(" + h + "," + s + "%," + l + "%," + a + ")";
 	};
+	const convertHslObj = () => {
+		const regex = /\d+.\d+/g;
+		var numbers = hsl.match(regex);
+		console.log(numbers);
+		var h, s, l, a;
+	};
+
 	const handleChange = (data) => {
 		// color has the hex code, hsl has the hsl code, opacity has the opacity value
 		setColor(data.hex);
@@ -27,7 +39,11 @@ function ColorPicker(props) {
 	return (
 		<div>
 			<Chip
-				style={{ marginBottom: "1rem", backgroundColor: formatHsl() }}
+				style={{
+					marginBottom: "1rem",
+					backgroundColor:
+						typeof hsl === "object" ? formatHsl() : hsl,
+				}}
 				label={tagName}
 			/>
 			<ChromePicker
