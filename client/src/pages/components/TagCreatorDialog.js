@@ -29,27 +29,20 @@ function TagCreatorDialog(props) {
 		setHsl(hsl);
 	};
 
-	const formatHsl = () => {
-		var h = hsl.h.toString();
-		var s = (hsl.s * 100).toString();
-		var l = (hsl.l * 100).toString();
-		var a = opacity.toString();
-		return "hsl(" + h + "," + s + "%," + l + "%," + a + ")";
-	};
-
 	const handleClose = () => {
 		props.callBack();
 	};
 
 	const handleClick = () => {
-		var hslString = formatHsl(hsl);
+		// hsl value is converted to string format from colorPicker
+		var hslString = hsl;
 		var tagData = {
 			tagText: tagName,
 			tagColour: hslString,
 		};
 		var localStatus = statusCode.SUCCESS;
 
-		console.log(tagData);
+		// console.log(tagData);
 
 		if (tagName === "") {
 			// since white is default color, all we need to check is if the tag has a name
