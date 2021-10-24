@@ -173,11 +173,12 @@ code {
 	display: block;
 	/* look */
 	background: var(--clr-black);
-	color: red;
+	color: rgb(214, 22, 22);
 	font-size: 16px;
-	letter-spacing: 1.5px;
-	box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
-		0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+	font-weight: 600;
+	letter-spacing: 2px;
+	/* box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+		0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2); */
 }
 /* layout stylings for custom error message */
 .errorText {
