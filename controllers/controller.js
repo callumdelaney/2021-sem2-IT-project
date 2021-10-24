@@ -322,7 +322,7 @@ const newUser = async (req, res) => {
 		}
 		const emailCheck = await User.findOne({username: req.body.username})
 		if (emailCheck) {
-			return res.send({status: status.INVALID_EMAIL})
+			return res.send({status: status.EMAIL_TAKEN})
 		}
 		const newUser = await User.create({
 			username: req.body.username,
@@ -369,7 +369,7 @@ const editProfile = async (req, res) => {
 	try {
 		const emailCheck = await User.findOne({username: req.body.username})
 		if (emailCheck && req.body.username != req.user.username) {
-			return res.send({status: status.INVALID_EMAIL})
+			return res.send({status: status.EMAIL_TAKEN})
 		}
 		await User.findOneAndUpdate(
 			{
