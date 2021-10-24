@@ -287,7 +287,7 @@ function AccountSettings() {
 						paddingTop: "1rem",
 					}}
 				>
-					<h2>Your Tags</h2>
+					<h2 style={{ color: "#52410f" }}>Your Tags</h2>
 					<Tag inTable={false} tags={userTags}></Tag>
 				</div>
 			</div>
