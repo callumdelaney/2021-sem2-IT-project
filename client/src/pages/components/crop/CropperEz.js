@@ -23,7 +23,7 @@ const Demo = ({ classes, ...props }) => {
 				props.img,
 				croppedAreaPixels
 			);
-			console.log("donee", { croppedImage });
+			// console.log("donee", { croppedImage });
 			// setCroppedImage(URL.createObjectURL(croppedImage));
 			setCroppedImage(croppedImage);
 			props.callBack(croppedImage);

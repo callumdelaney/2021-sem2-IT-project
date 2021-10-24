@@ -103,7 +103,7 @@ function ContactUpdate(props) {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		console.log(tags);
+		//console.log(tags);
 
 		var localStatus = status;
 		var localPhotoId = props.photo;
@@ -114,17 +114,16 @@ function ContactUpdate(props) {
 			formData.append("file", photo);
 			console.log(photo);
 			formData.append("upload_preset", "cc16t03g");
-			console.log("sending to cloudinary...");
+			console.log("uploading photo...");
 			axios
 				.post(
 					"https://api.cloudinary.com/v1_1/duckroll/image/upload",
 					formData
 				)
 				.then((response) => {
-					console.log(response);
 					setPublicID(response.data.public_id);
 					localPhotoId = response.data.public_id;
-					console.log(localPhotoId);
+					// console.log(localPhotoId);
 
 					// embed another axios call on getting response
 					var contactData = {
@@ -166,7 +165,6 @@ function ContactUpdate(props) {
 				photo: localPhotoId,
 				tags: tags,
 			};
-			console.log(firstName, lastName, email);
 			// use axios to post user data to back end for processing, use
 			// response to test for validity
 			axios
@@ -329,7 +327,8 @@ function ContactUpdate(props) {
 							</h1>
 							<div className="contact-popup-button">
 								<button
-									style={{ marginLeft: "-3rem" }}
+									style={{ marginLeft: "-1rem" }}
+									className="delete-tags-button"
 									onClick={() => {
 										// REFRESH PAGE
 										window.location.reload(false);

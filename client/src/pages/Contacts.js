@@ -37,7 +37,7 @@ function Contacts() {
 		fetch("/api/get-tags")
 			.then((res) => res.json())
 			.then((data) => {
-				console.log(data);
+				// console.log(data);
 				setTagsRetrieved(true);
 				setUserTags(data.tags);
 			})
@@ -47,7 +47,8 @@ function Contacts() {
 		fetch("/api/get-user-details")
 			.then((res) => res.json())
 			.then((data) => {
-				console.log(data);
+				// console.log(data);
+				console.log(data.status);
 				if (data.status === statusCode.SUCCESS) {
 					setUserRetrieved(true);
 				} else if (data.status === statusCode.FAILURE) {
@@ -61,7 +62,7 @@ function Contacts() {
 		fetch("/api/get-contacts")
 			.then((res) => res.json())
 			.then((data) => {
-				console.log(data);
+				// console.log(data);
 				if (data.status === statusCode.SUCCESS) {
 					setContactsRetrieved(true);
 				} else if (data.status === statusCode.FAILURE) {
