@@ -144,7 +144,6 @@ function ContactsTable() {
 			_id: id,
 			tags: tgs,
 		});
-		console.log(typeof photo);
 	};
 
 	return (

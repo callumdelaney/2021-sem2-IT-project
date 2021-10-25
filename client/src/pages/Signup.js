@@ -28,7 +28,6 @@ function Signup() {
 		// if the two password fields don't match, can't move forward
 		if (password !== passwordConfirm) {
 			// dynamically change border color of these elements to red
-			console.log("went here");
 			document.getElementById("password").style["border-color"] = "red";
 			document.getElementById("passwordConfirm").style["border-color"] =
 				"red";
@@ -51,7 +50,7 @@ function Signup() {
 		axios
 			.post("/api/signup", userData)
 			.then((response) => {
-				console.log(response.data);
+				console.log(response.data.status);
 				// check if data was saved successfully
 				localStatus = response.data.status;
 				setStatus(localStatus);
@@ -64,7 +63,6 @@ function Signup() {
 			.catch((error) => {
 				console.log(error);
 			});
-		console.log(localStatus);
 	};
 
 	return (

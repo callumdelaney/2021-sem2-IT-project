@@ -30,7 +30,7 @@ function AccountSettings() {
 	const [changedPhoto, setChangedPhoto] = useState(false);
 
 	const fileSelectedHandler = (e) => {
-		console.log(e.target.files[0]);
+		// console.log(e.target.files[0]);
 		if (
 			e.target.files.length > 0 &&
 			e.target.files[0].type.includes("image")
@@ -57,8 +57,7 @@ function AccountSettings() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
-		console.log(tags);
+		// console.log(tags);
 		var localStatus = status;
 		var localPhotoId = userInfo.photo;
 
@@ -66,19 +65,19 @@ function AccountSettings() {
 		if (photo != null && changedPhoto) {
 			const formData = new FormData();
 			formData.append("file", photo);
-			console.log(photo);
+			// console.log(photo);
 			formData.append("upload_preset", "cc16t03g");
-			console.log("sending to cloudinary...");
+			console.log("uploading photo...");
 			axios
 				.post(
 					"https://api.cloudinary.com/v1_1/duckroll/image/upload",
 					formData
 				)
 				.then((response) => {
-					console.log(response);
+					// console.log(response);
 					setPublicID(response.data.public_id);
 					localPhotoId = response.data.public_id;
-					console.log(localPhotoId);
+					// console.log(localPhotoId);
 
 					// embed another axios call on getting response
 					var userData = {
@@ -91,7 +90,7 @@ function AccountSettings() {
 					axios
 						.post("/api/update-user", userData)
 						.then((response) => {
-							console.log(response.data);
+							console.log(response.data.status);
 							// since status won't change until the end of this function, need local status
 							// to keep track of the actual value
 							localStatus = response.data.status;
@@ -118,7 +117,7 @@ function AccountSettings() {
 			axios
 				.post("/api/update-user", userData)
 				.then((response) => {
-					console.log(response.data);
+					console.log(response.data.status);
 					// since status won't change until the end of this function, need local status
 					// to keep track of the actual value
 					localStatus = response.data.status;
@@ -259,7 +258,8 @@ function AccountSettings() {
 							</h1>
 							<div className="contact-popup-button">
 								<button
-									style={{ marginLeft: "-3rem" }}
+									style={{ marginLeft: "-1rem" }}
+									className="delete-tags-button"
 									onClick={() => {
 										// REFRESH PAGE
 										window.location.reload(false);
@@ -287,7 +287,7 @@ function AccountSettings() {
 						paddingTop: "1rem",
 					}}
 				>
-					<h2>Your Tags</h2>
+					<h2 style={{ color: "#52410f" }}>Your Tags</h2>
 					<Tag inTable={false} tags={userTags}></Tag>
 				</div>
 			</div>

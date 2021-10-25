@@ -14,20 +14,35 @@ function ColorPicker(props) {
 		var s = (hsl.s * 100).toString();
 		var l = (hsl.l * 100).toString();
 		var a = opacity.toString();
+
 		return "hsl(" + h + "," + s + "%," + l + "%," + a + ")";
 	};
+	const formatHslValue = (value) => {
+		var h = value.h.toString();
+		var s = (value.s * 100).toString();
+		var l = (value.l * 100).toString();
+		var a = value.a.toString();
+
+		return "hsl(" + h + "," + s + "%," + l + "%," + a + ")";
+	};
+
 	const handleChange = (data) => {
 		// color has the hex code, hsl has the hsl code, opacity has the opacity value
 		setColor(data.hex);
 		setHsl(data.hsl);
 		setOpacity(data.hsl.a);
-		props.callBack(color, opacity, hsl);
+		props.callBack(color, opacity, formatHslValue(data.hsl));
 	};
 
 	return (
 		<div>
 			<Chip
-				style={{ marginBottom: "1rem", backgroundColor: formatHsl() }}
+				id="tagPreview"
+				style={{
+					marginBottom: "1rem",
+					backgroundColor:
+						typeof hsl === "object" ? formatHsl() : hsl,
+				}}
 				label={tagName}
 			/>
 			<ChromePicker

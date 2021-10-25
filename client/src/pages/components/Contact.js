@@ -54,9 +54,9 @@ function Contact() {
 	};
 	// function for handling delete contact button
 	const handleDeleteClick = (contact_id) => {
-		console.log("delete");
-		console.log(contact_id);
-		console.log(info._id);
+		// console.log("delete");
+		// console.log(contact_id);
+		// console.log(info._id);
 
 		var toDelete = {
 			_id: contact_id,
@@ -118,7 +118,7 @@ function Contact() {
 						publicId={info.photo}
 					/>
 				)}
-				<h1>
+				<h1 style={{ color: "rgba(0,0,0,0.9)" }}>
 					{info.firstName} {info.lastName}
 				</h1>
 			</div>
@@ -221,12 +221,15 @@ function Contact() {
 								}}
 							>
 								{" "}
-								{info.firstName} {info.lastName}
+								{info.firstName} {info.lastName}?
 							</h2>
 							<div className="contact-popup-button">
 								<button
 									className="edit-delete-buttons"
-									style={{ color: "#b30000" }}
+									style={{
+										color: "#b30000",
+										marginLeft: "-0.5rem",
+									}}
 									onClick={() => {
 										handleDeleteClick(info._id);
 									}}
